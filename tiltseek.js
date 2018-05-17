@@ -18,6 +18,7 @@ var summonersSummonerId = [];
 
 var summonersChampIds = [];
 var summonersMastery = [];
+var summonersLeague = [];
 
 //async function list
 var runList = [
@@ -331,6 +332,8 @@ function loadLeague(runList, index) {
 	getLeague(summonersSummonerId).then(
 		function success(data) {
 			console.log(data);
+			
+			summonersLeague = data;
 
 			//run next async function
 			if (runList[index + 1]) {
@@ -369,6 +372,10 @@ function processData(runList, index) {
 	
 	var losingStreak = [];
 	var masteryPoints = [];
+	var winRate = [];
+	var wins = [];
+	var losses = [];
+	var timeSincePlayed = [];
 	
 	//calculate losingStreak
 	for (var i = 0; i < matches.length; i++) {
@@ -401,6 +408,28 @@ function processData(runList, index) {
 		masteryPoints.push(summonersMastery[i].championPoints);
 	}
 	
+	//calculate wins, losses, and winRate ("not enough games" for summoners with low games)
+	for (var i = 0; i < summonersLeague.length; i++) {
+		wins.push(summonersLeague[i][0].wins);
+		losses.push(summonersLeague[i][0].losses);
+		if (wins[i] + losses[i] >= 30) {
+			winRate.push(wins[i]/(wins[i]+losses[i]));
+		} else {
+			winRate.push("not enough games");
+		}
+	}
+	
+	//calculate timeSincePlayed
+	for (var i = 0; i < summonersMastery.length; i++) {
+		if (isNaN(summonersMastery[i].lastPlayTime)) {
+			timeSincePlayed.push("Never played");
+		} else {
+			timeSincePlayed.push((new Date).getTime()-summonersMastery[i].lastPlayTime);
+		}
+	}
+	
+	console.log(timeSincePlayed);
+	console.log(winRate);
 	console.log(masteryPoints);
 	for (var i = 0; i < summonersUsername.length; i++) {
 		console.log(summonersUsername[i] + ":\t" + champList.data[currentGame.participants[i].championId].name + ":\t" + losingStreak[i])
