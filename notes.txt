@@ -1,0 +1,43 @@
+~~~1. Add AP/AD for each champ and for team average
+
+~~~2. Fix mulitple match bug in stats by tracking matches that have been sampled. Possibly make matches array at root level and fill it with match IDs.
+
+~~~3. Add ajax call to get stats. Request specific champions and generate the json to return to minimize data use.
+
+~~~4. Fetch champion mastery and last played date for every player's champion. Make this run before data processing.
+
+~~~5. Fetch each player's winrate
+
+6. Calculate each player's losing streak.
+
+
+
+Features
+------------------
++losing streak
++champion mastery points
++winrate
++played champ recently
++aggressive laner
++good warder
++gets first tower
++champion's mobility (might have to hard code numbers)
+
+
+Future Features
+------------------
++CS @ 10 min (or CS difference at 10 min)
+
+
+
+Hosting
+-----------------
++Digital Ocean - $5
+	-1 GB Memory
+	-25 GB Storage
+	-1 TB Bandwidth
++Heroku - Free Maybe https://medium.com/@AndreyAzimov/how-free-heroku-really-works-and-how-to-get-maximum-from-it-daa53f2b3c57
+	-512 MB Memory
+	-Unlimited Bandwidth
+	-NO STORAGE AVAILABLE
++Now-Zeit - $15

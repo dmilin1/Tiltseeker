@@ -1,0 +1,123 @@
+@charset "utf-8";
+/* CSS Document */
+
+.logo {
+	text-align: center;
+}
+
+.my-footer {
+	position: fixed;
+	bottom: 10px;
+	text-align: center;
+	width: 100%;
+}
+
+.disclaimer {
+	color: #828282;
+	margin: auto;
+	width: 70%;
+}
+
+.submit-button {
+	border-radius: 10px;
+	width: 190px;
+	height: 35px;
+	font-size: 18px;
+	font-weight: 400;
+	font-family: Roboto, Tahoma;
+	background: #D7D7D7;
+    -webkit-transition-duration: 0.2s; /* Safari */
+    transition-duration: 0.2s;
+	border: 4px solid #F3F3F3;
+}
+
+.submit-button:hover {
+	background: rgb(180,180,180);
+	border: 4px solid rgba(200,200,200,1.00);
+	transform: scale(1.05);
+	box-shadow: 0 0px 5px 2px rgba(100,100,100,1);
+}
+
+.submit-button:focus {
+	background: rgb(150,150,150);
+	border: 4px solid rgba(170,170,170,1.00);
+	transform: scale(1.05);
+	box-shadow: 0 0px 20px 6px rgba(100,100,100,1);
+}
+
+.region {
+	list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+	position: sticky;
+	position: -webkit-sticky; /* Safari */
+	top: 0;
+	font-family: Roboto, Tahoma;
+	border-radius: 5px;
+	
+}
+
+.region li a{
+	font-size: 20px;
+	display: block;
+	color: #F3F3F3;
+	padding: 12px 16px;
+	text-align: center;
+	text-decoration: none;
+	float:left;
+	cursor: pointer;
+}
+
+.region li a:hover{
+	background-color: #111;
+	
+}
+
+.navbar {
+	list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+	position: sticky;
+	position: -webkit-sticky; /* Safari */
+	top: 0;
+	font-family: Roboto, Tahoma;
+	border-radius: 10px;
+}
+
+.navbar li a{
+	font-size: 20px;
+	display: block;
+	color: #F3F3F3;
+	padding: 12px 16px;
+	text-align: center;
+	text-decoration: none;
+	float:left;
+}
+
+.navbar li a:hover {
+    background-color: #111;
+}
+
+.body {
+	background: #1C1C1C;
+}
+
+.center {
+	text-align: center;
+	position: absolute;
+	top: 30%;
+	right:50%;
+	transform: translateX(50%);
+}
+
+.textInput {
+	font-size: 26px;
+	text-align: center;
+	background: #585858;
+	font-family: Tahoma;
+	border-radius: 5px;
+}
