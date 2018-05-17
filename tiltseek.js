@@ -368,7 +368,9 @@ function processData(runList, index) {
 //+champion's mobility (might have to hard code numbers)
 	
 	var losingStreak = [];
+	var masteryPoints = [];
 	
+	//calculate losingStreak
 	for (var i = 0; i < matches.length; i++) {
 		losingStreak.push(0);
 		var compareTime = (new Date).getTime();
@@ -393,9 +395,13 @@ function processData(runList, index) {
 			losingStreak[i]++;
 		}
 	}
-	console.log(losingStreak);
 	
-	console.log(champList);
+	//set up masteryPoints
+	for (var i = 0; i < summonersMastery.length; i++) {
+		masteryPoints.push(summonersMastery[i].championPoints);
+	}
+	
+	console.log(masteryPoints);
 	for (var i = 0; i < summonersUsername.length; i++) {
 		console.log(summonersUsername[i] + ":\t" + champList.data[currentGame.participants[i].championId].name + ":\t" + losingStreak[i])
 	}

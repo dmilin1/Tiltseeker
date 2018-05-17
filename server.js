@@ -9,7 +9,6 @@ var querystring = require('querystring');
 var async = require('async');
 var cron = require('node-cron');
 var fs = require('fs');
-var cron = require('node-cron');
 
 //express module setup for calls
 var app = express();
