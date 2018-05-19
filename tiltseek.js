@@ -259,12 +259,28 @@ function loadMatches(runList, index) {
 	}
 }
 
-//Load static data for champs in current game
+//Load static data for champs in current game and historical matches
 function loadStats(runList, index) {
 	var champIds = [];
+	//current game
 	for (var i = 0; i < currentGame.participants.length; i++) {
 		if (champIds.indexOf(currentGame.participants[i].championId) == -1) {
 			champIds.push(currentGame.participants[i].championId);
+		}
+	}
+	//historical matches
+	for (var i = 0; i < matches.length; i++) {
+		for (var j = 0; j < matches[i].length; j++) {
+			var participant = 0;
+			for (var k = 0; k < matches[i][j].participantIdentities.length; k++) {
+				if (summonersSummonerId[i] == matches[i][j].participantIdentities[k].player.summonerId) {
+					participant = k;
+					break;
+				}
+			}
+			if (champIds.indexOf(matches[i][j].participants[participant].championId) == -1) {
+				champIds.push(matches[i][j].participants[participant].championId);
+			}
 		}
 	}
 	getStats(champIds).then(
@@ -370,12 +386,28 @@ function processData(runList, index) {
 //+gets first tower
 //+champion's mobility (might have to hard code numbers)
 	
-	var losingStreak = [];
-	var masteryPoints = [];
-	var winRate = [];
-	var wins = [];
-	var losses = [];
-	var timeSincePlayed = [];
+	var losingStreak = [];		//losing streak
+	var masteryPoints = [];		//champion mastery points
+	var winRate = [];			//winrate in current ranked season
+	var wins = [];				//wins in current ranked season
+	var losses = [];			//losses in current ranked season
+	var timeSincePlayed = [];	//time since champion was last played by the summoner
+	var aggressiveness = [];	//score from 0 to 1 of a player's aggressiveness in lane
+	var warding = [];			//score from 0 to 1 of a player's warding
+	var campScore = [];
+	
+	//set participants in matchlists
+	for (var i = 0; i < matches.length; i++) {
+		for (var j = 0; j < matches[i].length; j++) {
+			for (var k = 0; k < matches[i][j].participantIdentities.length; k++) {
+				if (summonersSummonerId[i] == matches[i][j].participantIdentities[k].player.summonerId) {
+					//set participant for future use to improve speed
+					matches[i][j]['myParticipant'] = k;
+					break;
+				}
+			}
+		}
+	}
 	
 	//calculate losingStreak
 	for (var i = 0; i < matches.length; i++) {
@@ -388,13 +420,7 @@ function processData(runList, index) {
 			}
 			
 			//find the participant
-			var participant = 0;
-			for (var k = 0; k < matches[i][j].participantIdentities.length; k++) {
-				if (summonersSummonerId[i] == matches[i][j].participantIdentities[k].player.summonerId) {
-					participant = k;
-					break;
-				}
-			}
+			var participant = matches[i][j].myParticipant;
 			if (matches[i][j].participants[participant].stats.win == true) {
 				break;
 			}
@@ -410,8 +436,13 @@ function processData(runList, index) {
 	
 	//calculate wins, losses, and winRate ("not enough games" for summoners with low games)
 	for (var i = 0; i < summonersLeague.length; i++) {
-		wins.push(summonersLeague[i][0].wins);
-		losses.push(summonersLeague[i][0].losses);
+		if (summonersLeague[i][0]) {
+			wins.push(summonersLeague[i][0].wins);
+			losses.push(summonersLeague[i][0].losses);
+		} else {
+			wins.push(0);
+			losses.push(0);
+		}
 		if (wins[i] + losses[i] >= 30) {
 			winRate.push(wins[i]/(wins[i]+losses[i]));
 		} else {
@@ -428,11 +459,109 @@ function processData(runList, index) {
 		}
 	}
 	
+	//calculate aggressiveness
+	for (var i = 0; i < matches.length; i++) {
+		var totalPlayerInteraction = 0; //total player kills + deaths + assists in game history
+		var totalAvgInteraction = 0; //total average kills + deaths + assists for champs played
+		for (var j = 0; j < matches[i].length; j++) {
+			
+			var interaction = 0; //Kills + Deaths + Assists
+			var avgInteraction = 0;
+			
+			//find the participant
+			var participant = matches[i][j].myParticipant;
+			//the player
+			interaction += matches[i][j].participants[participant].stats.kills;
+			interaction += matches[i][j].participants[participant].stats.deaths;
+			interaction += matches[i][j].participants[participant].stats.assists;
+			//champion average
+			avgInteraction += stats[matches[i][j].participants[participant].championId].kills/stats[matches[i][j].participants[participant].championId].total;
+			avgInteraction += stats[matches[i][j].participants[participant].championId].deaths/stats[matches[i][j].participants[participant].championId].total;;
+			avgInteraction += stats[matches[i][j].participants[participant].championId].assists/stats[matches[i][j].participants[participant].championId].total;;
+			//add to total
+			totalPlayerInteraction += interaction;
+			totalAvgInteraction += avgInteraction;
+		}
+		
+		function sigmoid(t) {
+			//the 10 is a constant that adjusts how sensitive the function is. The higher it is, the less sensitive it is
+			return 1/(1+Math.pow(Math.E, -t/10));
+		}
+		aggressiveness.push(sigmoid((totalPlayerInteraction-totalAvgInteraction)/matches[i].length));
+	}
+	
+	//calculate warding
+	for (var i = 0; i < matches.length; i++) {
+		var totalPlayerWards = 0; //total player kills + deaths + assists in game history
+		var totalAvgWards = 0; //total average kills + deaths + assists for champs played
+		for (var j = 0; j < matches[i].length; j++) {
+			
+			var wards = 0; //Kills + Deaths + Assists
+			var avgWards = 0;
+			
+			//find the participant
+			var participant = matches[i][j].myParticipant;
+			//the player
+			wards += matches[i][j].participants[participant].stats.wardsPlaced;
+			//champion average
+			avgWards += stats[matches[i][j].participants[participant].championId].wardsPlaced/stats[matches[i][j].participants[participant].championId].total;
+			//add to total
+			totalPlayerWards += wards;
+			totalAvgWards += avgWards;
+		}
+		
+		function sigmoid(t) {
+			//the 10 is a constant that adjusts how sensitive the function is. The higher it is, the less sensitive it is
+			return 1/(1+Math.pow(Math.E, -t/10));
+		}
+		warding.push(sigmoid((totalPlayerWards-totalAvgWards)/matches[i].length));
+	}
+	
+	//calculate campScore
+	for (var i = 0; i < summonersUsername.length; i++) {
+		
+		//set campScore from 50 to 100 based on losing streak run through sigmoid
+		campScore.push(100*sigmoid(losingStreak[i],1));
+		
+		//multiply campScore by champSkillEvaluation
+		campScore[i] = campScore[i] * champSkillEvaluation(timeSincePlayed[i],masteryPoints[i]);
+		
+		//multiply campScore by winRateMultiplier
+		campScore[i] = campScore[i] * winRateMultiplier(winRate[i]);
+		
+		//set campScore to text if data couldn't be calculated
+		if (isNaN(campScore[i])) {
+			campScore[i] = "Not Enough Data";
+		}
+		
+		//a function to get a multiplier from winrate
+		//uses winrate (x)
+		//function to insert into desmos.com y=1-\frac{0.5}{1+e^{-30\left(x-0.45\right)}}
+		function winRateMultiplier(x) {
+			return 1-0.5/(1+Math.pow(Math.E, -30*(x-0.45)));
+		}
+		
+		//a function to estimate skill on a champion from 0.6 to 1
+		//uses time since last played (x) and champion mastery (z)
+		//function to insert into desmos.com y=1-.4e^{\frac{-x}{50}}\left(1-0.9e^{-\frac{z}{50000}}\right)
+		function champSkillEvaluation(x,z) {
+			return 1-0.4*Math.pow(Math.E, -x/50)*(1-0.9*Math.pow(Math.E, -z/50000));
+		}
+		
+		function sigmoid(t,sensitivity) {
+			//the sensitivity adjusts how sensitive the function is. The higher it is, the less sensitive it is
+			return 1/(1+Math.pow(Math.E, -t/sensitivity));
+		}
+	}
+	
+	console.log(campScore);
+	console.log(warding);
+	console.log(aggressiveness);
 	console.log(timeSincePlayed);
 	console.log(winRate);
 	console.log(masteryPoints);
 	for (var i = 0; i < summonersUsername.length; i++) {
-		console.log(summonersUsername[i] + ":\t" + champList.data[currentGame.participants[i].championId].name + ":\t" + losingStreak[i])
+		console.log(summonersUsername[i] + ":\t" + champList.data[currentGame.participants[i].championId].name + ":\t" + campScore[i])
 	}
 }
 
