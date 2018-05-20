@@ -32,6 +32,52 @@
     background-color: #111;
 }
 
+.champBox {
+	margin: 0 5px 0 5px;
+	display: inline-block;
+	border-radius:20px;
+	background: rgba(88,88,88,1.00);
+	width: calc(13% + 20px);
+	border-color: rgba(9,9,9,1.00);
+	border-style: solid;
+	border-width: thick;
+}
+
+.champIcon {
+	padding: 20px;
+	width: 60%;
+	max-width: 100px;
+	border-radius: 50%;
+	display: block;
+	margin: auto;
+}
+
+.stats {
+	font-size: calc(8px + 0.5vw);
+	margin: auto;
+	width: 80%;
+	font-family: Roboto, Tahoma;
+	color: rgba(9,9,9,1.00);
+	text-align: center;
+	line-height: 140%;
+}
+
+.campScore {
+	font-size: calc(30px + 0.5vw);
+	font-family: Roboto, Tahoma;
+}
+
+.statsDivider {
+	 height:5px;
+}
+
+.playerName {
+	height: 2vw;
+	font-size: 1.8vw;
+	text-align: center;
+	font-weight: bold;
+	font-family: Roboto, Tahoma;
+}
 
 
 .preloader-1 {

@@ -20,6 +20,18 @@ var summonersChampIds = [];
 var summonersMastery = [];
 var summonersLeague = [];
 
+//final data
+var losingStreak = []; //losing streak
+var masteryPoints = []; //champion mastery points
+var winRate = []; //winrate in current ranked season
+var wins = []; //wins in current ranked season
+var losses = []; //losses in current ranked season
+var timeSincePlayed = []; //time since champion was last played by the summoner in days
+var aggressiveness = []; //score from 0 to 1 of a player's aggressiveness in lane
+var warding = []; //score from 0 to 1 of a player's warding
+var campScore = []; //score estimating how much a player should be camped
+
+
 //async function list
 var runList = [
 	loadUser,
@@ -31,11 +43,13 @@ var runList = [
 	loadStats,
 	loadMastery,
 	loadLeague,
-	processData
+	processData,
+	loadDisplay
 ];
 
 //run first async item
 runList[0](runList, 0);
+
 
 
 //gets parameter from current url
@@ -386,16 +400,6 @@ function processData(runList, index) {
 //+gets first tower
 //+champion's mobility (might have to hard code numbers)
 	
-	var losingStreak = [];		//losing streak
-	var masteryPoints = [];		//champion mastery points
-	var winRate = [];			//winrate in current ranked season
-	var wins = [];				//wins in current ranked season
-	var losses = [];			//losses in current ranked season
-	var timeSincePlayed = [];	//time since champion was last played by the summoner
-	var aggressiveness = [];	//score from 0 to 1 of a player's aggressiveness in lane
-	var warding = [];			//score from 0 to 1 of a player's warding
-	var campScore = [];
-	
 	//set participants in matchlists
 	for (var i = 0; i < matches.length; i++) {
 		for (var j = 0; j < matches[i].length; j++) {
@@ -455,7 +459,7 @@ function processData(runList, index) {
 		if (isNaN(summonersMastery[i].lastPlayTime)) {
 			timeSincePlayed.push("Never played");
 		} else {
-			timeSincePlayed.push((new Date).getTime()-summonersMastery[i].lastPlayTime);
+			timeSincePlayed.push(((new Date).getTime()-summonersMastery[i].lastPlayTime)/(1000*60*60*24));
 		}
 	}
 	
@@ -527,7 +531,12 @@ function processData(runList, index) {
 		campScore[i] = campScore[i] * champSkillEvaluation(timeSincePlayed[i],masteryPoints[i]);
 		
 		//multiply campScore by winRateMultiplier
-		campScore[i] = campScore[i] * winRateMultiplier(winRate[i]);
+		if (!isNaN(winRate[i])) {
+			campScore[i] = campScore[i] * winRateMultiplier(winRate[i]);
+		} else {
+			//if no winrate data assume 50%
+			campScore[i] = campScore[i] * winRateMultiplier(0.5);
+		}
 		
 		//set campScore to text if data couldn't be calculated
 		if (isNaN(campScore[i])) {
@@ -563,8 +572,183 @@ function processData(runList, index) {
 	for (var i = 0; i < summonersUsername.length; i++) {
 		console.log(summonersUsername[i] + ":\t" + champList.data[currentGame.participants[i].championId].name + ":\t" + campScore[i])
 	}
+	
+	//run next async function
+	if (runList[index + 1]) {
+		runList[index + 1](runList, index + 1);
+	}
 }
 
+//Display everything
+function loadDisplay(runList, index) {
+	
+	function getRed(myNum) {
+		if (myNum < 0.5) {
+			return 255;
+		} else {
+			return Math.max(0, 2*(1-myNum)*255);
+		}
+	}
+	
+	function getGreen(myNum) {
+		if (myNum > 0.5) {
+			return 255;
+		} else {
+			return Math.max(0, 2*myNum*255);
+		}
+	}
+	
+	//y=1-\frac{1}{e^{0.7x}}
+	function losingStreakSigmoid(x) {
+		return 1-1/Math.pow(Math.E, 0.7*x);
+	}
+	
+	//y=1-\frac{1}{1+e^{25\left(0.5-x\right)}}
+	function winRateSigmoid(x) {
+		return 1-1/(1+Math.pow(Math.E, 25*(0.5-x)));
+	}
+	
+	//y=\frac{1}{e^{\frac{x}{100000}}}
+	function masterySigmoid(x) {
+		return 1/Math.pow(Math.E, x/100000);
+	}
+	
+	//y=1-\frac{1}{e^{\frac{x}{25}^{.5}}}
+	function daysSincePlayedSigmoid(x) {
+		return 1-1/Math.pow(Math.E, Math.pow(x/25,0.5));
+	}
+	
+	//y=\frac{1}{1+e^{10\left(0.5-x\right)}}
+	function aggrSigmoid(x) {
+		return 1/(1+Math.pow(Math.E, 10*(0.5-x)));
+	}
+	
+	//y=1-\frac{1}{1+e^{10\left(0.5-x\right)}}
+	function wardSigmoid(x) {
+		return 1-1/(1+Math.pow(Math.E, 10*(0.5-x)));
+	}
+	
+	//y=\frac{1}{1+e^{\frac{\left(30-x\right)}{10}}}
+	function campScoreSigmoid(x) {
+		return 1/(1+Math.pow(Math.E, (30-x)/10));
+	}
+	
+	//make loader disappear
+	document.getElementById("loader").style.display = "none";
+	
+	for (var i = 0; i < currentGame.participants.length/2; i++) {
+		var temp = document.getElementsByTagName("template")[0].content.querySelector("div");
+		var a = document.importNode(temp, true);
+		//picture
+		a.querySelectorAll("img")[0].src = "https://ddragon.leagueoflegends.com/cdn/8.10.1/img/champion/" + champList.data[summonersChampIds[i]].key + ".png";
+		//username
+		a.querySelectorAll("div")[0].textContent = summonersUsername[i];
+		//make font smaller if username is long
+		if (summonersUsername[i].length > 10) {
+			a.querySelectorAll("div")[0].style.fontSize = "1.6vw";
+		}
+		if (summonersUsername[i].length > 12) {
+			a.querySelectorAll("div")[0].style.fontSize = "1.5vw";
+		}
+		if (summonersUsername[i].length > 14) {
+			a.querySelectorAll("div")[0].style.fontSize = "1.4vw";
+		}
+		
+		//losingStreak
+		a.querySelectorAll("div")[2].textContent = losingStreak[i];
+		a.querySelectorAll("div")[2].style.color = "rgb(" + getRed(losingStreakSigmoid(losingStreak[i])) + "," + getGreen(losingStreakSigmoid(losingStreak[i])) + ",0)";
+		
+		//winrate
+		a.querySelectorAll("div")[4].style.whiteSpace = "pre"
+		a.querySelectorAll("div")[4].textContent = Math.round(10000*winRate[i])/100 + "% \r\n" + wins[i] + "W/" + losses[i] + "L";
+		a.querySelectorAll("div")[4].style.color = "rgb(" + getRed(winRateSigmoid(winRate[i])) + "," + getGreen(winRateSigmoid(winRate[i])) + ",0)";
+		if (isNaN(winRate[i])) {
+			a.querySelectorAll("div")[4].textContent = "Not Enough \r\n Games";
+		}
+		//mastery
+		a.querySelectorAll("div")[6].textContent = masteryPoints[i];
+		a.querySelectorAll("div")[6].style.color = "rgb(" + getRed(masterySigmoid(masteryPoints[i])) + "," + getGreen(masterySigmoid(masteryPoints[i])) + ",0)";
+		
+		//daysSincePlayed
+		a.querySelectorAll("div")[8].textContent = Math.round(timeSincePlayed[i]) + " days ago";
+		a.querySelectorAll("div")[8].style.color = "rgb(" + getRed(daysSincePlayedSigmoid(timeSincePlayed[i])) + "," + getGreen(daysSincePlayedSigmoid(timeSincePlayed[i])) + ",0)";
+		
+		//agr
+		a.querySelectorAll("div")[10].textContent = Math.round(100*aggressiveness[i]) + "%";
+		a.querySelectorAll("div")[10].style.color = "rgb(" + getRed(aggrSigmoid(aggressiveness[i])) + "," + getGreen(aggrSigmoid(aggressiveness[i])) + ",0)";
+		
+		//warding
+		a.querySelectorAll("div")[12].textContent = Math.round(100*warding[i]) + "%";
+		a.querySelectorAll("div")[12].style.color = "rgb(" + getRed(wardSigmoid(warding[i])) + "," + getGreen(wardSigmoid(warding[i])) + ",0)";
+		
+		//campScore
+		a.querySelectorAll("div")[14].textContent = Math.round(campScore[i]);
+		a.querySelectorAll("div")[14].style.color = "rgb(" + getRed(campScoreSigmoid(campScore[i])) + "," + getGreen(campScoreSigmoid(campScore[i])) + ",0)";
+		if (isNaN(campScore[i])) {
+			a.querySelectorAll("div")[14].textContent = "X";
+		}
+
+		document.getElementById("displayBox").appendChild(a);
+
+	}
+	
+	for (var i = currentGame.participants.length/2; i < currentGame.participants.length; i++) {
+		var temp = document.getElementsByTagName("template")[0].content.querySelector("div");
+		var a = document.importNode(temp, true);
+		//picture
+		a.querySelectorAll("img")[0].src = "https://ddragon.leagueoflegends.com/cdn/8.10.1/img/champion/" + champList.data[summonersChampIds[i]].key + ".png";
+		//username
+		a.querySelectorAll("div")[0].textContent = summonersUsername[i];
+		//make font smaller if username is long
+		if (summonersUsername[i].length > 10) {
+			a.querySelectorAll("div")[0].style.fontSize = "1.6vw";
+		}
+		if (summonersUsername[i].length > 12) {
+			a.querySelectorAll("div")[0].style.fontSize = "1.5vw";
+		}
+		if (summonersUsername[i].length > 14) {
+			a.querySelectorAll("div")[0].style.fontSize = "1.4vw";
+		}
+		
+		//losingStreak
+		a.querySelectorAll("div")[2].textContent = losingStreak[i];
+		a.querySelectorAll("div")[2].style.color = "rgb(" + getRed(losingStreakSigmoid(losingStreak[i])) + "," + getGreen(losingStreakSigmoid(losingStreak[i])) + ",0)";
+		
+		//winrate
+		a.querySelectorAll("div")[4].style.whiteSpace = "pre"
+		a.querySelectorAll("div")[4].textContent = Math.round(10000*winRate[i])/100 + "% \r\n" + wins[i] + "W/" + losses[i] + "L";
+		a.querySelectorAll("div")[4].style.color = "rgb(" + getRed(winRateSigmoid(winRate[i])) + "," + getGreen(winRateSigmoid(winRate[i])) + ",0)";
+		if (isNaN(winRate[i])) {
+			a.querySelectorAll("div")[4].textContent = "Not Enough \r\n Games";
+		}
+		//mastery
+		a.querySelectorAll("div")[6].textContent = masteryPoints[i];
+		a.querySelectorAll("div")[6].style.color = "rgb(" + getRed(masterySigmoid(masteryPoints[i])) + "," + getGreen(masterySigmoid(masteryPoints[i])) + ",0)";
+		
+		//daysSincePlayed
+		a.querySelectorAll("div")[8].textContent = Math.round(timeSincePlayed[i]) + " days ago";
+		a.querySelectorAll("div")[8].style.color = "rgb(" + getRed(daysSincePlayedSigmoid(timeSincePlayed[i])) + "," + getGreen(daysSincePlayedSigmoid(timeSincePlayed[i])) + ",0)";
+		
+		//agr
+		a.querySelectorAll("div")[10].textContent = Math.round(100*aggressiveness[i]) + "%";
+		a.querySelectorAll("div")[10].style.color = "rgb(" + getRed(aggrSigmoid(aggressiveness[i])) + "," + getGreen(aggrSigmoid(aggressiveness[i])) + ",0)";
+		
+		//warding
+		a.querySelectorAll("div")[12].textContent = Math.round(100*warding[i]) + "%";
+		a.querySelectorAll("div")[12].style.color = "rgb(" + getRed(wardSigmoid(warding[i])) + "," + getGreen(wardSigmoid(warding[i])) + ",0)";
+		
+		//campScore
+		a.querySelectorAll("div")[14].textContent = Math.round(campScore[i]);
+		a.querySelectorAll("div")[14].style.color = "rgb(" + getRed(campScoreSigmoid(campScore[i])) + "," + getGreen(campScoreSigmoid(campScore[i])) + ",0)";
+		if (isNaN(campScore[i])) {
+			a.querySelectorAll("div")[14].textContent = "X";
+		}
+		console.log(document.getElementById("displayBox2"));
+		document.getElementById("displayBox2").appendChild(a);
+
+	}
+
+}
 
 
 //Load champion list
