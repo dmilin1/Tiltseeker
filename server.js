@@ -49,7 +49,7 @@ analyzedIds = stats.matchIds;
 
 //start server
 console.log(getMemory() + 'Listening on 8888');
-app.listen(8888);
+app.listen(process.env.PORT || 8888);
 
 
 //cron schedules
