@@ -2,7 +2,7 @@
 /* CSS Document */
 
 .body {
-	background: #1C1C1C;
+	background: #090906;
 }
 
 .navbar {
@@ -35,10 +35,11 @@
 .champBox {
 	margin: 0 5px 0 5px;
 	display: inline-block;
-	border-radius:20px;
+	border-radius: 20px;
 	background: rgba(88,88,88,1.00);
 	width: calc(13% + 20px);
-	border-color: rgba(9,9,9,1.00);
+	max-width: 160px;
+	border-color: #2EB7D6;
 	border-style: solid;
 	border-width: thick;
 }
@@ -73,10 +74,17 @@
 
 .playerName {
 	height: 2vw;
+	line-height: 1.5vw;
 	font-size: 1.8vw;
 	text-align: center;
 	font-weight: bold;
 	font-family: Roboto, Tahoma;
+}
+
+@media screen and (min-width: 1300px) {
+  div.playerName {
+    font-size: 15px;
+  }
 }
 
 

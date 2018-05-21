@@ -165,7 +165,7 @@ function getMatchFilter(req, res, next) {
 }
 
 //apply API limits to all direct API requests
-app.use(/\/summonerByName|\/currentGame|\/getChampList|\/matchList/,apiLimit1, apiLimit2);
+app.use(/\/summonerByName|\/currentGame|\/getChampList|\/matchList|\/getMastery|\/getLeague/,apiLimit1, apiLimit2);
 
 //apply API limits with local check to getMatch requests
 app.use('/getMatch', getMatchFilter, apiLimit1, apiLimit2);
@@ -207,7 +207,11 @@ function refreshStaticChamp(region) {
 						var json = JSON.parse(body);
 						callback(null, json);
 					} else {
-						callback(response.statusCode, JSON.parse(body));
+						if (response) {
+							callback(response.statusCode, JSON.parse(body));
+						} else {
+							console.log("No Response");
+						}
 					}
 				});
 			}
@@ -265,16 +269,17 @@ function writeStats() {
 
 //analyze queued match data and add analysis to stats file
 function analyzeMatches(early = false) {
+	var timestamp;
 	//get time in epoch milliseconds
-	if (early = false) {
-		var timestamp = new Date().getTime();
+	if (early == false) {
+		timestamp = new Date().getTime();
 		stats[timestamp] = {};
 	} else {
 		//if an early update, add to the previous timestamp
-		var timestamp = Object.keys(stats)[Object.keys(stats).length - 1];
+		timestamp = Object.keys(stats)[Object.keys(stats).length - 1];
 		//check if previous timestamp exists
 		if (isNaN(timestamp)) {
-			var timestamp = new Date().getTime();
+			timestamp = new Date().getTime();
 			stats[timestamp] = {};
 		}
 	}
@@ -414,22 +419,30 @@ function calcAvgStats() {
 function getMemory() {return Math.round(process.memoryUsage().rss/(1024*1024)*10)/10 + "MB: ";}
 
 
-
 //client call listeners
 
 //call to get a summoner's info by summoner name
 app.get('/summonerByName', function (req, res) {
 	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/summoner/v3/summoners/by-name/" + querystring.escape(req.query.username) + "?api_key=" + apikey;
 	async.waterfall([
-			function (callback) {
-				request(URL, function (err, response, body) {
+			function myFunction(callback) {
+				request({uri: URL,timeout: 1500}, function (err, response, body) {
 					if (!err && response.statusCode == 200) {
 						var json = JSON.parse(body);
 						json.name = decodeURIComponent(json.name);
 						callback(null, json);
 					} else {
-						console.log(getMemory() + req.query);
-						callback(response.statusCode, JSON.parse(body));
+						//check if server responded
+						if (response) {
+							callback(response.statusCode, JSON.parse(body));
+						} else {
+							if (attempt >= 3) {
+								callback(777, JSON.parse("{}"));
+							} else {
+								console.log("empty response");
+								myFunction(callback, attempt + 1);
+							}
+						}
 					}
 				});
 			}
@@ -450,13 +463,23 @@ app.get('/summonerByName', function (req, res) {
 app.get('/currentGame', function (req, res) {
 	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/spectator/v3/active-games/by-summoner/" + req.query.summonerId + "?api_key=" + apikey;
 	async.waterfall([
-			function (callback) {
-				request(URL, function (err, response, body) {
+			function myFunction(callback, attempt = 1500) {
+				request({uri: URL,timeout: 1500}, function (err, response, body) {
 					if (!err && response.statusCode == 200) {
 						var json = JSON.parse(body);
 						callback(null, json);
 					} else {
-						callback(response.statusCode, JSON.parse(body));
+						//check if server responded
+						if (response) {
+							callback(response.statusCode, JSON.parse(body));
+						} else {
+							if (attempt >= 3) {
+								callback(777, JSON.parse("{}"));
+							} else {
+								console.log("empty response");
+								myFunction(callback, attempt + 1);
+							}
+						}
 					}
 				});
 			}
@@ -494,13 +517,23 @@ app.get('/getStats', function (req, res) {
 app.get('/matchList', function (req, res) {
 	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/match/v3/matchlists/by-account/" + req.query.accountId + "?api_key=" + apikey;
 	async.waterfall([
-			function (callback) {
-				request(URL, function (err, response, body) {
+			function myFunction(callback) {
+				request({uri: URL,timeout: 1500}, function (err, response, body) {
 					if (!err && response.statusCode == 200) {
 						var json = JSON.parse(body);
 						callback(null, json);
 					} else {
-						callback(response.statusCode, JSON.parse(body));
+						//check if server responded
+						if (response) {
+							callback(response.statusCode, JSON.parse(body));
+						} else {
+							if (attempt >= 3) {
+								callback(777, JSON.parse("{}"));
+							} else {
+								console.log("empty response");
+								myFunction(callback, attempt + 1);
+							}
+						}
 					}
 				});
 			}
@@ -522,15 +555,25 @@ app.get('/getMatch', function (req, res) {
 	
 	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/match/v3/matches/" + req.query.matchId + "?api_key=" + apikey;
 	async.waterfall([
-			function (callback) {
-				request(URL, function (err, response, body) {
+			function myFunction(callback) {
+				request({uri: URL,timeout: 1500}, function (err, response, body) {
 					if (!err && response.statusCode == 200) {
 						var json = JSON.parse(body);
 						savedMatches[req.query.region][req.query.matchId] = json;
 						queuedMatches.push(json);
 						callback(null, json);
 					} else {
-						callback(response.statusCode, JSON.parse(body));
+						//check if server responded
+						if (response) {
+							callback(response.statusCode, JSON.parse(body));
+						} else {
+							if (attempt >= 3) {
+								callback(777, JSON.parse("{}"));
+							} else {
+								console.log("empty response");
+								myFunction(callback, attempt + 1);
+							}
+						}
 					}
 				});
 			}
@@ -551,15 +594,24 @@ app.get('/getMatch', function (req, res) {
 app.get('/getMastery', function (req, res) {
 	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/champion-mastery/v3/champion-masteries/by-summoner/" + req.query.summonerId + "/by-champion/" + req.query.championId + "?api_key=" + apikey;
 	async.waterfall([
-			function (callback) {
-				request(URL, function (err, response, body) {
+			function myFunction(callback) {
+				request({uri: URL,timeout: 1500}, function (err, response, body) {
 					if (!err && response.statusCode == 200) {
 						var json = JSON.parse(body);
 						json.name = decodeURIComponent(json.name);
 						callback(null, json);
 					} else {
-						console.log(getMemory() + req.query);
-						callback(response.statusCode, JSON.parse(body));
+						//check if server responded
+						if (response) {
+							callback(response.statusCode, JSON.parse(body));
+						} else {
+							if (attempt >= 3) {
+								callback(777, JSON.parse("{}"));
+							} else {
+								console.log("empty response");
+								myFunction(callback, attempt + 1);
+							}
+						}
 					}
 				});
 			}
@@ -580,15 +632,24 @@ app.get('/getMastery', function (req, res) {
 app.get('/getLeague', function (req, res) {
 	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/league/v3/positions/by-summoner/" + req.query.summonerId + "?api_key=" + apikey;
 	async.waterfall([
-			function (callback) {
-				request(URL, function (err, response, body) {
+			function myFunction(callback) {
+				request({uri: URL,timeout: 1500}, function (err, response, body) {
 					if (!err && response.statusCode == 200) {
 						var json = JSON.parse(body);
 						json.name = decodeURIComponent(json.name);
 						callback(null, json);
 					} else {
-						console.log(getMemory() + req.query);
-						callback(response.statusCode, JSON.parse(body));
+						//check if server responded
+						if (response) {
+							callback(response.statusCode, JSON.parse(body));
+						} else {
+							if (attempt >= 3) {
+								callback(777, JSON.parse("{}"));
+							} else {
+								console.log("empty response");
+								myFunction(callback, attempt + 1);
+							}
+						}
 					}
 				});
 			}

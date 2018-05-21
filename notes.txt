@@ -11,6 +11,10 @@
 ~~~6. Calculate each player's losing streak.
 
 
+Slogan
+--------------
+"Stats are good, winning is better."
+
 
 To Do Later
 ---------------
