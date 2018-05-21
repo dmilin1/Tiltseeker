@@ -644,15 +644,15 @@ function loadDisplay(runList, index) {
 		//username
 		a.querySelectorAll("div")[0].textContent = summonersUsername[i];
 		//make font smaller if username is long
-		if (summonersUsername[i].length > 10) {
-			a.querySelectorAll("div")[0].style.fontSize = "1.6vw";
-		}
-		if (summonersUsername[i].length > 12) {
-			a.querySelectorAll("div")[0].style.fontSize = "1.5vw";
-		}
-		if (summonersUsername[i].length > 14) {
-			a.querySelectorAll("div")[0].style.fontSize = "1.4vw";
-		}
+//		if (summonersUsername[i].length > 10) {
+//			a.querySelectorAll("div")[0].style.fontSize = "1.6vw";
+//		}
+//		if (summonersUsername[i].length > 12) {
+//			a.querySelectorAll("div")[0].style.fontSize = "1.5vw";
+//		}
+//		if (summonersUsername[i].length > 14) {
+//			a.querySelectorAll("div")[0].style.fontSize = "1.4vw";
+//		}
 		
 		//losingStreak
 		a.querySelectorAll("div")[2].textContent = losingStreak[i];

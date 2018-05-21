@@ -75,7 +75,7 @@
 .playerName {
 	height: 2vw;
 	line-height: 1.5vw;
-	font-size: 1.8vw;
+	font-size: 1.7vw;
 	text-align: center;
 	font-weight: bold;
 	font-family: Roboto, Tahoma;
@@ -83,7 +83,7 @@
 
 @media screen and (min-width: 1300px) {
   div.playerName {
-    font-size: 15px;
+    font-size: 22px;
   }
 }
 
