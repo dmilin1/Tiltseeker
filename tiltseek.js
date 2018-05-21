@@ -644,15 +644,6 @@ function loadDisplay(runList, index) {
 		//username
 		a.querySelectorAll("div")[0].textContent = summonersUsername[i];
 		//make font smaller if username is long
-//		if (summonersUsername[i].length > 10) {
-//			a.querySelectorAll("div")[0].style.fontSize = "1.6vw";
-//		}
-//		if (summonersUsername[i].length > 12) {
-//			a.querySelectorAll("div")[0].style.fontSize = "1.5vw";
-//		}
-//		if (summonersUsername[i].length > 14) {
-//			a.querySelectorAll("div")[0].style.fontSize = "1.4vw";
-//		}
 		
 		//losingStreak
 		a.querySelectorAll("div")[2].textContent = losingStreak[i];
@@ -697,18 +688,9 @@ function loadDisplay(runList, index) {
 		var a = document.importNode(temp, true);
 		//picture
 		a.querySelectorAll("img")[0].src = "https://ddragon.leagueoflegends.com/cdn/8.10.1/img/champion/" + champList.data[summonersChampIds[i]].key + ".png";
+
 		//username
 		a.querySelectorAll("div")[0].textContent = summonersUsername[i];
-		//make font smaller if username is long
-//		if (summonersUsername[i].length > 10) {
-//			a.querySelectorAll("div")[0].style.fontSize = "1.6vw";
-//		}
-//		if (summonersUsername[i].length > 12) {
-//			a.querySelectorAll("div")[0].style.fontSize = "1.5vw";
-//		}
-//		if (summonersUsername[i].length > 14) {
-//			a.querySelectorAll("div")[0].style.fontSize = "1.4vw";
-//		}
 		
 		//losingStreak
 		a.querySelectorAll("div")[2].textContent = losingStreak[i];

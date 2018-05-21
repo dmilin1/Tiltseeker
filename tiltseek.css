@@ -2,7 +2,9 @@
 /* CSS Document */
 
 .body {
-	background: #090906;
+	background: #303030;
+	background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/carbon_fibre.png");
+    background-blend-mode: overlay;
 }
 
 .navbar {
@@ -36,21 +38,28 @@
 	margin: 0 5px 0 5px;
 	display: inline-block;
 	border-radius: 20px;
-	background: rgba(88,88,88,1.00);
+	background: rgba(38,38,38,1.00);
 	width: calc(13% + 20px);
 	max-width: 160px;
 	border-color: #2EB7D6;
 	border-style: solid;
 	border-width: thick;
+	background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/paper_1.png");
+    background-blend-mode: overlay;
+}
+
+iconcontainer {
+	width: 60%;
+	max-width: 100px;
+	display: block;
+	margin: auto;
+	margin-top: 20px;
 }
 
 .champIcon {
-	padding: 20px;
-	width: 60%;
-	max-width: 100px;
-	border-radius: 50%;
-	display: block;
-	margin: auto;
+	border-radius: 10%;
+	width: 100%;
+	box-shadow: 0 0 10pt 1pt black;
 }
 
 .stats {
@@ -72,13 +81,26 @@
 	 height:5px;
 }
 
+namecontainer {
+	height: 2.7vw;
+	display: table;
+	width: 100%;
+}
+
+middle {
+	display: table-cell;
+  	vertical-align: middle;
+}
+
 .playerName {
-	height: 2vw;
-	line-height: 1.5vw;
+	line-height: 0.8;
 	font-size: 1.7vw;
 	text-align: center;
 	font-weight: bold;
 	font-family: Roboto, Tahoma;
+	margin-left: auto;
+ 	margin-right: auto;
+ 	width: 100%;
 }
 
 @media screen and (min-width: 1300px) {
