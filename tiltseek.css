@@ -7,6 +7,7 @@
     background-blend-mode: overlay;
 }
 
+
 .navbar {
 	list-style-type: none;
     margin: 0;
@@ -32,6 +33,73 @@
 
 .navbar li a:hover {
     background-color: #111;
+}
+
+
+.my-footer {
+	margin-top: 50px;
+	bottom: 10px;
+	text-align: center;
+	width: 100%;
+}
+
+.disclaimer {
+	color: #828282;
+	margin: auto;
+	width: 70%;
+}
+
+.damageBar {
+	background-color: #00ffff00;
+	width: 40vw;
+	height: 25px;
+	margin: 10px auto;
+	font-family: Roboto, Tahoma;
+    text-align: center;
+}
+
+.magic {
+	width: calc(20%-5px);
+	height: 25px;
+	background-color: #35DAFF;
+	display: inline-block;
+	border-width: 5px 0 5px 5px;
+    border-color: #F3F3F3;
+    border-style: solid;
+    border-radius: 10px 0 0 10px;
+	margin-left: -5px;
+}
+
+.physical {
+	width: 50%;
+	height: 25px;
+	background-color: #FF3333;
+	display: inline-block;
+	border-width: 5px 0 5px 0px;
+    border-color: #F3F3F3;
+    border-style: solid;
+}
+
+.true {
+	width: calc(30%-5px);
+	height: 25px;
+	background-color: #7e7e7e;
+	display: inline-block;
+	border-width: 5px 5px 5px 0;
+    border-color: #F3F3F3;
+    border-style: solid;
+    border-radius: 0 10px 10px 0;
+/*	margin has to be -1. I don't know why and it's stupid af, but it works.*/
+	margin-right: -5px;
+}
+
+.teamName {
+	font-size: 2vw;
+	margin: auto;
+	text-align: center;
+	margin-top: 30px;
+	color: #F3F3F3;
+	font-family: Roboto, Tahoma;
 }
 
 .champBox {
@@ -90,6 +158,7 @@ namecontainer {
 middle {
 	display: table-cell;
   	vertical-align: middle;
+	max-width: 100px;
 }
 
 .playerName {
@@ -101,6 +170,7 @@ middle {
 	margin-left: auto;
  	margin-right: auto;
  	width: 100%;
+	word-wrap: break-word;
 }
 
 @media screen and (min-width: 1300px) {

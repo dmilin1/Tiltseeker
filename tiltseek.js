@@ -436,6 +436,8 @@ function processData(runList, index) {
 	//set up masteryPoints
 	for (var i = 0; i < summonersMastery.length; i++) {
 		masteryPoints.push(summonersMastery[i].championPoints);
+		//set mastery to 0 if no mastery is found
+		if (isNaN(masteryPoints[i])) { masteryPoints[i] = 0;}
 	}
 	
 	//calculate wins, losses, and winRate ("not enough games" for summoners with low games)
@@ -569,6 +571,7 @@ function processData(runList, index) {
 	console.log(timeSincePlayed);
 	console.log(winRate);
 	console.log(masteryPoints);
+	
 	for (var i = 0; i < summonersUsername.length; i++) {
 		console.log(summonersUsername[i] + ":\t" + champList.data[currentGame.participants[i].championId].name + ":\t" + campScore[i])
 	}
@@ -635,6 +638,44 @@ function loadDisplay(runList, index) {
 	
 	//make loader disappear
 	document.getElementById("loader").style.display = "none";
+	
+	
+	//set damage bars
+	
+	//First team bar
+	var magicDmg = 0;
+	var physicalDmg = 0;
+	var trueDmg = 0;
+	for (var i = 0; i < summonersChampIds.length/2; i++) {
+		magicDmg += stats[summonersChampIds[i]].magicDamage;
+		physicalDmg += stats[summonersChampIds[i]].physicalDamage;
+		trueDmg += stats[summonersChampIds[i]].trueDamage;
+	}
+	var totalDmg = magicDmg + physicalDmg + trueDmg;
+	var temp = document.getElementsByTagName("template")[1].content.querySelector("div");
+	var a = document.importNode(temp, true);
+	a.querySelectorAll("div")[0].style.width = 100*magicDmg/totalDmg + "%";
+	a.querySelectorAll("div")[1].style.width = 100*physicalDmg/totalDmg + "%";
+	a.querySelectorAll("div")[2].style.width = 100*trueDmg/totalDmg + "%";
+	document.getElementById("damageBar1").appendChild(a);
+	
+	//Second team bar
+	var magicDmg = 0;
+	var physicalDmg = 0;
+	var trueDmg = 0;
+	for (var i = summonersChampIds.length/2; i < summonersChampIds.length; i++) {
+		magicDmg += stats[summonersChampIds[i]].magicDamage;
+		physicalDmg += stats[summonersChampIds[i]].physicalDamage;
+		trueDmg += stats[summonersChampIds[i]].trueDamage;
+	}
+	var totalDmg = magicDmg + physicalDmg + trueDmg;
+	var temp = document.getElementsByTagName("template")[1].content.querySelector("div");
+	var a = document.importNode(temp, true);
+	a.querySelectorAll("div")[0].style.width = 100*magicDmg/totalDmg + "%";
+	a.querySelectorAll("div")[1].style.width = 100*physicalDmg/totalDmg + "%";
+	a.querySelectorAll("div")[2].style.width = 100*trueDmg/totalDmg + "%";
+	document.getElementById("damageBar2").appendChild(a);
+	
 	
 	for (var i = 0; i < currentGame.participants.length/2; i++) {
 		var temp = document.getElementsByTagName("template")[0].content.querySelector("div");

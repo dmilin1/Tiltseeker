@@ -18,7 +18,8 @@ app.set('view engine', 'html');
 
 
 //set variables
-var apikey = "RGAPI-1f964847-6d4e-4226-886a-d69570d4aabc";
+var apikey = process.env.RIOTTILTSEEKERAPIKEY;
+console.log(apikey);
 var regions = ["na1", "euw1", "eun1", "br1", "tr1", "ru", "la1", "la2", "oc1", "kr", "jp1"];
 
 //sets up and loads the static champ data from file
