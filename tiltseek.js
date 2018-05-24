@@ -112,6 +112,10 @@ function loadCurrentGame(runList, index) {
 			}
 			if (data == 404) {
 				console.log("User not in game");
+				document.getElementById("loader").style.display = "none";
+				document.getElementById("errorMsg").style.display = "block";
+				document.getElementById("errorMsg").textContent = "Player not in game. \r\n";
+				document.getElementById("errorMsg").textContent += "Make sure you set the right region.";
 			}
 		}
 	);
@@ -638,6 +642,8 @@ function loadDisplay(runList, index) {
 	
 	//make loader disappear
 	document.getElementById("loader").style.display = "none";
+	document.getElementById("teamName1").style.display = "block";
+	document.getElementById("teamName2").style.display = "block";
 	
 	
 	//set damage bars

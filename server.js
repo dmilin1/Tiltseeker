@@ -425,7 +425,7 @@ function getMemory() {return Math.round(process.memoryUsage().rss/(1024*1024)*10
 app.get('/summonerByName', function (req, res) {
 	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/summoner/v3/summoners/by-name/" + querystring.escape(req.query.username) + "?api_key=" + apikey;
 	async.waterfall([
-			function myFunction(callback) {
+			function myFunction(callback, attempt = 0) {
 				request({uri: URL,timeout: 1500}, function (err, response, body) {
 					if (!err && response.statusCode == 200) {
 						var json = JSON.parse(body);
@@ -463,7 +463,7 @@ app.get('/summonerByName', function (req, res) {
 app.get('/currentGame', function (req, res) {
 	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/spectator/v3/active-games/by-summoner/" + req.query.summonerId + "?api_key=" + apikey;
 	async.waterfall([
-			function myFunction(callback, attempt = 1500) {
+			function myFunction(callback, attempt = 0) {
 				request({uri: URL,timeout: 1500}, function (err, response, body) {
 					if (!err && response.statusCode == 200) {
 						var json = JSON.parse(body);
@@ -517,7 +517,7 @@ app.get('/getStats', function (req, res) {
 app.get('/matchList', function (req, res) {
 	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/match/v3/matchlists/by-account/" + req.query.accountId + "?api_key=" + apikey;
 	async.waterfall([
-			function myFunction(callback) {
+			function myFunction(callback, attempt = 0) {
 				request({uri: URL,timeout: 1500}, function (err, response, body) {
 					if (!err && response.statusCode == 200) {
 						var json = JSON.parse(body);
@@ -555,7 +555,7 @@ app.get('/getMatch', function (req, res) {
 	
 	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/match/v3/matches/" + req.query.matchId + "?api_key=" + apikey;
 	async.waterfall([
-			function myFunction(callback) {
+			function myFunction(callback, attempt = 0) {
 				request({uri: URL,timeout: 1500}, function (err, response, body) {
 					if (!err && response.statusCode == 200) {
 						var json = JSON.parse(body);
@@ -594,7 +594,7 @@ app.get('/getMatch', function (req, res) {
 app.get('/getMastery', function (req, res) {
 	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/champion-mastery/v3/champion-masteries/by-summoner/" + req.query.summonerId + "/by-champion/" + req.query.championId + "?api_key=" + apikey;
 	async.waterfall([
-			function myFunction(callback) {
+			function myFunction(callback, attempt = 0) {
 				request({uri: URL,timeout: 1500}, function (err, response, body) {
 					if (!err && response.statusCode == 200) {
 						var json = JSON.parse(body);
@@ -632,7 +632,7 @@ app.get('/getMastery', function (req, res) {
 app.get('/getLeague', function (req, res) {
 	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/league/v3/positions/by-summoner/" + req.query.summonerId + "?api_key=" + apikey;
 	async.waterfall([
-			function myFunction(callback) {
+			function myFunction(callback, attempt = 0) {
 				request({uri: URL,timeout: 1500}, function (err, response, body) {
 					if (!err && response.statusCode == 200) {
 						var json = JSON.parse(body);

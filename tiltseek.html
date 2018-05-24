@@ -8,109 +8,77 @@
 </head>
 
 <body class="body">
-<ul class="navbar">
-  <li><a>Home</a></li>
-  <li><a href="#news">News</a></li>
-  <li><a href="#contact">Stats</a></li>
-  <li style="float:right"><a class="active" href="#about">About</a></li>
-</ul>
 
-<div id="loader" class="preloader-1">
-  <div class = "loading">Finding Victims</div>
-  <span class="line line-1"></span>
-  <span class="line line-2"></span>
-  <span class="line line-3"></span>
-  <span class="line line-4"></span>
-  <span class="line line-5"></span>
-  <span class="line line-6"></span>
-  <span class="line line-7"></span>
-  <span class="line line-8"></span>
-  <span class="line line-9"></span>
-  <span class="line line-10"></span>
-  <span class="line line-11"></span>
-  <span class="line line-12"></span>
-  <span class="line line-13"></span>
-  <span class="line line-14"></span>
-  <span class="line line-15"></span>
-  <span class="line line-16"></span>
-  <span class="line line-17"></span>
+ <ul class="navbar">
+   <li><a href="/">Home</a></li>
+   <li><a href="#news">News</a></li>
+   <li><a href="#contact">Stats</a></li>
+   <li style="float:right"><a class="active" href="#about">About</a></li>
+ </ul>
+ 
+<div class="wrapper">
+  
+  <div id="loader" class="preloader-1">
+    <div class = "loading">Finding Victims</div>
+    <span class="line line-1"></span> <span class="line line-2"></span> <span class="line line-3"></span> <span class="line line-4"></span> <span class="line line-5"></span> <span class="line line-6"></span> <span class="line line-7"></span> <span class="line line-8"></span> <span class="line line-9"></span> <span class="line line-10"></span> <span class="line line-11"></span> <span class="line line-12"></span> <span class="line line-13"></span> <span class="line line-14"></span> <span class="line line-15"></span> <span class="line line-16"></span> <span class="line line-17"></span> </div>
+    
+  <template>
+    <div class="champBox">
+      <iconcontainer> <img class="champIcon" src="https://ddragon.leagueoflegends.com/cdn/7.10.1/img/champion/Annie.png" alt="ChampPic"> </iconcontainer>
+      <namecontainer>
+        <middle>
+          <div class="playerName"> dmilin </div>
+        </middle>
+      </namecontainer>
+      <hr noshade width="80%" color="#1C1C1C">
+      <div class="stats"> Losing Streak:
+        <div class="losingStreak"> 3 </div>
+        <hr noshade width="60%" color="#6E6E6E" style="height:1px;border:none;">
+        <div class="statsDivider"></div>
+        Winrate:
+        <div class="winrate"> 53.7% </div>
+        <hr noshade width="60%" color="#6E6E6E" style="height:1px;border:none;">
+        <div class="statsDivider"></div>
+        Mastery Points:
+        <div class="mastery"> 1000000 </div>
+        <hr noshade width="60%" color="#6E6E6E" style="height:1px;border:none;">
+        <div class="statsDivider"></div>
+        Last Played:
+        <div class="daysSincePlayed"> 13 days </div>
+        <hr noshade width="60%" color="#6E6E6E" style="height:1px;border:none;">
+        <div class="statsDivider"></div>
+        Aggressiveness:
+        <div class="aggressiveness"> 56.3% </div>
+        <hr noshade width="60%" color="#6E6E6E" style="height:1px;border:none;">
+        <div class="statsDivider"></div>
+        Warding:
+        <div class="warding"> 74.2% </div>
+        <div class="statsDivider"></div>
+      </div>
+      <hr noshade width="80%" color="#1C1C1C">
+      <div class="campScore"> 87 </div>
+      <div class="statsDivider"></div>
+    </div>
+  </template>
+  
+  <template>
+    <div class="damageBar">
+      <div class="magic">Magic</div><div class="physical">Physical</div><div class="true">T</div>
+    </div>
+  </template>
+  
+  <div id="errorMsg" class="errorMsg">Something messed up. Better nerf Irelia.</div>
+  <div id="teamName1" class="teamName">Team 1</div>
+  <div id="damageBar1"></div>
+  <div id="displayBox" style="width:85%; margin:auto; padding-top: 20px; text-align: center;"></div>
+  <div id="teamName2" class="teamName">Team 2</div>
+  <div id="damageBar2"></div>
+  <div id="displayBox2" style="width:85%; margin:auto; padding-top: 20px; text-align: center;"></div>
+
 </div>
 
-<template>
-	<div class="champBox">
- 	<iconcontainer>
-  		<img class="champIcon" src="https://ddragon.leagueoflegends.com/cdn/7.10.1/img/champion/Annie.png" alt="ChampPic">
-	</iconcontainer>
-	<namecontainer>
-		<middle>
- 			<div class="playerName">
- 				dmilin
- 			</div>
- 		</middle>
- 	</namecontainer>
- 	<hr noshade width="80%" color="#1C1C1C">
- 	<div class="stats">
- 		Losing Streak:
- 		<div class="losingStreak">
- 			3
- 		</div>
- 		<hr noshade width="60%" color="#6E6E6E" style="height:1px;border:none;">
- 		<div class="statsDivider"></div>
- 		Winrate:
- 		<div class="winrate">
- 			53.7%
- 		</div>
- 		<hr noshade width="60%" color="#6E6E6E" style="height:1px;border:none;">
- 		<div class="statsDivider"></div>
- 		Mastery Points:
- 		<div class="mastery">
- 			1000000
- 		</div>
- 		<hr noshade width="60%" color="#6E6E6E" style="height:1px;border:none;">
- 		<div class="statsDivider"></div>
- 		Last Played:
- 		<div class="daysSincePlayed">
- 			13 days
- 		</div>
- 		<hr noshade width="60%" color="#6E6E6E" style="height:1px;border:none;">
- 		<div class="statsDivider"></div>
- 		Aggressiveness:
- 		<div class="aggressiveness">
- 			56.3%
- 		</div>
- 		<hr noshade width="60%" color="#6E6E6E" style="height:1px;border:none;">
- 		<div class="statsDivider"></div>
- 		Warding:
- 		<div class="warding">
- 			74.2%
- 		</div>
- 		<div class="statsDivider"></div>
- 	</div>
- 	<hr noshade width="80%" color="#1C1C1C">
- 	<div class="campScore">
- 			87
- 	</div>
- 	<div class="statsDivider"></div>
-  </div>
-</template>
-
-<template>
-	<div class="damageBar">
-		<div class="magic">Magic</div><div class="physical">Physical</div><div class="true">T</div>
-	</div>
-</template>
-
-<div class="teamName">Team 1</div>
-<div id="damageBar1"></div>
-<div id="displayBox" style="width:85%; margin:auto; padding-top: 20px; text-align: center;"></div>
-<div class="teamName">Team 2</div>
-<div id="damageBar2"></div>
-<div id="displayBox2" style="width:85%; margin:auto; padding-top: 20px; text-align: center;"></div>
-
 <div class="my-footer">
-	<div class="disclaimer">
-	Tiltseeker isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
-	</div>
+  <div class="disclaimer"> Tiltseeker isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc. </div>
 </div>
 
 </body>
