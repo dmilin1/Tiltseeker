@@ -458,6 +458,8 @@ function processData(runList, index) {
 		} else {
 			timeSincePlayed.push(((new Date).getTime()-summonersMastery[i].lastPlayTime)/(1000*60*60*24));
 		}
+		//set timeSincePlayed to 10000 if no mastery is found
+		if (isNaN(timeSincePlayed[i])) { timeSincePlayed[i] = 10000;}
 	}
 	
 	//calculate aggressiveness
@@ -673,8 +675,7 @@ function loadDisplay(runList, index) {
 	a.querySelectorAll("div")[2].style.width = 100*trueDmg/totalDmg + "%";
 	document.getElementById("damageBar2").appendChild(a);
 	
-	
-	for (var i = 0; i < currentGame.participants.length/2; i++) {
+	function loadChampDisplay(theElement) {
 		var temp = document.getElementsByTagName("template")[0].content.querySelector("div");
 		var a = document.importNode(temp, true);
 		//picture
@@ -686,29 +687,39 @@ function loadDisplay(runList, index) {
 		//losingStreak
 		a.querySelectorAll("div")[2].textContent = losingStreak[i];
 		a.querySelectorAll("div")[2].style.color = "rgb(" + getRed(losingStreakSigmoid(losingStreak[i])) + "," + getGreen(losingStreakSigmoid(losingStreak[i])) + ",0)";
+		a.querySelectorAll("div")[2].style.fontWeight = "300";
 		
 		//winrate
 		a.querySelectorAll("div")[4].style.whiteSpace = "pre"
 		a.querySelectorAll("div")[4].textContent = Math.round(10000*winRate[i])/100 + "% \r\n" + wins[i] + "W/" + losses[i] + "L";
 		a.querySelectorAll("div")[4].style.color = "rgb(" + getRed(winRateSigmoid(winRate[i])) + "," + getGreen(winRateSigmoid(winRate[i])) + ",0)";
+		a.querySelectorAll("div")[4].style.fontWeight = "300";
 		if (isNaN(winRate[i])) {
 			a.querySelectorAll("div")[4].textContent = "Not Enough \r\n Games";
+			a.querySelectorAll("div")[4].style.color = "#b2b2b2";
 		}
 		//mastery
 		a.querySelectorAll("div")[6].textContent = masteryPoints[i];
 		a.querySelectorAll("div")[6].style.color = "rgb(" + getRed(masterySigmoid(masteryPoints[i])) + "," + getGreen(masterySigmoid(masteryPoints[i])) + ",0)";
+		a.querySelectorAll("div")[6].style.fontWeight = "300";
 		
 		//daysSincePlayed
 		a.querySelectorAll("div")[8].textContent = Math.round(timeSincePlayed[i]) + " days ago";
 		a.querySelectorAll("div")[8].style.color = "rgb(" + getRed(daysSincePlayedSigmoid(timeSincePlayed[i])) + "," + getGreen(daysSincePlayedSigmoid(timeSincePlayed[i])) + ",0)";
+		a.querySelectorAll("div")[8].style.fontWeight = "300";
+		if (timeSincePlayed[i] == 10000) {
+			a.querySelectorAll("div")[8].textContent = "Never Played";
+		}
 		
 		//agr
 		a.querySelectorAll("div")[10].textContent = Math.round(100*aggressiveness[i]) + "%";
 		a.querySelectorAll("div")[10].style.color = "rgb(" + getRed(aggrSigmoid(aggressiveness[i])) + "," + getGreen(aggrSigmoid(aggressiveness[i])) + ",0)";
+		a.querySelectorAll("div")[10].style.fontWeight = "300";
 		
 		//warding
 		a.querySelectorAll("div")[12].textContent = Math.round(100*warding[i]) + "%";
 		a.querySelectorAll("div")[12].style.color = "rgb(" + getRed(wardSigmoid(warding[i])) + "," + getGreen(wardSigmoid(warding[i])) + ",0)";
+		a.querySelectorAll("div")[12].style.fontWeight = "300";
 		
 		//campScore
 		a.querySelectorAll("div")[14].textContent = Math.round(campScore[i]);
@@ -717,59 +728,16 @@ function loadDisplay(runList, index) {
 			a.querySelectorAll("div")[14].textContent = "X";
 		}
 
-		document.getElementById("displayBox").appendChild(a);
+		document.getElementById(theElement).appendChild(a);
+	}
+	
+	for (var i = 0; i < currentGame.participants.length/2; i++) {
+		loadChampDisplay("displayBox");
 
 	}
 	
 	for (var i = currentGame.participants.length/2; i < currentGame.participants.length; i++) {
-		var temp = document.getElementsByTagName("template")[0].content.querySelector("div");
-		var a = document.importNode(temp, true);
-		//picture
-		a.querySelectorAll("img")[0].src = "https://ddragon.leagueoflegends.com/cdn/8.10.1/img/champion/" + champList.data[summonersChampIds[i]].key + ".png";
-
-		//username
-		a.querySelectorAll("div")[0].textContent = summonersUsername[i];
-		
-		//losingStreak
-		a.querySelectorAll("div")[2].textContent = losingStreak[i];
-		a.querySelectorAll("div")[2].style.color = "rgb(" + getRed(losingStreakSigmoid(losingStreak[i])) + "," + getGreen(losingStreakSigmoid(losingStreak[i])) + ",0)";
-		
-		//winrate
-		a.querySelectorAll("div")[4].style.whiteSpace = "pre"
-		a.querySelectorAll("div")[4].textContent = Math.round(10000*winRate[i])/100 + "% \r\n" + wins[i] + "W/" + losses[i] + "L";
-		a.querySelectorAll("div")[4].style.color = "rgb(" + getRed(winRateSigmoid(winRate[i])) + "," + getGreen(winRateSigmoid(winRate[i])) + ",0)";
-		if (isNaN(winRate[i])) {
-			a.querySelectorAll("div")[4].textContent = "Not Enough \r\n Games";
-		}
-		//mastery
-		a.querySelectorAll("div")[6].textContent = masteryPoints[i];
-		a.querySelectorAll("div")[6].style.color = "rgb(" + getRed(masterySigmoid(masteryPoints[i])) + "," + getGreen(masterySigmoid(masteryPoints[i])) + ",0)";
-		
-		//daysSincePlayed
-		a.querySelectorAll("div")[8].textContent = Math.round(timeSincePlayed[i]) + " days ago";
-		a.querySelectorAll("div")[8].style.color = "rgb(" + getRed(daysSincePlayedSigmoid(timeSincePlayed[i])) + "," + getGreen(daysSincePlayedSigmoid(timeSincePlayed[i])) + ",0)";
-		
-		//agr
-		a.querySelectorAll("div")[10].textContent = Math.round(100*aggressiveness[i]) + "%";
-		a.querySelectorAll("div")[10].style.color = "rgb(" + getRed(aggrSigmoid(aggressiveness[i])) + "," + getGreen(aggrSigmoid(aggressiveness[i])) + ",0)";
-		
-		//warding
-		a.querySelectorAll("div")[12].textContent = Math.round(100*warding[i]) + "%";
-		a.querySelectorAll("div")[12].style.color = "rgb(" + getRed(wardSigmoid(warding[i])) + "," + getGreen(wardSigmoid(warding[i])) + ",0)";
-		
-		//campScore
-		a.querySelectorAll("div")[14].textContent = Math.round(campScore[i]);
-		a.querySelectorAll("div")[14].style.color = "rgb(" + getRed(campScoreSigmoid(campScore[i])) + "," + getGreen(campScoreSigmoid(campScore[i])) + ",0)";
-		if (isNaN(campScore[i])) {
-			a.querySelectorAll("div")[14].textContent = "X";
-		}
-		
-		//set border to red
-		a.style.borderColor = "#BC2525";
-		
-		console.log(document.getElementById("displayBox2"));
-		document.getElementById("displayBox2").appendChild(a);
-
+		loadChampDisplay("displayBox2");
 	}
 
 }

@@ -102,7 +102,6 @@
 
 .magic {
 	width: calc(20%-5px);
-	height: 25px;
 	background-color: #35DAFF;
 	display: inline-block;
 	border-width: 5px 0 5px 5px;
@@ -114,7 +113,6 @@
 
 .physical {
 	width: 50%;
-	height: 25px;
 	background-color: #FF3333;
 	display: inline-block;
 	border-width: 5px 0 5px 0px;
@@ -124,7 +122,6 @@
 
 .true {
 	width: calc(30%-5px);
-	height: 25px;
 	background-color: #7e7e7e;
 	display: inline-block;
 	border-width: 5px 5px 5px 0;
