@@ -67,7 +67,29 @@
     </div>
   </template>
   
+  <div id="logo" class="logo"><img src="TiltSeeker.png" alt="" width="713.55" height="104"/></div>
   <div id="errorMsg" class="errorMsg">Something messed up. Better nerf Irelia.</div>
+  <div id="lookup" class="lookup">
+ 	<input name="textfield" type="text" class="textInput" id="textfield" placeholder="Summoner In Game">
+ 	<br>
+ 	<br>
+ 	<ul class="region" id="region-select">
+ 		<li><a class="region-button" id="NA" style="background-color: #111;">NA</a></li>
+ 		<li><a class="region-button" id="EUW">EUW</a></li>
+ 		<li><a class="region-button" id="EUNE">EUNE</a></li>
+ 		<li><a class="region-button" id="BR">BR</a></li>
+  		<li><a class="region-button" id="TR">TR</a></li>
+  		<li><a class="region-button" id="RU">RU</a></li>
+  		<li><a class="region-button" id="LAN">LAN</a></li>
+  		<li><a class="region-button" id="LAS">LAS</a></li>
+  		<li><a class="region-button" id="OCE">OCE</a></li>
+  		<li><a class="region-button" id="KR">KR</a></li>
+  		<li><a class="region-button" id="JP">JP</a></li>
+  	</ul>
+  	<br>
+  	<input class="submit-button" id="submit-button" form="textfield" type="submit" value="Find Camping Spot">
+  </div>
+  
   <div id="teamName1" class="teamName">Team 1</div>
   <div id="damageBar1"></div>
   <div id="displayBox" style="width:85%; margin:auto; padding-top: 20px; text-align: center;"></div>

@@ -58,6 +58,89 @@ function getQuery(q) {
 }
 
 
+document.getElementById("textfield").value = getQuery("username");
+
+function getRegionID(theRegion) {
+	var regions = ["NA", "EUW", "EUNE", "BR", "TR", "RU", "LAN", "LAS", "OCE", "KR", "JP"];
+	var regionIDs = ["na1", "euw1", "eun1", "br1", "tr1", "ru", "la1", "la2", "oc1", "kr", "jp1"];
+	return regionIDs[regions.indexOf(theRegion)];
+}
+
+function getRegion(theRegionID) {
+	var regions = ["NA", "EUW", "EUNE", "BR", "TR", "RU", "LAN", "LAS", "OCE", "KR", "JP"];
+	var regionIDs = ["na1", "euw1", "eun1", "br1", "tr1", "ru", "la1", "la2", "oc1", "kr", "jp1"];
+	return regions[regionIDs.indexOf(theRegionID)];
+}
+
+var region = getRegion(getQuery("region"));
+
+//region select button event listeners
+var regionObjs = document.getElementsByClassName("region-button");
+for(var i = 0; i < regionObjs.length; i++) {
+	var regions = document.getElementById("region-select").getElementsByTagName("li");
+	if (regions[i].textContent == region) {
+		document.getElementById(regions[i].textContent).style.backgroundColor = "#111";
+	} else {
+		document.getElementById(regions[i].textContent).style.backgroundColor = "#333";
+	}
+  (function(index) {
+    regionObjs[index].addEventListener("click", function() {
+		region = this.textContent;
+		console.log(getRegionID(region));
+		var regions = document.getElementById("region-select").getElementsByTagName("li");
+		for (var i = 0; i < regions.length; i++) {
+			if (regions[i].textContent == region) {
+				document.getElementById(regions[i].textContent).style.backgroundColor = "#111";
+			} else {
+				document.getElementById(regions[i].textContent).style.backgroundColor = "#333";
+			}
+		}
+     });
+  })(i);
+}
+
+//Enter key handler for textbox
+document.getElementById("textfield").addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+        document.getElementById("submit-button").click();
+    }
+});
+
+document.getElementById("submit-button").addEventListener("click", function(event) {
+	window.location.href = "tiltseek.html?username=" + document.getElementById("textfield").value + "&region=" + getRegionID(region);
+});
+
+
+
+function displayError(errorMsg) {
+	document.getElementById("loader").style.display = "none";
+	document.getElementById("lookup").style.display = "block";
+	document.getElementById("logo").style.display = "block";
+	document.getElementById("errorMsg").style.display = "block";
+	document.getElementById("errorMsg").textContent = errorMsg;
+}
+
+function handleError(errorNum, message404) {
+	if (errorNum == 400) {
+		console.log("Bad request");
+		displayError("Bad request. Either you did something weird or you found a bug. Maybe both.");
+	} else if (errorNum == 429) {
+		console.log("Rate limit exceeded");
+		displayError("NOOOOO the dreaded Reddit hug of death. Rate limits have been exceeded. Check back in a few hours.");
+	} else if (errorNum == 503) {
+		console.log("Rito servers ded");
+		displayError("Rito servers didn't respond. Looks like you're on your own this game.");
+	} else if (errorNum == 404) {
+		console.log("404");
+		displayError(message404);
+	} else {
+		displayError("Oops... something happened. Error: " + errorNum);
+	}
+}
+
+
+
 //Load the current user summoner name from the URL parameters
 function loadUser(runList, index) {
 	getUserInfoByName(getQuery("username")).then(
@@ -72,18 +155,7 @@ function loadUser(runList, index) {
 		},
 		function fail(data) {
 			console.log("fail: " + data);
-			if (data == 400) {
-				console.log("Bad request");
-			}
-			if (data == 429) {
-				console.log("Rate limit exceeded");
-			}
-			if (data == 503) {
-				console.log("Rito servers ded");
-			}
-			if (data == 404) {
-				console.log("User not found");
-			}
+			handleError(data, "User not found. Check if the the region is correct.");
 		}
 	);
 }
@@ -101,22 +173,7 @@ function loadCurrentGame(runList, index) {
 		},
 		function fail(data) {
 			console.log("fail: " + data);
-			if (data == 400) {
-				console.log("Bad request");
-			}
-			if (data == 429) {
-				console.log("Rate limit exceeded");
-			}
-			if (data == 503) {
-				console.log("Rito servers ded");
-			}
-			if (data == 404) {
-				console.log("User not in game");
-				document.getElementById("loader").style.display = "none";
-				document.getElementById("errorMsg").style.display = "block";
-				document.getElementById("errorMsg").textContent = "Player not in game. \r\n";
-				document.getElementById("errorMsg").textContent += "Make sure you set the right region.";
-			}
+			handleError(data, "Player not in game. Check if the the region is correct.");
 		}
 	);
 }
@@ -134,18 +191,7 @@ function loadChampList(runList, index) {
 		},
 		function fail(data) {
 			console.log("fail: " + data);
-			if (data == 400) {
-				console.log("Bad request");
-			}
-			if (data == 429) {
-				console.log("Rate limit exceeded");
-			}
-			if (data == 503) {
-				console.log("Rito servers ded");
-			}
-			if (data == 404) {
-				console.log("User not in game");
-			}
+			handleError(data, "Servers under heavy load. Failed to load champion data.");
 		}
 	);
 }
@@ -204,18 +250,7 @@ function loadMatchLists(runList, index) {
 		},
 		function fail(data) {
 			console.log("fail: " + data);
-			if (data == 400) {
-				console.log("Bad request");
-			}
-			if (data == 429) {
-				console.log("Rate limit exceeded");
-			}
-			if (data == 503) {
-				console.log("Rito servers ded");
-			}
-			if (data == 404) {
-				console.log("User not in game");
-			}
+			handleError(data, "Failed to load players' matchlists. Looks like you found a bug.");
 		}
 	);
 }
@@ -260,24 +295,13 @@ function loadMatches(runList, index) {
 			},
 			function fail(data) {
 				console.log("fail: " + data);
-				if (data == 400) {
-					console.log("Bad request");
-				}
-				if (data == 429) {
-					console.log("Rate limit exceeded");
-				}
-				if (data == 503) {
-					console.log("Rito servers ded");
-				}
-				if (data == 404) {
-					console.log("User not in game");
-				}
+				handleError(data, "Failed to load players' historical matches. Looks like you found a bug!");
 			}
 		);
 	}
 }
 
-//Load static data for champs in current game and historical matches
+//Load stats data for champs in current game and historical matches
 function loadStats(runList, index) {
 	var champIds = [];
 	//current game
@@ -312,18 +336,7 @@ function loadStats(runList, index) {
 		},
 		function fail(data) {
 			console.log("fail: " + data);
-			if (data == 400) {
-				console.log("Bad request");
-			}
-			if (data == 429) {
-				console.log("Rate limit exceeded");
-			}
-			if (data == 503) {
-				console.log("Rito servers ded");
-			}
-			if (data == 404) {
-				console.log("User not found");
-			}
+			handleError(data, "Servers seem to be under heavy load. Please wait a few minutes.");
 		}
 	);
 }
@@ -345,18 +358,7 @@ function loadMastery(runList, index) {
 		},
 		function fail(data) {
 			console.log("fail: " + data);
-			if (data == 400) {
-				console.log("Bad request");
-			}
-			if (data == 429) {
-				console.log("Rate limit exceeded");
-			}
-			if (data == 503) {
-				console.log("Rito servers ded");
-			}
-			if (data == 404) {
-				console.log("Couldn't find all masteries");
-			}
+			handleError(data, "Failed to load players' champion masteries. Looks like you found a bug!");
 		}
 	);
 }
@@ -376,18 +378,7 @@ function loadLeague(runList, index) {
 		},
 		function fail(data) {
 			console.log("fail: " + data);
-			if (data == 400) {
-				console.log("Bad request");
-			}
-			if (data == 429) {
-				console.log("Rate limit exceeded");
-			}
-			if (data == 503) {
-				console.log("Rito servers ded");
-			}
-			if (data == 404) {
-				console.log("Couldn't find all summoners in game");
-			}
+			handleError(data, "Failed to load players' ranked data. Looks like you found a bug!");
 		}
 	);
 }

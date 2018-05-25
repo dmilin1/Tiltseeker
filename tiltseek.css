@@ -38,15 +38,15 @@
 }
 
 .wrapper {
-	min-height: calc(100vh - 58.4px);
+	min-height: calc(100vh - 116.1px);
 	display: inline-block;
     width: 100%;
-    margin-bottom: -150px;
+    margin-bottom: -56px;
 }
 
 .my-footer {
 	margin-top: 50px;
-	height: 100px;
+	height: 56px;
 	bottom: 10px;
 	text-align: center;
 	width: 100%;
@@ -58,9 +58,16 @@
 	width: 70%;
 }
 
+.logo {
+	text-align: center;
+	margin-top: 120px;
+	display: none;
+}
+
 .errorMsg {
 	margin: auto;
-	margin-top: 200px;
+	margin-top: 10px;
+	padding: 10px 0;
 	width: 50vw;
 	color: white;
 	text-align: center;
@@ -70,8 +77,18 @@
 	display: none;
 	font-family: "Roboto";
 	font-weight: 300;
-	/*This line fixes new lines for some reason*/
-	white-space: pre;
+	font-size: 22px;
+	border-radius: 10px;
+	background-color: #323232;
+	max-width: 500px;
+}
+
+.lookup {
+	display: none;
+	text-align: center;
+	width: 713.55px;
+	margin:auto;
+	margin-top: 30px;
 }
 
 .damageBar {
@@ -203,6 +220,72 @@ middle {
   div.playerName {
     font-size: 22px;
   }
+}
+
+
+.submit-button {
+	border-radius: 10px;
+	width: 190px;
+	height: 35px;
+	font-size: 18px;
+	font-weight: 400;
+	font-family: Roboto, Tahoma;
+	background: #D7D7D7;
+    -webkit-transition-duration: 0.2s; /* Safari */
+    transition-duration: 0.2s;
+	border: 4px solid #F3F3F3;
+}
+
+.submit-button:hover {
+	background: rgb(180,180,180);
+	border: 4px solid rgba(200,200,200,1.00);
+	transform: scale(1.05);
+	box-shadow: 0 0px 5px 2px rgba(100,100,100,1);
+}
+
+.submit-button:focus {
+	background: rgb(150,150,150);
+	border: 4px solid rgba(170,170,170,1.00);
+	transform: scale(1.05);
+	box-shadow: 0 0px 20px 6px rgba(100,100,100,1);
+}
+
+.region {
+	list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+	position: sticky;
+	position: -webkit-sticky; /* Safari */
+	top: 0;
+	font-family: Roboto, Tahoma;
+	border-radius: 5px;
+	
+}
+
+.region li a{
+	font-size: 20px;
+	display: block;
+	color: #F3F3F3;
+	padding: 12px 16px;
+	text-align: center;
+	text-decoration: none;
+	float:left;
+	cursor: pointer;
+}
+
+.region li a:hover{
+	background-color: #111;
+	
+}
+
+.textInput {
+	font-size: 26px;
+	text-align: center;
+	background: #585858;
+	font-family: Tahoma;
+	border-radius: 5px;
 }
 
 
