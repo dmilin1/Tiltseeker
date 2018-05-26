@@ -11,6 +11,11 @@
 ~~~6. Calculate each player's losing streak.
 
 
+#35daff #ff3333
+
+text-shadow: 0px 0px 5px #575757;
+
+
 Slogan
 --------------
 "Stats are good, winning is better."
