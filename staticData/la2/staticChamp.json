@@ -839,8 +839,14 @@
       "key": "Ornn",
       "name": "Ornn",
       "title": "The Fire below the Mountain"
+    },
+    "555": {
+      "id": 555,
+      "key": "Pyke",
+      "name": "Pyke",
+      "title": "the Bloodharbor Ripper"
     }
   },
   "type": "champion",
-  "version": "8.10.1"
+  "version": "8.11.1"
 }

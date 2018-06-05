@@ -19,9 +19,13 @@
 <div class="wrapper">
   
   <div id="loader" class="preloader-1">
-    <div class = "loading">Finding Victims</div>
-    <span class="line line-1"></span> <span class="line line-2"></span> <span class="line line-3"></span> <span class="line line-4"></span> <span class="line line-5"></span> <span class="line line-6"></span> <span class="line line-7"></span> <span class="line line-8"></span> <span class="line line-9"></span> <span class="line line-10"></span> <span class="line line-11"></span> <span class="line line-12"></span> <span class="line line-13"></span> <span class="line line-14"></span> <span class="line line-15"></span> <span class="line line-16"></span> <span class="line line-17"></span> </div>
-    
+    <div class="loading">Finding Victims</div>
+    <span class="line line-1"></span> <span class="line line-2"></span> <span class="line line-3"></span> <span class="line line-4"></span> <span class="line line-5"></span> <span class="line line-6"></span> <span class="line line-7"></span> <span class="line line-8"></span> <span class="line line-9"></span> <span class="line line-10"></span> <span class="line line-11"></span> <span class="line line-12"></span> <span class="line line-13"></span> <span class="line line-14"></span> <span class="line line-15"></span> <span class="line line-16"></span> <span class="line line-17"></span>
+  	<div id="loadingBar" class="loadingBar"></div>
+  </div>
+
+  <div class="fadeIn" id="fadeIn">
+          
   <template>
     <div class="champBox">
       <iconcontainer> <img class="champIcon" src="https://ddragon.leagueoflegends.com/cdn/7.10.1/img/champion/Annie.png" alt="ChampPic"> </iconcontainer>
@@ -51,9 +55,12 @@
         <div class="aggressiveness"> 56.3% </div>
         <hr noshade width="60%" color="#6E6E6E" style="height:1px;border:none;">
         <div class="statsDivider"></div>
+        <span class="ward">
         Warding:
         <div class="warding"> 74.2% </div>
         <div class="statsDivider"></div>
+        <span class="tooltiptext">Tooltip text</span>
+        </span>
       </div>
       <hr noshade width="80%" color="#1C1C1C">
       <div class="campScore"> 87 </div>
@@ -96,6 +103,8 @@
   <div id="teamName2" class="teamName" style="color: #ff3333;">red side</div>
   <div id="damageBar2"></div>
   <div id="displayBox2" style="width:85%; margin:auto; padding-top: 10px; text-align: center;"></div>
+
+  </div>
 
 </div>
 

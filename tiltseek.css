@@ -22,6 +22,7 @@
 	top: 0;
 	font-family: Roboto, Tahoma;
 	border-radius: 10px;
+	z-index: 1;
 }
 
 .navbar li a{
@@ -36,6 +37,36 @@
 
 .navbar li a:hover {
     background-color: #111;
+}
+
+.loadingBar {
+	margin-top: 5px;
+	background-color: whitesmoke;
+	width: 0%;
+	height: 3px;
+	transition: width 0.1s;
+	transition-timing-function: linear;
+}
+
+
+.ward .tooltiptext {
+    visibility: hidden;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+ 
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+	
+	width: 200%;
+	margin-left: -100%;
+}
+
+.ward:hover .tooltiptext {
+    visibility: visible;
 }
 
 .wrapper {
@@ -63,6 +94,12 @@
 	text-align: center;
 	margin-top: 120px;
 	display: none;
+}
+
+.fadeIn {
+	opacity: 0;
+	transition: opacity 0.5s;
+	transition-timing-function: ease-in-out;
 }
 
 .errorMsg {
@@ -181,12 +218,13 @@ iconcontainer {
 	color: rgba(9,9,9,1.00);
 	text-align: center;
 	line-height: 140%;
+	position: relative;
 }
 
 .campScore {
 	font-size: calc(30px + 0.5vw);
 	font-family: Montserrat, Roboto, Tahoma;
-	font-weight: 900;
+	font-weight: 700;
 }
 
 .statsDivider {

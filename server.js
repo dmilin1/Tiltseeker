@@ -19,6 +19,7 @@ app.set('view engine', 'html');
 
 //set variables
 var apikey = process.env.RIOTTILTSEEKERAPIKEY;
+console.log(apikey);
 var regions = ["na1", "euw1", "eun1", "br1", "tr1", "ru", "la1", "la2", "oc1", "kr", "jp1"];
 
 //sets up and loads the static champ data from file
@@ -111,12 +112,12 @@ cron.schedule('*/1 * * * *', function () {
 //API call limiters
 
 var callList1 = [];
-var maxCalls1 = 20;
-var perTimeMs1 = 1000;
+var maxCalls1 = 1500;
+var perTimeMs1 = 10000;
 
 var callList2 = [];
-var maxCalls2 = 100;
-var perTimeMs2 = 120000;
+var maxCalls2 = 90000;
+var perTimeMs2 = 600000;
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -147,8 +148,9 @@ async function apiLimit2(req, res, next) {
 		callList2.shift();
 		next();
 	} else {
-		console.log(getMemory() + "API rate limit reached. Waiting " + theTime-callList2[0] + "ms");
-		await sleep(theTime-callList2[0]);
+		var tempDelay = theTime-callList2[0];
+		console.log(getMemory() + "API rate limit reached. Waiting " + tempDelay + "ms");
+		await sleep(tempDelay);
 		apiLimit2(req, res, next);
 	}
 }
@@ -515,7 +517,8 @@ app.get('/getStats', function (req, res) {
 
 //call to get a match list history for a summoner
 app.get('/matchList', function (req, res) {
-	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/match/v3/matchlists/by-account/" + req.query.accountId + "?api_key=" + apikey;
+	//summoners rift only
+	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/match/v3/matchlists/by-account/" + req.query.accountId + "?queue=400&queue=420&queue=430&queue=440&api_key=" + apikey;
 	async.waterfall([
 			function myFunction(callback, attempt = 0) {
 				request({uri: URL,timeout: 1500}, function (err, response, body) {

@@ -32,6 +32,12 @@ var warding = []; //score from 0 to 1 of a player's warding
 var campScore = []; //score estimating how much a player should be camped
 
 
+
+//set match history length per user (max 100)
+var matchHistoryLength = 20;
+var matchesLoaded = 0;
+
+
 //async function list
 var runList = [
 	loadUser,
@@ -119,6 +125,8 @@ function displayError(errorMsg) {
 	document.getElementById("logo").style.display = "block";
 	document.getElementById("errorMsg").style.display = "block";
 	document.getElementById("errorMsg").textContent = errorMsg;
+	document.getElementById("errorMsg").textContent = errorMsg;
+	document.getElementById("fadeIn").style.opacity = 1;
 }
 
 function handleError(errorNum, message404) {
@@ -257,8 +265,6 @@ function loadMatchLists(runList, index) {
 
 //Load all the users matches
 function loadMatches(runList, index) {
-	//set match history length per user (max 100)
-	matchHistoryLength = 2;
 	
 	//intialize matches variable
 	for (var i = 0; i < summonersAccountId.length; i++) {
@@ -275,12 +281,23 @@ function loadMatches(runList, index) {
 	var j = 0;
 	myLoop(runList, index);
 	function myLoop(runList, index) {
+		console.log(i + "   " + j);
 		getMatch(matchLists[i][j].gameId).then(
 			function success(data) {
+				matchesLoaded++;
+				percentDone = 100 * matchesLoaded / (summonersUsername.length * matchHistoryLength);
+				document.getElementById("loadingBar").style.width = percentDone + "%";
 				matches[i].push(data);
 				if (j < matchHistoryLength - 1) {
 					j++;
-					myLoop(runList, index);
+					if (matchLists[i][j]) {
+						myLoop(runList, index);
+					} else {
+						matchesLoaded += (matchHistoryLength - j);
+						i++;
+						j = 0;
+						myLoop(runList, index);
+					}
 				} else if (i < matchLists.length - 1 && j >= matchHistoryLength - 1) {
 					i++;
 					j = 0;
@@ -505,7 +522,11 @@ function processData(runList, index) {
 			//find the participant
 			var participant = matches[i][j].myParticipant;
 			//the player
-			wards += matches[i][j].participants[participant].stats.wardsPlaced;
+			if (matches[i][j].participants[participant].stats.wardsPlaced) {
+				wards += matches[i][j].participants[participant].stats.wardsPlaced;
+			} else {
+				continue;
+			}
 			//champion average
 			avgWards += stats[matches[i][j].participants[participant].championId].wardsPlaced/stats[matches[i][j].participants[participant].championId].total;
 			//add to total
@@ -679,7 +700,7 @@ function loadDisplay(runList, index) {
 		var temp = document.getElementsByTagName("template")[0].content.querySelector("div");
 		var a = document.importNode(temp, true);
 		//picture
-		a.querySelectorAll("img")[0].src = "https://ddragon.leagueoflegends.com/cdn/8.10.1/img/champion/" + champList.data[summonersChampIds[i]].key + ".png";
+		a.querySelectorAll("img")[0].src = "https://ddragon.leagueoflegends.com/cdn/8.11.1/img/champion/" + champList.data[summonersChampIds[i]].key + ".png";
 		//username
 		a.querySelectorAll("div")[0].textContent = summonersUsername[i];
 		//make font smaller if username is long
@@ -739,6 +760,10 @@ function loadDisplay(runList, index) {
 	for (var i = currentGame.participants.length/2; i < currentGame.participants.length; i++) {
 		loadChampDisplay("displayBox2");
 	}
+	
+	
+	//set visible
+	document.getElementById("fadeIn").style.opacity = 1;
 
 }
 
