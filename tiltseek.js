@@ -229,30 +229,57 @@ function loadChampList(runList, index) {
 
 //Load the summoners in the current game
 function loadSummoners(runList, index) {
-	getSummoners(currentGame.participants).then(
-		function success(data) {
-			//sort data properly
-			for (var j = 0; j < currentGame.participants.length; j++) {
-				for (var i = 0; i < data.length; i++) {
-					if (currentGame.participants[j].summonerName == data[i].name) {
-						summonersUsername.push(data[i].name);
-						summonersAccountId.push(data[i].accountId);
-						summonersSummonerId.push(data[i].id);
-						break;
+	
+	var totalLoaded = 0;
+	
+	for (let i = 0; i < currentGame.participants.length; i++) {
+		getSummoners(currentGame.participants[i].summonerName).then(
+			function success(data) {
+				summonersUsername[i] = data.name;
+				summonersAccountId[i] = data.accountId;
+				summonersSummonerId[i] = data.id;
+				totalLoaded++;
+				percentDone = 10 * totalLoaded / (summonersUsername.length * matchHistoryLength);
+				document.getElementById("loadingBar").style.width = percentDone + "%";
+				//last one complete
+				if (totalLoaded == currentGame.participants.length) {
+					console.log(summonersUsername);
+					if (runList[index + 1]) {
+						runList[index + 1](runList, index + 1);
 					}
 				}
+			},
+			function fail(data) {
+				console.log("fail: " + data);
+				handleError(data, "Couldn't load the summoners in the current game. Looks like we still have bugs to squish.");
 			}
-
-			//run next async function
-			if (runList[index + 1]) {
-				runList[index + 1](runList, index + 1);
-			}
-		},
-		function fail(data) {
-			console.log("fail: " + data);
-			handleError(data, "Couldn't load the summoners in the current game. Looks like we still have bugs to squish.");
-		}
-	);
+		)
+	}
+	
+//	getSummoners(currentGame.participants).then(
+//		function success(data) {
+//			//sort data properly
+//			for (var j = 0; j < currentGame.participants.length; j++) {
+//				for (var i = 0; i < data.length; i++) {
+//					if (currentGame.participants[j].summonerName == data[i].name) {
+//						summonersUsername.push(data[i].name);
+//						summonersAccountId.push(data[i].accountId);
+//						summonersSummonerId.push(data[i].id);
+//						break;
+//					}
+//				}
+//			}
+//
+//			//run next async function
+//			if (runList[index + 1]) {
+//				runList[index + 1](runList, index + 1);
+//			}
+//		},
+//		function fail(data) {
+//			console.log("fail: " + data);
+//			handleError(data, "Couldn't load the summoners in the current game. Looks like we still have bugs to squish.");
+//		}
+//	);
 }
 
 //Load all the users matchlists
@@ -265,10 +292,11 @@ function loadMatchLists(runList, index) {
 			function success(data) {
 				matchLists[i] = data.matches;
 				totalLoaded++;
+				percentDone = 10 + 10 * totalLoaded / (summonersUsername.length * matchHistoryLength);
+					document.getElementById("loadingBar").style.width = percentDone + "%";
 				//last one complete
 				if (totalLoaded == summonersAccountId.length) {
 					console.log(matchLists);
-					console.log("finished");
 					if (runList[index + 1]) {
 						runList[index + 1](runList, index + 1);
 					}
@@ -320,7 +348,7 @@ function loadMatches(runList, index) {
 				function success(data) {
 					matches[i][j] = data;
 					totalLoaded++;
-					percentDone = 100 * totalLoaded / (summonersUsername.length * matchHistoryLength);
+					percentDone = 20 + 60 * totalLoaded / (summonersUsername.length * matchHistoryLength);
 					document.getElementById("loadingBar").style.width = percentDone + "%";
 					//last one complete
 					if (totalLoaded == matchLists.length * matchHistoryLength) {
@@ -432,6 +460,8 @@ function loadMastery(runList, index) {
 			function success(data) {
 				summonersMastery[i] = data;
 				totalLoaded++;
+				percentDone = 80 + 10 * totalLoaded / (summonersUsername.length * matchHistoryLength);
+				document.getElementById("loadingBar").style.width = percentDone + "%";
 				//last one complete
 				if (totalLoaded == summonersSummonerId.length) {
 					console.log(summonersMastery);
@@ -474,10 +504,11 @@ function loadLeague(runList, index) {
 			function success(data) {
 				summonersLeague[i] = data;
 				totalLoaded++;
+				percentDone = 90 + 10 * totalLoaded / (summonersUsername.length * matchHistoryLength);
+				document.getElementById("loadingBar").style.width = percentDone + "%";
 				//last one complete
 				if (totalLoaded == summonersSummonerId.length) {
 					console.log(summonersLeague);
-					console.log("finished");
 					if (runList[index + 1]) {
 						runList[index + 1](runList, index + 1);
 					}
@@ -953,38 +984,26 @@ function getCurrentGame(summonerId, asynch = true) {
 
 
 //Load the summoners from currentGame
-function getSummoners(summoners, asynch = true) {
-	//set theSummoners to an array of summoners from the current game
-	var theSummoners = [];
-	for (var i = 0; i < summoners.length; i++) {
-		theSummoners.push(summoners[i].summonerName);
-	}
-	var completeSummoners = [];
-	console.log(theSummoners);
+function getSummoners(summoner, asynch = true) {
 	var promiseObj = new Promise(function (resolve, reject) {
-		for (var i = 0; i < theSummoners.length; i++) {
-			var username = theSummoners[i];
-			$.ajax({
-				async: asynch,
-				url: '/summonerByName',
-				data: {
-					"username": username,
-					"region": getQuery("region")
-				},
-				success: function (data) {
-					if (data.error == null) {
-						completeSummoners.push(data);
-						if (completeSummoners.length == summoners.length)
-							resolve(completeSummoners);
-					} else {
-						reject(data.error);
-					}
-				},
-				error: function () {
-					console.log("Oops! Ajax messed up.");
+		$.ajax({
+			async: asynch,
+			url: '/summonerByName',
+			data: {
+				"username": summoner,
+				"region": getQuery("region")
+			},
+			success: function (data) {
+				if (data.error == null) {
+					resolve(data);
+				} else {
+					reject(data.error);
 				}
-			});
-		}
+			},
+			error: function () {
+				console.log("Oops! Ajax messed up.");
+			}
+		});
 	});
 	return promiseObj;
 }
