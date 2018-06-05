@@ -41,20 +41,43 @@ var matchesLoaded = 0;
 //async function list
 var runList = [
 	loadUser,
+	timeComp,
 	loadCurrentGame,
+	timeComp,
 	loadChampList,
+	timeComp,
 	loadSummoners,
+	timeComp,
 	loadMatchLists,
+	timeComp,
 	loadMatches,
+	timeComp,
 	loadStats,
+	timeComp,
 	loadMastery,
+	timeComp,
 	loadLeague,
+	timeComp,
 	processData,
-	loadDisplay
+	timeComp,
+	loadDisplay,
+	timeComp
 ];
+
+var timeCompare = Date.now();
 
 //run first async item
 runList[0](runList, 0);
+
+function timeComp(runList, index) {
+	current = Date.now();
+	console.log(current - timeCompare);
+	timeCompare = Date.now();
+	//run next async function
+	if (runList[index + 1]) {
+		runList[index + 1](runList, index + 1);
+	}
+}
 
 
 
@@ -234,22 +257,46 @@ function loadSummoners(runList, index) {
 
 //Load all the users matchlists
 function loadMatchLists(runList, index) {
-	getMatchLists(summonersAccountId).then(
-		function success(data) {
-			for (var i = 0; i < data.length; i++) {
-				matchLists.push(data[i].matches);
+	
+	var totalLoaded = 0;
+	
+	for (let i = 0; i < summonersAccountId.length; i++) {
+		getMatchLists(summonersAccountId[i]).then(
+			function success(data) {
+				matchLists[i] = data.matches;
+				totalLoaded++;
+				//last one complete
+				if (totalLoaded == summonersAccountId.length) {
+					console.log(matchLists);
+					console.log("finished");
+					if (runList[index + 1]) {
+						runList[index + 1](runList, index + 1);
+					}
+				}
+			},
+			function fail(data) {
+				console.log("fail: " + data);
+				handleError(data, "Failed to load players' matchlists. Looks like you found a bug.");
 			}
-			console.log(matchLists);
-			//run next async function
-			if (runList[index + 1]) {
-				runList[index + 1](runList, index + 1);
-			}
-		},
-		function fail(data) {
-			console.log("fail: " + data);
-			handleError(data, "Failed to load players' matchlists. Looks like you found a bug.");
-		}
-	);
+		);
+	}
+	
+//	getMatchLists(summonersAccountId).then(
+//		function success(data) {
+//			for (var i = 0; i < data.length; i++) {
+//				matchLists.push(data[i].matches);
+//			}
+//			console.log(matchLists);
+//			//run next async function
+//			if (runList[index + 1]) {
+//				runList[index + 1](runList, index + 1);
+//			}
+//		},
+//		function fail(data) {
+//			console.log("fail: " + data);
+//			handleError(data, "Failed to load players' matchlists. Looks like you found a bug.");
+//		}
+//	);
 }
 
 //Load all the users matches
@@ -269,17 +316,14 @@ function loadMatches(runList, index) {
 	
 	for (let i = 0; i < summonersAccountId.length; i++) {
 		for (let j = 0; j < matchHistoryLength; j++) {
-			getMatch(matchLists[i][j].gameId, i, j).then(
+			getMatch(matchLists[i][j].gameId).then(
 				function success(data) {
 					matches[i][j] = data;
 					totalLoaded++;
 					percentDone = 100 * totalLoaded / (summonersUsername.length * matchHistoryLength);
-					console.log(percentDone);
 					document.getElementById("loadingBar").style.width = percentDone + "%";
 					//last one complete
 					if (totalLoaded == matchLists.length * matchHistoryLength) {
-						console.log(matches);
-						console.log("finished");
 						if (runList[index + 1]) {
 							runList[index + 1](runList, index + 1);
 						}
@@ -380,41 +424,88 @@ function loadMastery(runList, index) {
 	for (var i = 0; i < currentGame.participants.length; i++) {
 		summonersChampIds.push(currentGame.participants[i].championId);
 	}
-	getMastery(summonersSummonerId,summonersChampIds).then(
-		function success(data) {
-			console.log(data);
-			summonersMastery = data;
-
-			//run next async function
-			if (runList[index + 1]) {
-				runList[index + 1](runList, index + 1);
+	
+	var totalLoaded = 0;
+	
+	for (let i = 0; i < summonersSummonerId.length; i++) {
+		getMastery(summonersSummonerId[i],summonersChampIds[i]).then(
+			function success(data) {
+				summonersMastery[i] = data;
+				totalLoaded++;
+				//last one complete
+				if (totalLoaded == summonersSummonerId.length) {
+					console.log(summonersMastery);
+					if (runList[index + 1]) {
+						runList[index + 1](runList, index + 1);
+					}
+				}
+			},
+			function fail(data) {
+				console.log("fail: " + data);
+				handleError(data, "Failed to load players' champion masteries. Looks like you found a bug!");
 			}
-		},
-		function fail(data) {
-			console.log("fail: " + data);
-			handleError(data, "Failed to load players' champion masteries. Looks like you found a bug!");
-		}
-	);
+		);
+	}
+	
+//	getMastery(summonersSummonerId,summonersChampIds).then(
+//		function success(data) {
+//			console.log(data);
+//			summonersMastery = data;
+//
+//			//run next async function
+//			if (runList[index + 1]) {
+//				runList[index + 1](runList, index + 1);
+//			}
+//		},
+//		function fail(data) {
+//			console.log("fail: " + data);
+//			handleError(data, "Failed to load players' champion masteries. Looks like you found a bug!");
+//		}
+//	);
 }
 
 //Load summoner ranked league stats
 function loadLeague(runList, index) {
-	getLeague(summonersSummonerId).then(
-		function success(data) {
-			console.log(data);
-			
-			summonersLeague = data;
-
-			//run next async function
-			if (runList[index + 1]) {
-				runList[index + 1](runList, index + 1);
+	
+	var totalLoaded = 0;
+	
+	for (let i = 0; i < summonersSummonerId.length; i++) {
+		getLeague(summonersSummonerId[i]).then(
+			function success(data) {
+				summonersLeague[i] = data;
+				totalLoaded++;
+				//last one complete
+				if (totalLoaded == summonersSummonerId.length) {
+					console.log(summonersLeague);
+					console.log("finished");
+					if (runList[index + 1]) {
+						runList[index + 1](runList, index + 1);
+					}
+				}
+			},
+			function fail(data) {
+				console.log("fail: " + data);
+				handleError(data, "Failed to load players' ranked data. Looks like you found a bug!");
 			}
-		},
-		function fail(data) {
-			console.log("fail: " + data);
-			handleError(data, "Failed to load players' ranked data. Looks like you found a bug!");
-		}
-	);
+		);
+	}
+	
+//	getLeague(summonersSummonerId).then(
+//		function success(data) {
+//			console.log(data);
+//			
+//			summonersLeague = data;
+//
+//			//run next async function
+//			if (runList[index + 1]) {
+//				runList[index + 1](runList, index + 1);
+//			}
+//		},
+//		function fail(data) {
+//			console.log("fail: " + data);
+//			handleError(data, "Failed to load players' ranked data. Looks like you found a bug!");
+//		}
+//	);
 }
 
 //Process all the data that has been collected
@@ -899,40 +990,26 @@ function getSummoners(summoners, asynch = true) {
 }
 
 //Load matchlist by accoundId
-function getMatchLists(accountIds, asynch = true) {
-	var completeMatchLists = [];
-	console.log(accountIds);
+function getMatchLists(accountId, asynch = true) {
 	var promiseObj = new Promise(function (resolve, reject) {
-		var i = 0;
-		myLoop();
-		function myLoop() {
-			var theAccountId = accountIds[i];
-			$.ajax({
-				async: asynch,
-				url: '/matchList',
-				data: {
-					"accountId": theAccountId,
-					"region": getQuery("region")
-				},
-				success: function (data) {
-					if (data.error == null) {
-						completeMatchLists.push(data);
-						if (completeMatchLists.length == accountIds.length) {
-							console.log(completeMatchLists);
-							resolve(completeMatchLists);
-						} else {
-							i++;
-							myLoop();
-						}
-					} else {
-						reject(data.error);
-					}
-				},
-				error: function () {
-					console.log("Oops! Ajax messed up.");
+		$.ajax({
+			async: asynch,
+			url: '/matchList',
+			data: {
+				"accountId": accountId,
+				"region": getQuery("region")
+			},
+			success: function (data) {
+				if (data.error == null) {
+					resolve(data);
+				} else {
+					reject(data.error);
 				}
-			});
-		}
+			},
+			error: function () {
+				console.log("Oops! Ajax messed up.");
+			}
+		});
 	});
 	return promiseObj;
 }
@@ -987,87 +1064,54 @@ function getStats(champList, asynch = true) {
 }
 
 //Load the mastery of summoner's champs from currentGame
-function getMastery(summonerIds, champions, asynch = true) {
-	var completeMasteries = [];
+function getMastery(summonerId, championId, asynch = true) {
 	var promiseObj = new Promise(function (resolve, reject) {
-		var i = 0;
-		myLoop();
-		function myLoop() {
-			var sumId = summonerIds[i];
-			var champion = champions[i];
-			$.ajax({
-				async: asynch,
-				url: '/getMastery',
-				data: {
-					"summonerId": sumId,
-					"championId": champion,
-					"region": getQuery("region")
-				},
-				success: function (data) {
-						if (data.error == null) {
-							completeMasteries.push(data);
-							if (completeMasteries.length == summonerIds.length) {
-								resolve(completeMasteries);
-							} else {
-								i++;
-								myLoop();
-							}
-						} else {
-							if (data.error == '404') {
-								completeMasteries.push(data);
-								if (completeMasteries.length == summonerIds.length) {
-									resolve(completeMasteries);
-								} else {
-									i++;
-									myLoop();
-								}
-							} else {
-								reject(data.error);
-							}
-						}
-				},
-				error: function () {
-					console.log("Oops! Ajax messed up.");
+		$.ajax({
+			async: asynch,
+			url: '/getMastery',
+			data: {
+				"summonerId": summonerId,
+				"championId": championId,
+				"region": getQuery("region")
+			},
+			success: function (data) {
+				if (data.error == null) {
+					resolve(data);
+				} else if (data.error == "404") {
+					resolve(data);
+				} else {
+					reject(data.error);
 				}
-			});
-		}
+			},
+			error: function () {
+				console.log("Oops! Ajax messed up.");
+			}
+		});
 	});
 	return promiseObj;
 }
 
 //Load the league stats of summoners
-function getLeague(summonerIds, asynch = true) {
-	var completeLeagues = [];
+function getLeague(summonerId, asynch = true) {
 	var promiseObj = new Promise(function (resolve, reject) {
-		var i = 0;
-		myLoop();
-		function myLoop() {
-			var sumId = summonerIds[i];
-			$.ajax({
-				async: asynch,
-				url: '/getLeague',
-				data: {
-					"summonerId": sumId,
-					"region": getQuery("region")
-				},
-				success: function (data) {
-					if (data.error == null) {
-						completeLeagues.push(data);
-						if (completeLeagues.length == summonerIds.length) {
-							resolve(completeLeagues);
-						} else {
-							i++;
-							myLoop();
-						}
-					} else {
-						reject(data.error);
-					}
-				},
-				error: function () {
-					console.log("Oops! Ajax messed up.");
+		$.ajax({
+			async: asynch,
+			url: '/getLeague',
+			data: {
+				"summonerId": summonerId,
+				"region": getQuery("region")
+			},
+			success: function (data) {
+				if (data.error == null) {
+					resolve(data);
+				} else {
+					reject(data.error);
 				}
-			});
-		}
+			},
+			error: function () {
+				console.log("Oops! Ajax messed up.");
+			}
+		});
 	});
 	return promiseObj;
 }

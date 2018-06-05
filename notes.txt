@@ -10,6 +10,8 @@
 
 ~~~6. Calculate each player's losing streak.
 
+7. Optimize loadMatchLists, loadMastery, loadLeague. Make synchronous like loadMatches.
+
 
 #35daff #ff3333
 
