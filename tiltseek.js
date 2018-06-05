@@ -239,7 +239,7 @@ function loadSummoners(runList, index) {
 				summonersAccountId[i] = data.accountId;
 				summonersSummonerId[i] = data.id;
 				totalLoaded++;
-				percentDone = 10 * totalLoaded / (summonersUsername.length * matchHistoryLength);
+				percentDone = 10 * totalLoaded / summonersUsername.length;
 				document.getElementById("loadingBar").style.width = percentDone + "%";
 				//last one complete
 				if (totalLoaded == currentGame.participants.length) {
@@ -292,7 +292,7 @@ function loadMatchLists(runList, index) {
 			function success(data) {
 				matchLists[i] = data.matches;
 				totalLoaded++;
-				percentDone = 10 + 10 * totalLoaded / (summonersUsername.length * matchHistoryLength);
+				percentDone = 10 + 10 * totalLoaded / summonersUsername.length;
 					document.getElementById("loadingBar").style.width = percentDone + "%";
 				//last one complete
 				if (totalLoaded == summonersAccountId.length) {
@@ -460,7 +460,7 @@ function loadMastery(runList, index) {
 			function success(data) {
 				summonersMastery[i] = data;
 				totalLoaded++;
-				percentDone = 80 + 10 * totalLoaded / (summonersUsername.length * matchHistoryLength);
+				percentDone = 80 + 10 * totalLoaded / summonersUsername.length;
 				document.getElementById("loadingBar").style.width = percentDone + "%";
 				//last one complete
 				if (totalLoaded == summonersSummonerId.length) {
@@ -504,7 +504,7 @@ function loadLeague(runList, index) {
 			function success(data) {
 				summonersLeague[i] = data;
 				totalLoaded++;
-				percentDone = 90 + 10 * totalLoaded / (summonersUsername.length * matchHistoryLength);
+				percentDone = 90 + 10 * totalLoaded / summonersUsername.length;
 				document.getElementById("loadingBar").style.width = percentDone + "%";
 				//last one complete
 				if (totalLoaded == summonersSummonerId.length) {
