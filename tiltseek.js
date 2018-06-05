@@ -227,18 +227,7 @@ function loadSummoners(runList, index) {
 		},
 		function fail(data) {
 			console.log("fail: " + data);
-			if (data == 400) {
-				console.log("Bad request");
-			}
-			if (data == 429) {
-				console.log("Rate limit exceeded");
-			}
-			if (data == 503) {
-				console.log("Rito servers ded");
-			}
-			if (data == 404) {
-				console.log("Couldn't find all summoners in game");
-			}
+			handleError(data, "Couldn't load the summoners in the current game. Looks like we still have bugs to squish.");
 		}
 	);
 }
@@ -276,46 +265,74 @@ function loadMatches(runList, index) {
 		}
 	}
 	
-	//loop through all users and their matches
-	var i = 0;
-	var j = 0;
-	myLoop(runList, index);
-	function myLoop(runList, index) {
-		console.log(i + "   " + j);
-		getMatch(matchLists[i][j].gameId).then(
-			function success(data) {
-				matchesLoaded++;
-				percentDone = 100 * matchesLoaded / (summonersUsername.length * matchHistoryLength);
-				document.getElementById("loadingBar").style.width = percentDone + "%";
-				matches[i].push(data);
-				if (j < matchHistoryLength - 1) {
-					j++;
-					if (matchLists[i][j]) {
-						myLoop(runList, index);
-					} else {
-						matchesLoaded += (matchHistoryLength - j);
-						i++;
-						j = 0;
-						myLoop(runList, index);
+	var totalLoaded = 0;
+	
+	for (let i = 0; i < summonersAccountId.length; i++) {
+		for (let j = 0; j < matchHistoryLength; j++) {
+			getMatch(matchLists[i][j].gameId, i, j).then(
+				function success(data) {
+					matches[i][j] = data;
+					totalLoaded++;
+					percentDone = 100 * totalLoaded / (summonersUsername.length * matchHistoryLength);
+					console.log(percentDone);
+					document.getElementById("loadingBar").style.width = percentDone + "%";
+					//last one complete
+					if (totalLoaded == matchLists.length * matchHistoryLength) {
+						console.log(matches);
+						console.log("finished");
+						if (runList[index + 1]) {
+							runList[index + 1](runList, index + 1);
+						}
 					}
-				} else if (i < matchLists.length - 1 && j >= matchHistoryLength - 1) {
-					i++;
-					j = 0;
-					myLoop(runList, index);
-				} else if (i >= matchLists.length - 1 && j >= matchHistoryLength - 1) {
-					console.log(matches);
-					//run next async function
-					if (runList[index + 1]) {
-						runList[index + 1](runList, index + 1);
-					}
+				},
+				function fail(data) {
+					console.log("fail: " + data);
+					handleError(data, "Failed to load players' historical matches. Looks like you found a bug!");
 				}
-			},
-			function fail(data) {
-				console.log("fail: " + data);
-				handleError(data, "Failed to load players' historical matches. Looks like you found a bug!");
-			}
-		);
+			);
+		}
 	}
+	
+	//loop through all users and their matches
+//	var i = 0;
+//	var j = 0;
+//	myLoop(runList, index);
+//	function myLoop(runList, index) {
+//		console.log(i + "   " + j);
+//		getMatch(matchLists[i][j].gameId).then(
+//			function success(data) {
+//				matchesLoaded++;
+//				percentDone = 100 * matchesLoaded / (summonersUsername.length * matchHistoryLength);
+//				document.getElementById("loadingBar").style.width = percentDone + "%";
+//				matches[i].push(data);
+//				if (j < matchHistoryLength - 1) {
+//					j++;
+//					if (matchLists[i][j]) {
+//						myLoop(runList, index);
+//					} else {
+//						matchesLoaded += (matchHistoryLength - j);
+//						i++;
+//						j = 0;
+//						myLoop(runList, index);
+//					}
+//				} else if (i < matchLists.length - 1 && j >= matchHistoryLength - 1) {
+//					i++;
+//					j = 0;
+//					myLoop(runList, index);
+//				} else if (i >= matchLists.length - 1 && j >= matchHistoryLength - 1) {
+//					console.log(matches);
+//					//run next async function
+//					if (runList[index + 1]) {
+//						runList[index + 1](runList, index + 1);
+//					}
+//				}
+//			},
+//			function fail(data) {
+//				console.log("fail: " + data);
+//				handleError(data, "Failed to load players' historical matches. Looks like you found a bug!");
+//			}
+//		);
+//	}
 }
 
 //Load stats data for champs in current game and historical matches
