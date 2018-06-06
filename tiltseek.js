@@ -361,10 +361,8 @@ function loadMatches(runList, index) {
 	}
 	
 	Promise.all(promises).then(() => {
-		if (totalLoaded == matchLists.length * matchHistoryLength || totalLoaded == matchLists[i].length) {
-			if (runList[index + 1]) {
-				runList[index + 1](runList, index + 1);
-			}
+		if (runList[index + 1]) {
+			runList[index + 1](runList, index + 1);
 		}
 	});
 	
