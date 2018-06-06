@@ -21,7 +21,7 @@
   <div id="loader" class="preloader-1">
     <div class="loading">Finding Victims</div>
     <span class="line line-1"></span> <span class="line line-2"></span> <span class="line line-3"></span> <span class="line line-4"></span> <span class="line line-5"></span> <span class="line line-6"></span> <span class="line line-7"></span> <span class="line line-8"></span> <span class="line line-9"></span> <span class="line line-10"></span> <span class="line line-11"></span> <span class="line line-12"></span> <span class="line line-13"></span> <span class="line line-14"></span> <span class="line line-15"></span> <span class="line line-16"></span> <span class="line line-17"></span>
-  	<div id="loadingBar" class="loadingBar"></div>
+  	<div class="loadingBar" id="loadingBar"></div>
   </div>
 
   <div class="fadeIn" id="fadeIn">
@@ -35,42 +35,74 @@
         </middle>
       </namecontainer>
       <hr noshade width="80%" color="#1C1C1C">
-      <div class="stats"> Losing Streak:
+      <div class="stats">
+       	
+       	<span class="tooltip">
+       	Losing Streak:
         <div class="losingStreak"> 3 </div>
+        <span class="tooltiptext">0-20<hr style="width: 90%; opacity: 0.3;"><span style="margin: 0 10px; text-align: left; display: block;">The number of consecutive Summoner's Rift losses in a row with no more than 3 hours between losses.</span></span>
+        </span>
+        
         <hr noshade width="60%" color="#6E6E6E" style="height:1px;border:none;">
         <div class="statsDivider"></div>
+        
+        <span class="tooltip">
         Winrate:
         <div class="winrate"> 53.7% </div>
+        <span class="tooltiptext">0-100%<hr style="width: 90%; opacity: 0.3;"><span style="margin: 0 10px; text-align: left; display: block;">The player's ranked winrate. Only displays if 30+ ranked games have been played.</span></span>
+        </span>
+        
         <hr noshade width="60%" color="#6E6E6E" style="height:1px;border:none;">
         <div class="statsDivider"></div>
+        
+        <span class="tooltip">
         Mastery Points:
         <div class="mastery"> 1000000 </div>
+        <span class="tooltiptext">0-∞<hr style="width: 90%; opacity: 0.3;"><span style="margin: 0 10px; text-align: left; display: block;">The player's mastery points on the champion that they are playing.</span></span>
+        </span>
+        
         <hr noshade width="60%" color="#6E6E6E" style="height:1px;border:none;">
         <div class="statsDivider"></div>
+        
+        <span class="tooltip">
         Last Played:
         <div class="daysSincePlayed"> 13 days </div>
+        <span class="tooltiptext">0-∞ days ago<hr style="width: 90%; opacity: 0.3;"><span style="margin: 0 10px; text-align: left; display: block;">How many days since a player last played the champion they are currently playing.</span></span>
+        </span>
+        
         <hr noshade width="60%" color="#6E6E6E" style="height:1px;border:none;">
         <div class="statsDivider"></div>
+        
+        <span class="tooltip">
         Aggressiveness:
         <div class="aggressiveness"> 56.3% </div>
+        <span class="tooltiptext">0-100%<hr style="width: 90%; opacity: 0.3;"><span style="margin: 0 10px; text-align: left; display: block;">A player's typical aggressiveness compared to other players on the same champions. A higher score means they tend to try to fight a lot.</span></span>
+        </span>
+        
         <hr noshade width="60%" color="#6E6E6E" style="height:1px;border:none;">
-        <div class="statsDivider"></div>
-        <span class="ward">
+		<div class="statsDivider"></div>
+        
+        <span class="tooltip">
         Warding:
         <div class="warding"> 74.2% </div>
-        <div class="statsDivider"></div>
-        <span class="tooltiptext">Tooltip text</span>
+        <span class="tooltiptext">0-100%<hr style="width: 90%; opacity: 0.3;"><span style="margin: 0 10px; text-align: left; display: block;">A player's typical warding compared to other players on the same champions. A higher score means better warding.</span></span>
         </span>
+        
+        <div class="statsDivider"></div>
+        
       </div>
       <hr noshade width="80%" color="#1C1C1C">
-      <div class="campScore"> 87 </div>
+      <span class="tooltip">
+      <div class="campScore"> 0 </div>
+      <span class="tooltiptextabove" style="width: 25%; margin-left: -12.5%; transform: translateY(calc(-100% - 44px));">0-100<hr style="width: 90%; opacity: 0.3;"><span style="margin: 0 10px; text-align: left; display: block;">An overall estimate of how beneficial it would be to camp this champion. Scores above 40 are good targets. Scores above 50 are likely extremely tilted and should be camped hard.</span></span>
+      </span>
       <div class="statsDivider"></div>
     </div>
   </template>
   
   <template>
     <div class="damageBar">
-      <div class="magic">Magic</div><div class="physical">Physical</div><div class="true">T</div>
+      <span class="tooltip"><div class="magic">Magic</div><div class="physical">Physical</div><div class="true">T</div><span id="tooltipmagic" class="tooltiptext" style="width: 200px; margin-left: calc(20vw - 100px); margin-top: 3px; display: block; white-space: pre;">0-100%</span></span>
     </div>
   </template>
   

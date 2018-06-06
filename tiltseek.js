@@ -341,29 +341,32 @@ function loadMatches(runList, index) {
 	}
 	
 	var totalLoaded = 0;
+	var promises = [];
 	
 	for (let i = 0; i < summonersAccountId.length; i++) {
-		for (let j = 0; j < matchHistoryLength; j++) {
-			getMatch(matchLists[i][j].gameId).then(
+		for (let j = 0; j < matchHistoryLength && j < matchLists[i].length; j++) {
+			promises.push(getMatch(matchLists[i][j].gameId).then(
 				function success(data) {
 					matches[i][j] = data;
 					totalLoaded++;
 					percentDone = 20 + 60 * totalLoaded / (summonersUsername.length * matchHistoryLength);
 					document.getElementById("loadingBar").style.width = percentDone + "%";
-					//last one complete
-					if (totalLoaded == matchLists.length * matchHistoryLength) {
-						if (runList[index + 1]) {
-							runList[index + 1](runList, index + 1);
-						}
-					}
 				},
 				function fail(data) {
 					console.log("fail: " + data);
 					handleError(data, "Failed to load players' historical matches. Looks like you found a bug!");
 				}
-			);
+			));
 		}
 	}
+	
+	Promise.all(promises).then(() => {
+		if (totalLoaded == matchLists.length * matchHistoryLength || totalLoaded == matchLists[i].length) {
+			if (runList[index + 1]) {
+				runList[index + 1](runList, index + 1);
+			}
+		}
+	});
 	
 	//loop through all users and their matches
 //	var i = 0;
@@ -431,6 +434,7 @@ function loadStats(runList, index) {
 			}
 		}
 	}
+	console.log(champIds);
 	getStats(champIds).then(
 		function success(data) {
 			console.log(data);
@@ -617,7 +621,6 @@ function processData(runList, index) {
 		//set timeSincePlayed to 10000 if no mastery is found
 		if (isNaN(timeSincePlayed[i])) { timeSincePlayed[i] = 10000;}
 	}
-	
 	//calculate aggressiveness
 	for (var i = 0; i < matches.length; i++) {
 		var totalPlayerInteraction = 0; //total player kills + deaths + assists in game history
@@ -816,6 +819,7 @@ function loadDisplay(runList, index) {
 	a.querySelectorAll("div")[0].style.width = 100*magicDmg/totalDmg + "%";
 	a.querySelectorAll("div")[1].style.width = 100*physicalDmg/totalDmg + "%";
 	a.querySelectorAll("div")[2].style.width = 100*trueDmg/totalDmg + "%";
+	a.querySelectorAll("span")[1].textContent = "Magic: " + Math.round(1000*magicDmg/totalDmg)/10 + "%" + "\r\n" + "Physical: " + Math.round(1000*physicalDmg/totalDmg)/10 + "%" + "\r\n" + "True: " + Math.round(1000*trueDmg/totalDmg)/10 + "%";
 	document.getElementById("damageBar1").appendChild(a);
 	
 	//Second team bar
@@ -833,6 +837,7 @@ function loadDisplay(runList, index) {
 	a.querySelectorAll("div")[0].style.width = 100*magicDmg/totalDmg + "%";
 	a.querySelectorAll("div")[1].style.width = 100*physicalDmg/totalDmg + "%";
 	a.querySelectorAll("div")[2].style.width = 100*trueDmg/totalDmg + "%";
+	a.querySelectorAll("span")[1].textContent = "Magic: " + Math.round(1000*magicDmg/totalDmg)/10 + "%" + "\r\n" + "Physical: " + Math.round(1000*physicalDmg/totalDmg)/10 + "%" + "\r\n" + "True: " + Math.round(1000*trueDmg/totalDmg)/10 + "%";
 	document.getElementById("damageBar2").appendChild(a);
 	
 	function loadChampDisplay(theElement) {
@@ -899,6 +904,7 @@ function loadDisplay(runList, index) {
 	for (var i = currentGame.participants.length/2; i < currentGame.participants.length; i++) {
 		loadChampDisplay("displayBox2");
 	}
+	
 	
 	
 	//set visible
