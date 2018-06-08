@@ -10,12 +10,10 @@
 
 ~~~6. Calculate each player's losing streak.
 
-7. Optimize loadMatchLists, loadMastery, loadLeague. Make synchronous like loadMatches.
+~~~7. Optimize loadMatchLists, loadMastery, loadLeague. Make synchronous like loadMatches.
 
+8. Calculate maximum memory use. Adjust match analysis limit.
 
-#35daff #ff3333
-
-text-shadow: 0px 0px 5px #575757;
 
 
 Slogan
