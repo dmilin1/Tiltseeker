@@ -78,7 +78,7 @@
 
 .navbar {
 	list-style-type: none;
-    margin: 0;
+    margin: -10px 10px;
     padding: 0;
     overflow: hidden;
     background-color: #333;
@@ -86,7 +86,8 @@
 	position: -webkit-sticky; /* Safari */
 	top: 0;
 	font-family: Roboto, Tahoma;
-	border-radius: 10px;
+	border-radius: 0px 0px 10px 10px;
+	z-index: 1;
 }
 
 .navbar li a{
@@ -97,6 +98,7 @@
 	text-align: center;
 	text-decoration: none;
 	float:left;
+	transition: background-color 100ms linear;
 }
 
 .navbar li a:hover {

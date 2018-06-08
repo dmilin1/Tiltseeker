@@ -13,7 +13,7 @@
 
 .navbar {
 	list-style-type: none;
-    margin: 0;
+    margin: -10px 10px;
     padding: 0;
     overflow: hidden;
     background-color: #333;
@@ -21,7 +21,7 @@
 	position: -webkit-sticky; /* Safari */
 	top: 0;
 	font-family: Roboto, Tahoma;
-	border-radius: 10px;
+	border-radius: 0px 0px 10px 10px;
 	z-index: 1;
 }
 
@@ -33,6 +33,7 @@
 	text-align: center;
 	text-decoration: none;
 	float:left;
+	transition: background-color 100ms linear;
 }
 
 .navbar li a:hover {
@@ -50,7 +51,7 @@
 
 
 .tooltip .tooltiptext {
-    visibility: hidden;
+    opacity: 0;
     background-color: #030303;
     color: #f1f1f1;
     text-align: center;
@@ -58,7 +59,6 @@
     border-radius: 6px;
 	border-color: #828282;
     border-style: solid;
-	opacity: 0.93;
 	font-size: 13px;
 	line-height: 1.3;
 	font-family: Roboto, Tahoma;
@@ -73,7 +73,8 @@
 }
 
 .tooltip:hover .tooltiptext {
-    visibility: visible;
+    opacity: 0.93;
+	transition: opacity 200ms;
 }
 
 .tooltip .tooltiptext::after {
