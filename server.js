@@ -280,6 +280,7 @@ function loadStats() {
 				awsLoaded = true;
 				console.log(getMemory() + "AWS loaded");
 				calcAvgStats();
+				analyzedIds = stats.matchIds;
 			}
 		});
 	}
