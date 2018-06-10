@@ -383,8 +383,17 @@ middle {
 	background: #585858;
 	font-family: Tahoma;
 	border-radius: 5px;
+	outline: none;
+	border: 2px solid #c2c2c2;
 }
 
+.textInput:focus {
+	border-color: #DFDFDF;
+}
+
+.textInput::selection {
+	background: #9eb2bb;
+}
 
 .preloader-1 {
   margin: 100px auto 0;

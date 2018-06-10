@@ -86,9 +86,9 @@ cron.schedule('10 0 * * *', function () {
 	calcAvgStats();
 });
 
-//check if queued matches is too long and needs to be analyzed early every 1 minute
+//check if queued matches is too long and needs to be analyzed early every 20 seconds
 //matches are 0.05 MB each
-cron.schedule('*/1 * * * *', function () {
+cron.schedule('*/20 * * * * *', function () {
 	if (queuedMatches.length > 10) {
 		analyzeMatches(true);
 	}
