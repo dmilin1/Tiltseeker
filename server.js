@@ -279,6 +279,7 @@ function loadStats() {
 				stats = JSON.parse(rawdata);
 				awsLoaded = true;
 				console.log(getMemory() + "AWS loaded");
+				calcAvgStats();
 			}
 		});
 	}

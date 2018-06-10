@@ -665,6 +665,7 @@ function processData(runList, index) {
 			interaction += matches[i][j].participants[participant].stats.deaths;
 			interaction += matches[i][j].participants[participant].stats.assists;
 			//champion average
+			console.log(stats);
 			avgInteraction += stats[matches[i][j].participants[participant].championId].kills/stats[matches[i][j].participants[participant].championId].total;
 			avgInteraction += stats[matches[i][j].participants[participant].championId].deaths/stats[matches[i][j].participants[participant].championId].total;;
 			avgInteraction += stats[matches[i][j].participants[participant].championId].assists/stats[matches[i][j].participants[participant].championId].total;;
