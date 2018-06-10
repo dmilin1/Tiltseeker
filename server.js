@@ -9,18 +9,25 @@ var querystring = require('querystring');
 var async = require('async');
 var cron = require('node-cron');
 var fs = require('fs');
+var AWS = require('aws-sdk');
 
 //express module setup for calls
 var app = express();
 app.use(express.static(__dirname + '/'));
 app.set('view engine', 'html');
 
-
+//set AWS credentials
+var s3 = new AWS.S3({
+	accessKeyId: process.env.AWSACCESSKEYID,
+	secretAccessKey: process.env.AWSSECRETACCESSKEY,
+});
 
 //set variables
 var apikey = process.env.RIOTTILTSEEKERAPIKEY;
 console.log(apikey);
 var regions = ["na1", "euw1", "eun1", "br1", "tr1", "ru", "la1", "la2", "oc1", "kr", "jp1"];
+var awsLoaded = false;
+
 
 //sets up and loads the static champ data from file
 var staticChampData = [{}];
@@ -75,11 +82,15 @@ cron.schedule('*/15 * * * *', function () {
 //});
 
 
-//analyze and save queued matches every 24 hours
-cron.schedule('0 0 * * *', function () {
-	analyzeMatches();
+//save stats to AWS once an hour if stats have been previously loaded
+cron.schedule('0 * * * *', function () {
+	saveStats();
 });
 
+//if stats failed to load, retries once an hour
+cron.schedule('30 * * * *', function () {
+	loadStats();
+});
 
 //recalculate average stats every 24 hours
 cron.schedule('10 0 * * *', function () {
@@ -252,13 +263,48 @@ function writeSavedMatches(region) {
 }
 
 
-//loads file data into stats variable
+//loads stats from AWS
 function loadStats() {
-	var rawdata = fs.readFileSync('stats/statsData.json');
-	stats = JSON.parse(rawdata);	
+	if (!awsLoaded) {
+		var params = {
+			Bucket: "tiltseeker",
+			Key: "statsData.json",
+		};
+
+		s3.getObject(params, function (err, data) {
+			if (err) {
+				console.log(err, err.stack);
+			} else {
+				var rawdata = data.Body.toString();
+				stats = JSON.parse(rawdata);
+				awsLoaded = true;
+				console.log(getMemory() + "AWS loaded");
+			}
+		});
+	}
 }
 
-
+//saves stats to AWS
+function saveStats() {
+	if (awsLoaded) {
+		
+		var stream = fs.createReadStream("/stats/statsData.json");
+		var params = {
+			Bucket: "tiltseeker",
+			Key: "statsData.json",
+			Body: stream,
+		};
+		
+		s3.upload(params, function(err, data) {
+			if (err) {
+				console.log(getMemory() + "AWS error:" + err);
+			} else {
+				console.log(getMemory() + "AWS saved");
+			}
+		});
+		
+	}
+}
 
 
 //writes stats variable to file

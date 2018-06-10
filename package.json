@@ -10,10 +10,11 @@
   "license": "ISC",
   "dependencies": {
     "async": "^2.6.0",
+    "aws-sdk": "^2.254.1",
     "express": "^4.16.3",
     "fs": "0.0.1-security",
     "node-cron": "^1.2.1",
-    "npm": "^6.0.1",
+    "npm": "^6.1.0",
     "path": "^0.12.7",
     "querystring": "^0.2.0",
     "request": "^2.86.0"
