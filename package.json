@@ -4,7 +4,8 @@
   "description": "finds enemies in League of Legends who are on losing streaks",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+	"heroku-prebuild": "heroku config:set START_TIME=1234"
   },
   "author": "",
   "license": "ISC",

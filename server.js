@@ -13,7 +13,7 @@ var AWS = require('aws-sdk');
 
 //express module setup for calls
 var app = express();
-app.use(express.static(__dirname + '/', { maxAge: 0}));
+app.use(express.static(__dirname + '/', { maxAge: 86400000})); // cache for 1 day
 app.set('view engine', 'html');
 
 //set AWS credentials
