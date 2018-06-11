@@ -18,7 +18,8 @@
     "npm": "^6.1.0",
     "path": "^0.12.7",
     "querystring": "^0.2.0",
-    "request": "^2.86.0"
+    "request": "^2.86.0",
+	"cross-env": "^5.1.6"
   },
   "devDependencies": {
     "cross-env": "^5.1.6"
