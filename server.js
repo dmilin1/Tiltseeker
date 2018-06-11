@@ -22,6 +22,8 @@ var s3 = new AWS.S3({
 	secretAccessKey: process.env.AWSSECRETACCESSKEY,
 });
 
+console.log(process.env.START_TIME);
+
 //set variables
 var apikey = process.env.RIOTTILTSEEKERAPIKEY;
 console.log(apikey);
