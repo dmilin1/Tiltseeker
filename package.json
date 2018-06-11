@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-	"heroku-prebuild": "START_TIME=1234"
+	"heroku-prebuild": "START_TIME=1234 mocha --reporter spec"
   },
   "author": "",
   "license": "ISC",
