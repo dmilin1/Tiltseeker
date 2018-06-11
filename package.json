@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-	"heroku-prebuild": "START_TIME=1234 mocha --reporter spec"
+    "heroku-prebuild": "cross-env START_TIME=\"1234\""
   },
   "author": "",
   "license": "ISC",
@@ -19,5 +19,8 @@
     "path": "^0.12.7",
     "querystring": "^0.2.0",
     "request": "^2.86.0"
+  },
+  "devDependencies": {
+    "cross-env": "^5.1.6"
   }
 }
