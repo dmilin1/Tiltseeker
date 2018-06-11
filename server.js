@@ -39,17 +39,6 @@ if (currentTime - deployTime >= cacheTime) {
 }
 
 
-setTimeout(function() {
-		console.log("restartingServer");
-		console.log(".");
-		console.log(".");
-		console.log(".");
-		console.log("~~~~~~~~~~~~~~~~~~~");
-		server.close();
-		testingvar = 1;
-		restartServer();
-	}, 10000);
-
 app.set('view engine', 'html');
 
 //set AWS credentials
