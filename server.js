@@ -1,6 +1,11 @@
 // JavaScript Document
 'use strict';
 
+var testingvar = 0;
+
+restartServer();
+function restartServer() {
+
 //requires
 var express = require('express'); // Express web server framework
 var request = require('request'); // "Request" library
@@ -13,7 +18,38 @@ var AWS = require('aws-sdk');
 
 //express module setup for calls
 var app = express();
-app.use(express.static(__dirname + '/', { maxAge: 86400000})); // cache for 1 day
+var currentTime = Date.now();
+var deployTime = process.env.START_TIME;
+var cacheTime = 86400000; // cache for 1 day
+if (currentTime - deployTime >= cacheTime) {
+	app.use(express.static(__dirname + '/', { maxAge: cacheTime}));
+	console.log("caching");
+} else {
+	app.use(express.static(__dirname + '/', { maxAge: 0}));
+	console.log("not caching");
+	setTimeout(function() {
+		console.log("restartingServer");
+		console.log(".");
+		console.log(".");
+		console.log(".");
+		console.log("~~~~~~~~~~~~~~~~~~~");
+		server.close();
+		restartServer();
+	}, cacheTime);
+}
+
+
+setTimeout(function() {
+		console.log("restartingServer");
+		console.log(".");
+		console.log(".");
+		console.log(".");
+		console.log("~~~~~~~~~~~~~~~~~~~");
+		server.close();
+		testingvar = 1;
+		restartServer();
+	}, 10000);
+
 app.set('view engine', 'html');
 
 //set AWS credentials
@@ -22,7 +58,6 @@ var s3 = new AWS.S3({
 	secretAccessKey: process.env.AWSSECRETACCESSKEY,
 });
 
-console.log(process.env.START_TIME);
 
 //set variables
 var apikey = process.env.RIOTTILTSEEKERAPIKEY;
@@ -59,7 +94,7 @@ analyzedIds = stats.matchIds;
 
 //start server
 console.log(getMemory() + 'Listening on 8888');
-app.listen(process.env.PORT || 8888);
+var server = app.listen(process.env.PORT || 8888);
 
 
 //cron schedules
@@ -718,3 +753,4 @@ app.get('/getLeague', function (req, res) {
 			res.send(data);
 		});
 });
+}
