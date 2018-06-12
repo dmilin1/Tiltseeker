@@ -11,6 +11,33 @@ function getRegionID(theRegion) {
 	return regionIDs[regions.indexOf(theRegion)];
 }
 
+var quotes = [
+	"\"Stats are good, winning is better\"",
+	"\"We'll use Tiltseeker for week 2 at Worlds\"",
+	"\"Please be our friend\"",
+	"\"Camp someone who flames as much as Brand\"",
+	"\"Camp someone toxic. Like my sister, Cassiopeia\"",
+	"\"Would you like a tent?\"",
+	"\"Our midlaner has less vision than I do\"",
+	"\"With Tiltseeker, you can transform into something better\"",
+]
+var authors = [
+	" - Faker, probably",
+	" - Every NA Team",
+	" - Amumu",
+	" - Tyler1, maybe",
+	" - Katerina",
+	" - Losing Midlaner",
+	" - Lee Sin",
+	" - Kayn",
+]
+
+var myRand = Math.floor(Math.random() * quotes.length);
+
+document.getElementById("quote").textContent = quotes[myRand];
+
+document.getElementById("author").textContent = authors[myRand];
+
 //region select button event listeners
 var regionObjs = document.getElementsByClassName("region-button");
 for (var i = 0; i < regionObjs.length; i++) {

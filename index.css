@@ -6,6 +6,18 @@
 	text-align: center;
 }
 
+.wittyQuote {
+	width: 600px;
+	margin: auto;
+}
+
+.slogan {
+	color: white;
+	font-family: Roboto, Tahoma;
+	font-style: italic;
+	margin-top: 10px;
+}
+
 .my-footer {
 	position: fixed;
 	bottom: 10px;
