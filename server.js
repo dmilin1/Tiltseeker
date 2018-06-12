@@ -53,6 +53,7 @@ var apikey = process.env.RIOTTILTSEEKERAPIKEY;
 console.log(apikey);
 var regions = ["na1", "euw1", "eun1", "br1", "tr1", "ru", "la1", "la2", "oc1", "kr", "jp1"];
 var awsLoaded = false;
+var adminMsg = "";
 
 
 //sets up and loads the static champ data from file
@@ -576,6 +577,22 @@ app.get('/currentGame', function (req, res) {
 app.get('/getChampList', function (req, res) {
 	req.query.region;
 	res.send(staticChampData[req.query.region]);
+});
+
+//returns the admin message
+app.get('/adminMsg', function (req, res) {
+	res.send(adminMsg);
+});
+	
+//returns the admin message
+app.get('/setAdminMsg', function (req, res) {
+	if (req.query.pass == process.env.ADMIN_PASS) {
+		adminMsg = req.query.message;
+		console.log("Admin Message: " + adminMsg);
+		res.send("1");
+	} else {
+		res.send("0");
+	}
 });
 
 //returns the stats file with just requested champions

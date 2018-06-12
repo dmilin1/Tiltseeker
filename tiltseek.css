@@ -40,6 +40,46 @@
     background-color: #111;
 }
 
+.adminmsg {
+	position: sticky;
+	opacity: 0;
+	color: white;
+	background: #333333;
+	margin: 12px 30px;
+	border: #707070;
+	border-style: dashed;
+	border-radius: 0px 0px 10px 10px;
+	border-width: 0px;
+	border-top-width: 1px;
+	padding: 3px 8px;
+	transition: opacity 0.3s;
+	z-index: 1;
+}
+
+.adminmsgx {
+	float: right;
+	width: 20px;
+	text-align: center;
+	border-radius: 5px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgba(0,0,0,0.00);
+	margin: -1px 0px;
+	cursor: pointer;
+}
+
+.adminmsgx:hover {
+	border-color: gray;
+}
+
+.adminmsgtext {
+	margin: 5px;
+    display: block;
+    font-family: Roboto;
+    font-weight: 500;
+    font-size: 13px;
+}
+
 .loadingBar {
 	margin-top: 5px;
 	background-color: #D7D7D7;
@@ -162,7 +202,7 @@
 .errorMsg {
 	margin: auto;
 	margin-top: 10px;
-	padding: 10px 0;
+	padding: 10px 10px;
 	width: 50vw;
 	color: white;
 	text-align: center;
