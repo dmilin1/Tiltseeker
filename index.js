@@ -20,17 +20,22 @@ var quotes = [
 	"\"Would you like a tent?\"",
 	"\"Our midlaner has less vision than I do\"",
 	"\"With Tiltseeker, you can transform into something better\"",
-]
+	"\"Camp someone who has no mana\"",
+	"\"Keep camping. See what happens.\"",
+];
+
 var authors = [
 	" - Faker, probably",
 	" - Every NA Team",
 	" - Amumu",
-	" - Tyler1, maybe",
-	" - Katerina",
+	" - Bjergsen, probably",
+	" - Katarina",
 	" - Losing Midlaner",
 	" - Lee Sin",
 	" - Kayn",
-]
+	" - Tyler1, maybe",
+	" - Someone you should keep camping",
+];
 
 var myRand = Math.floor(Math.random() * quotes.length);
 
