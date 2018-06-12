@@ -43,6 +43,12 @@ document.getElementById("quote").textContent = quotes[myRand];
 
 document.getElementById("author").textContent = authors[myRand];
 
+document.addEventListener("DOMContentLoaded", function(event) { 
+  document.getElementById("wittyQuote").style.opacity = 1;
+});
+
+
+
 //region select button event listeners
 var regionObjs = document.getElementsByClassName("region-button");
 for (var i = 0; i < regionObjs.length; i++) {

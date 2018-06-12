@@ -9,6 +9,8 @@
 .wittyQuote {
 	width: 600px;
 	margin: auto;
+	opacity: 0;
+	transition: opacity 2s;
 }
 
 .slogan {
