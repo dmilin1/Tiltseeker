@@ -282,14 +282,12 @@
 	margin: 0 10px 0 10px;
 	display: inline-block;
 	border-radius: 20px;
-	background: rgba(38,38,38,1.00);
 	width: calc(13% + 20px);
 	max-width: 160px;
 	border-color: #2EB7D6;
 	border-style: solid;
 	border-width: 0px;
-	background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/paper_1.png");
-    background-blend-mode: overlay;
+	background-image: url("paper_1.png");
 	box-shadow: 2px 2px 2px 3px black;
 }
 
