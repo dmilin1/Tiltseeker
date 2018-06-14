@@ -25,15 +25,15 @@ var quotes = [
 ];
 
 var authors = [
-	" - Faker, probably",
+	" - Faker... probably",
 	" - Every NA Team",
 	" - Amumu",
-	" - Bjergsen, probably",
+	" - Bjergsen... probably",
 	" - Katarina",
 	" - Losing Midlaner",
 	" - Lee Sin",
 	" - Kayn",
-	" - Tyler1, maybe",
+	" - Tyler1... maybe",
 	" - Someone you should keep camping",
 ];
 

@@ -315,7 +315,7 @@ function loadStats() {
 
 //saves stats to AWS
 function saveStats() {
-	if (awsLoaded) {
+	if (awsLoaded && process.env.DEV_OR_PRODUCTION == "production") {
 		
 		var stream = fs.createReadStream("/stats/statsData.json");
 		var params = {
@@ -332,6 +332,9 @@ function saveStats() {
 			}
 		});
 		
+	}
+	if (process.env.DEV_OR_PRODUCTION != "production") {
+		console.log("AWS not saved in development");
 	}
 }
 

@@ -100,6 +100,7 @@
     background: #303030;	
     background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/carbon_fibre.png");
     background-blend-mode: overlay;
+	transform:translate3d(0,0,0);
 }
 
 .center {

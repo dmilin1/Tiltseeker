@@ -8,6 +8,7 @@
 	background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/carbon_fibre.png");
     background-blend-mode: overlay;
 	height: 100%;
+	transform:translate3d(0,0,0);
 }
 
 

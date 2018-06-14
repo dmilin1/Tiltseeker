@@ -21,8 +21,8 @@
 }
 
 .my-footer {
-	position: fixed;
-	bottom: 10px;
+	position: absolute;
+	top: calc(100vh - 60px);
 	text-align: center;
 	width: 100%;
 }
@@ -163,14 +163,16 @@
     background: #303030;	
     background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/carbon_fibre.png");
     background-blend-mode: overlay;
+	transform:translate3d(0,0,0);
 }
 
 .center {
 	text-align: center;
-	position: absolute;
 	top: 30%;
-	right:50%;
-	transform: translateX(50%);
+	right: 50%;
+	margin: auto;
+	width: 713.55px;
+	margin-top: 22vh;
 }
 
 .textInput {
