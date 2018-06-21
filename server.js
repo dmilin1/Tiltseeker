@@ -15,6 +15,7 @@ var async = require('async');
 var cron = require('node-cron');
 var fs = require('fs');
 var AWS = require('aws-sdk');
+require('heroku-self-ping')("https://tiltseeker.com/",{verbose: true});
 
 //express module setup for calls
 var app = express();

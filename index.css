@@ -129,7 +129,7 @@
 	border-style: dashed;
 	border-radius: 0px 0px 10px 10px;
 	border-width: 0px;
-	border-top-width: 1px;
+	border-top-width: 1.5px;
 	padding: 3px 8px;
 	transition: opacity 0.3s;
 	z-index: 1;
