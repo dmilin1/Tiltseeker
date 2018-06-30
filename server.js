@@ -111,7 +111,7 @@ cron.schedule('*/15 * * * *', function () {
 
 
 //save stats to AWS once an hour if stats have been previously loaded
-cron.schedule('0 * * * *', function () {
+cron.schedule('* * * * *', function () {
 	saveStats();
 });
 
@@ -333,6 +333,8 @@ function saveStats() {
 			}
 		});
 		
+	} else {
+		console.log("AWS not saved. Load status:" + awsLoaded);
 	}
 	if (process.env.DEV_OR_PRODUCTION != "production") {
 		console.log("AWS not saved in development");
