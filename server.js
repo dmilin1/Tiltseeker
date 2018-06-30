@@ -111,7 +111,7 @@ cron.schedule('*/15 * * * *', function () {
 
 
 //save stats to AWS once an hour if stats have been previously loaded
-cron.schedule('* * * * *', function () {
+cron.schedule('0 * * * *', function () {
 	saveStats();
 });
 
