@@ -318,7 +318,7 @@ function loadStats() {
 function saveStats() {
 	if (awsLoaded && process.env.DEV_OR_PRODUCTION == "production") {
 		
-		var stream = fs.createReadStream("/stats/statsData.json");
+		var stream = fs.createReadStream(__dirname + "/stats/statsData.json");
 		var params = {
 			Bucket: "tiltseeker",
 			Key: "statsData.json",
