@@ -55,6 +55,7 @@ console.log(apikey);
 var regions = ["na1", "euw1", "eun1", "br1", "tr1", "ru", "la1", "la2", "oc1", "kr", "jp1"];
 var awsLoaded = false;
 var adminMsg = "";
+var awsSaving = false;
 
 
 //sets up and loads the static champ data from file
@@ -112,7 +113,9 @@ cron.schedule('*/15 * * * *', function () {
 
 //save stats to AWS once an hour if stats have been previously loaded
 cron.schedule('0 * * * *', function () {
-	saveStats();
+	awsSaving = true;
+	//delay for current stats writes to finish before saving
+	setTimeout(saveStats,5000);
 });
 
 //if stats failed to load, retries once an hour
@@ -328,25 +331,32 @@ function saveStats() {
 		s3.upload(params, function(err, data) {
 			if (err) {
 				console.log(getMemory() + "AWS error:" + err);
+				awsSaving = false;
 			} else {
 				console.log(getMemory() + "AWS saved");
+				awsSaving = false;
 			}
 		});
 		
 	} else {
 		console.log("AWS not saved. Load status:" + awsLoaded);
+		awsSaving = false;
 	}
 	if (process.env.DEV_OR_PRODUCTION != "production") {
 		console.log("AWS not saved in development");
 	}
 }
 
-
+	
 //writes stats variable to file
 function writeStats() {
-	var theFile = 'stats/statsData.json';
-	var data = JSON.stringify(stats, null, 2);
-	fs.writeFileSync(theFile, data);
+	if (!awsSaving) {
+		var theFile = 'stats/statsData.json';
+		var data = JSON.stringify(stats, null, 2);
+		fs.writeFileSync(theFile, data);
+	} else {
+		console.log("Stats not written while uploading to AWS");
+	}
 }
 
 
