@@ -128,11 +128,12 @@ cron.schedule('10 0 * * *', function () {
 	calcAvgStats();
 });
 
-//check if queued matches is too long and needs to be analyzed early every 20 seconds
+//check if queued matches is too long and needs to be analyzed every 20 seconds
 //matches are 0.05 MB each
 cron.schedule('*/20 * * * * *', function () {
 	if (queuedMatches.length > 10) {
-		analyzeMatches(true);
+		//makes a new timestamp if more than 24 hours have passed    1000 ms * 60 sec * 60 min * 24 hr
+		analyzeMatches(new Date().getTime() - Object.keys(stats)[Object.keys(stats).length-1] < 1000 * 60 * 60 * 24);
 	}
 });
 
@@ -504,6 +505,7 @@ function calcAvgStats() {
 			}
 		}
 	}
+	console.log(theTimes.length);
 }
 
 
