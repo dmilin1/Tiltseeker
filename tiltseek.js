@@ -708,7 +708,6 @@ function processData(runList, index) {
 			interaction += matches[i][j].participants[participant].stats.deaths;
 			interaction += matches[i][j].participants[participant].stats.assists;
 			//champion average
-			console.log(stats);
 			avgInteraction += stats[matches[i][j].participants[participant].championId].kills/stats[matches[i][j].participants[participant].championId].total;
 			avgInteraction += stats[matches[i][j].participants[participant].championId].deaths/stats[matches[i][j].participants[participant].championId].total;;
 			avgInteraction += stats[matches[i][j].participants[participant].championId].assists/stats[matches[i][j].participants[participant].championId].total;;
@@ -912,69 +911,92 @@ function loadDisplay(runList, index) {
 	a.querySelectorAll("span")[1].textContent = "Magic: " + Math.round(1000*magicDmg/totalDmg)/10 + "%" + "\r\n" + "Physical: " + Math.round(1000*physicalDmg/totalDmg)/10 + "%" + "\r\n" + "True: " + Math.round(1000*trueDmg/totalDmg)/10 + "%";
 	document.getElementById("damageBar2").appendChild(a);
 	
-	function loadChampDisplay(theElement) {
+	function loadChampDisplay(theElement, playerNum) {
 		var temp = document.getElementsByTagName("template")[0].content.querySelector("div");
 		var a = document.importNode(temp, true);
 		//picture
-		a.querySelectorAll("img")[0].src = "https://ddragon.leagueoflegends.com/cdn/8.11.1/img/champion/" + champList.data[summonersChampIds[i]].key + ".png";
+		a.querySelectorAll("img")[0].src = "https://ddragon.leagueoflegends.com/cdn/8.11.1/img/champion/" + champList.data[summonersChampIds[playerNum]].key + ".png";
 		//username
-		a.querySelectorAll("div")[0].textContent = summonersUsername[i];
+		a.querySelectorAll("div")[0].textContent = summonersUsername[playerNum];
 		//make font smaller if username is long
 		
 		//losingStreak
-		a.querySelectorAll("div")[2].textContent = losingStreak[i];
-		a.querySelectorAll("div")[2].style.color = "rgb(" + getRed(losingStreakSigmoid(losingStreak[i])) + "," + getGreen(losingStreakSigmoid(losingStreak[i])) + ",0)";
+		a.querySelectorAll("div")[2].textContent = losingStreak[playerNum];
+		a.querySelectorAll("div")[2].style.color = "rgb(" + getRed(losingStreakSigmoid(losingStreak[playerNum])) + "," + getGreen(losingStreakSigmoid(losingStreak[playerNum])) + ",0)";
 		a.querySelectorAll("div")[2].style.fontWeight = "300";
 		
 		//winrate
 		a.querySelectorAll("div")[4].style.whiteSpace = "pre"
-		a.querySelectorAll("div")[4].textContent = Math.round(10000*winRate[i])/100 + "% \r\n" + wins[i] + "W/" + losses[i] + "L";
-		a.querySelectorAll("div")[4].style.color = "rgb(" + getRed(winRateSigmoid(winRate[i])) + "," + getGreen(winRateSigmoid(winRate[i])) + ",0)";
+		a.querySelectorAll("div")[4].textContent = Math.round(10000*winRate[playerNum])/100 + "% \r\n" + wins[playerNum] + "W/" + losses[playerNum] + "L";
+		a.querySelectorAll("div")[4].style.color = "rgb(" + getRed(winRateSigmoid(winRate[playerNum])) + "," + getGreen(winRateSigmoid(winRate[playerNum])) + ",0)";
 		a.querySelectorAll("div")[4].style.fontWeight = "300";
-		if (isNaN(winRate[i])) {
+		if (isNaN(winRate[playerNum])) {
 			a.querySelectorAll("div")[4].textContent = "Not Enough \r\n Games";
 			a.querySelectorAll("div")[4].style.color = "#b2b2b2";
 		}
 		//mastery
-		a.querySelectorAll("div")[6].textContent = masteryPoints[i];
-		a.querySelectorAll("div")[6].style.color = "rgb(" + getRed(masterySigmoid(masteryPoints[i])) + "," + getGreen(masterySigmoid(masteryPoints[i])) + ",0)";
+		a.querySelectorAll("div")[6].textContent = masteryPoints[playerNum];
+		a.querySelectorAll("div")[6].style.color = "rgb(" + getRed(masterySigmoid(masteryPoints[playerNum])) + "," + getGreen(masterySigmoid(masteryPoints[playerNum])) + ",0)";
 		a.querySelectorAll("div")[6].style.fontWeight = "300";
 		
 		//daysSincePlayed
-		a.querySelectorAll("div")[8].textContent = Math.round(timeSincePlayed[i]) + " days ago";
-		a.querySelectorAll("div")[8].style.color = "rgb(" + getRed(daysSincePlayedSigmoid(timeSincePlayed[i])) + "," + getGreen(daysSincePlayedSigmoid(timeSincePlayed[i])) + ",0)";
+		a.querySelectorAll("div")[8].textContent = Math.round(timeSincePlayed[playerNum]) + " days ago";
+		a.querySelectorAll("div")[8].style.color = "rgb(" + getRed(daysSincePlayedSigmoid(timeSincePlayed[playerNum])) + "," + getGreen(daysSincePlayedSigmoid(timeSincePlayed[playerNum])) + ",0)";
 		a.querySelectorAll("div")[8].style.fontWeight = "300";
-		if (timeSincePlayed[i] == 10000) {
+		if (timeSincePlayed[playerNum] == 10000) {
 			a.querySelectorAll("div")[8].textContent = "Never Played";
 		}
 		
 		//agr
-		a.querySelectorAll("div")[10].textContent = Math.round(100*aggressiveness[i]) + "%";
-		a.querySelectorAll("div")[10].style.color = "rgb(" + getRed(aggrSigmoid(aggressiveness[i])) + "," + getGreen(aggrSigmoid(aggressiveness[i])) + ",0)";
+		a.querySelectorAll("div")[10].textContent = Math.round(100*aggressiveness[playerNum]) + "%";
+		a.querySelectorAll("div")[10].style.color = "rgb(" + getRed(aggrSigmoid(aggressiveness[playerNum])) + "," + getGreen(aggrSigmoid(aggressiveness[playerNum])) + ",0)";
 		a.querySelectorAll("div")[10].style.fontWeight = "300";
 		
 		//warding
-		a.querySelectorAll("div")[12].textContent = Math.round(100*warding[i]) + "%";
-		a.querySelectorAll("div")[12].style.color = "rgb(" + getRed(wardSigmoid(warding[i])) + "," + getGreen(wardSigmoid(warding[i])) + ",0)";
+		a.querySelectorAll("div")[12].textContent = Math.round(100*warding[playerNum]) + "%";
+		a.querySelectorAll("div")[12].style.color = "rgb(" + getRed(wardSigmoid(warding[playerNum])) + "," + getGreen(wardSigmoid(warding[playerNum])) + ",0)";
 		a.querySelectorAll("div")[12].style.fontWeight = "300";
 		
 		//campScore
-		a.querySelectorAll("div")[14].textContent = Math.round(campScore[i]);
-		a.querySelectorAll("div")[14].style.color = "rgb(" + getRed(campScoreSigmoid(campScore[i])) + "," + getGreen(campScoreSigmoid(campScore[i])) + ",0)";
-		if (isNaN(campScore[i])) {
+		a.querySelectorAll("div")[14].textContent = Math.round(campScore[playerNum]);
+		a.querySelectorAll("div")[14].style.color = "rgb(" + getRed(campScoreSigmoid(campScore[playerNum])) + "," + getGreen(campScoreSigmoid(campScore[playerNum])) + ",0)";
+		if (isNaN(campScore[playerNum])) {
 			a.querySelectorAll("div")[14].textContent = "X";
 		}
 
 		document.getElementById(theElement).appendChild(a);
 	}
 	
+	var sortedOrder = [];
+	sortByTiltScore();
+	function sortByTiltScore() {
+		var campScoreTeam1 = campScore.slice(0, campScore.length / 2);
+		campScoreTeam1.sort(function (a, b) {
+			return b - a;
+		});
+		console.log(campScoreTeam1);
+		var maxScore = 0;
+		for (var i = 0; i < campScoreTeam1.length; i++) {
+			sortedOrder.push(campScore.indexOf(campScoreTeam1[i]));
+		}
+		var campScoreTeam2 = campScore.slice(campScore.length / 2, campScore.length);
+		campScoreTeam2.sort(function (a, b) {
+			return b - a;
+		});
+		console.log(campScoreTeam2);
+		var maxScore = 0;
+		for (var i = 0; i < campScoreTeam2.length; i++) {
+			sortedOrder.push(campScore.indexOf(campScoreTeam2[i]));
+		}
+		console.log(sortedOrder);
+	}
+	
 	for (var i = 0; i < currentGame.participants.length/2; i++) {
-		loadChampDisplay("displayBox");
-
+		loadChampDisplay("displayBox", sortedOrder[i]);
 	}
 	
 	for (var i = currentGame.participants.length/2; i < currentGame.participants.length; i++) {
-		loadChampDisplay("displayBox2");
+		loadChampDisplay("displayBox2", sortedOrder[i]);
 	}
 	
 	
