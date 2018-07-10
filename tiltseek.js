@@ -1,9 +1,9 @@
 // JavaScript Document
 
 
-//var script = document.createElement('script');
-//script.src = "//p296392.clksite.com/adServe/banners?tid=296392_576636_3&type=slider&side=left&size=4&position=center&close=disable";
-//document.getElementsByTagName('head')[0].appendChild(script);
+var script = document.createElement('script');
+script.src = "//p296392.clksite.com/adServe/banners?tid=296392_576636_4&type=slider&side=right&size=4&position=center&close=disable";
+document.getElementsByTagName('head')[0].appendChild(script);
 	
 var champList;
 
