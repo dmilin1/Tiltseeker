@@ -8,7 +8,8 @@
 	background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/carbon_fibre.png");
     background-blend-mode: overlay;
 	height: 100%;
-	transform:translate3d(0,0,0);
+	-webkit-backface-visibility: hidden;
+/*	transform:translate3d(0,0,0);*/
 }
 
 
@@ -168,10 +169,10 @@
 }
 
 .wrapper {
-	min-height: calc(100vh - 116.1px);
+	min-height: calc(100vh - 156.1px);
 	display: inline-block;
     width: 100%;
-    margin-bottom: -56px;
+    margin-bottom: -176px;
 }
 
 .my-footer {
@@ -272,7 +273,6 @@
 	font-size: 3.5vw;
 	margin: auto;
 	text-align: center;
-	margin-top: 30px;
 	color: #F3F3F3;
 	font-family: 'Alegreya Sans SC', Roboto, Tahoma;
 	display: none;
