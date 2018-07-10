@@ -172,6 +172,24 @@
 <div class="my-footer">
   <div class="disclaimer"> Tiltseeker isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc. </div>
 </div>
+<script id="spout-tag-4ab50459-adcd-4efd-9c49-5ff80b1e2eab">
+  (function() {
+    var r = encodeURIComponent(top.document.referrer.substring(0,250)),
+        p = encodeURIComponent(top.document.location.href.substring(0,250)),
+        t = Date.now(),
+        u = '4ab50459-adcd-4efd-9c49-5ff80b1e2eab',
+        e = document.createElement('script'),
+        s = sessionStorage.getItem('spoutable-' + u);
+    if (!s) {
+      var m = Math.random.bind(Math);
+      s = JSON.stringify({ sessionId: [ t, m(), m(), m(), m(), m(), m(), m(), m(), m(), m(), m(), m() ]});
+      sessionStorage.setItem('spoutable-' + u, s);
+    }
+    e.async = true;
+    e.src='//s.spoutable.com/s?u='+u+'&s='+encodeURIComponent(s)+'&t='+t+'&r='+r+'&p='+p;
+    document.head.appendChild(e);
+  })();
+</script>
 
 </body>
 
