@@ -11,10 +11,10 @@ function getRegionID(theRegion) {
 	return regionIDs[regions.indexOf(theRegion)];
 }
 
+//set borders on ads
 window.setInterval(function fixBorders() {
 	var ads = document.getElementsByClassName("ad");
 	for (var i = 0; i < ads.length; i++) {
-		console.log(ads[0].childNodes[1].childNodes.length);
 		if (ads[0].childNodes[1].childNodes.length == 0) {
 			ads[i].style.borderStyle = "none";
 		} else {

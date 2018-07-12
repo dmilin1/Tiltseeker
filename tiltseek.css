@@ -172,7 +172,7 @@
 	min-height: calc(100vh - 156.1px);
 	display: inline-block;
     width: 100%;
-    margin-bottom: -176px;
+    margin-bottom: -55px;
 }
 
 .my-footer {
@@ -187,6 +187,17 @@
 	color: #828282;
 	margin: auto;
 	width: 70%;
+}
+
+.ad {
+	width: 40%;
+	overflow: auto;
+	margin: auto;
+	background-color: #ababab;
+	border-radius: 10px;
+	border-style: none;
+	border-width: 3px;
+	border-color: #585858;
 }
 
 .logo {
