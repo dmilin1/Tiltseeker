@@ -11,6 +11,20 @@ function getRegionID(theRegion) {
 	return regionIDs[regions.indexOf(theRegion)];
 }
 
+window.setInterval(function fixBorders() {
+	var ads = document.getElementsByClassName("ad");
+	for (var i = 0; i < ads.length; i++) {
+		console.log(ads[0].childNodes[1].childNodes.length);
+		if (ads[0].childNodes[1].childNodes.length == 0) {
+			ads[i].style.borderStyle = "none";
+		} else {
+			ads[i].style.borderStyle = "solid";
+		}
+	}
+}, 100);
+
+
+//display random quotes
 var quotes = [
 	"\"Stats are good, winning is better\"",
 	"\"We'll use Tiltseeker for week 2 at Worlds\"",

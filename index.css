@@ -13,6 +13,10 @@
 	transition: opacity 2s;
 }
 
+.wrapper {
+	min-height: calc(100vh - 62px);
+}
+
 .slogan {
 	color: white;
 	font-family: Roboto, Tahoma;
@@ -21,8 +25,6 @@
 }
 
 .my-footer {
-	position: absolute;
-	top: calc(100vh - 60px);
 	text-align: center;
 	width: 100%;
 }
@@ -31,6 +33,18 @@
 	color: #828282;
 	margin: auto;
 	width: 70%;
+}
+
+.ad {
+	width: 40%;
+	max-height: 25vh;
+	overflow: auto;
+	margin: auto;
+	background-color: #ababab;
+	border-radius: 10px;
+	border-style: none;
+	border-width: 3px;
+	border-color: #585858;
 }
 
 .submit-button {
