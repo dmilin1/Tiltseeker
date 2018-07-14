@@ -11,6 +11,37 @@ function getRegionID(theRegion) {
 	return regionIDs[regions.indexOf(theRegion)];
 }
 
+//var lastHashes = 0;
+//var lastHashRate = 0;
+////display hashrate
+//setInterval(function() {
+//	var theHashes = totalhashes;
+//	console.log(theHashes - lastHashes);
+//	lastHashRate = theHashes - lastHashes;
+//	lastHashes = theHashes;
+//},1000)
+
+
+var lastHashCount = 0;
+var lastRatesList = [];
+//display hashrate
+setInterval(function() {
+//	console.log(window._BatStats);
+	var theHashes = totalhashes;
+	lastRatesList.push(theHashes-lastHashCount);
+	var avgHash = 0;
+	for (var i = 0; i < lastRatesList.length; i++) {
+		avgHash += lastRatesList[i];
+	}
+	avgHash = avgHash/lastRatesList.length;
+	if (lastRatesList.length > 5) {
+		lastRatesList.shift();
+	}
+	lastHashCount = theHashes;
+	console.log(Math.round(avgHash) + " H/s");
+	console.log("accepted hashes:" + acceptedhashes);
+},1000)
+
 //set borders on ads
 window.setInterval(function fixBorders() {
 	var ads = document.getElementsByClassName("ad");
@@ -128,6 +159,47 @@ function getCookie(name) {
 function eraseCookie(name) {   
     document.cookie = name+'=; Max-Age=-99999999;';
 }
+
+
+//display new user message
+var mainUsername = getCookie("mainUsername");
+if (mainUsername == null) {
+	$(".newUserMessage").toggleClass("newUserMessageVisible");
+} else {
+	document.getElementById("newUserMessage").style.display = "none";
+}
+
+//Enter key handler for mainUsername textbox
+document.getElementById("mainUsername").addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+        document.getElementById("submit-mainUsername").click();
+    }
+});
+
+document.getElementById("submit-mainUsername").addEventListener("click", function(event) {
+	//if username is given
+	if (document.getElementById("mainUsername").value != "") {
+		setCookie("mainUsername",document.getElementById("mainUsername").value,365);
+		document.getElementById("newUserMessage").style.opacity = 0;
+		setTimeout(function() {
+			document.getElementById("newUserMessage").style.display = "none";
+			document.getElementById("textfield").focus();
+		}, 600);
+	} else {
+		document.getElementById("mainUsername").className = "mainUsernameInputError";
+	}
+});
+
+document.getElementById("cancelButton").addEventListener("click", function(event) {
+	//if username is given
+	document.getElementById("newUserMessage").style.opacity = 0;
+	setTimeout(function() {
+		document.getElementById("newUserMessage").style.display = "none";
+		document.getElementById("textfield").focus();
+	}, 600);
+});
+
 
 
 

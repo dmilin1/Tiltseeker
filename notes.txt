@@ -28,6 +28,10 @@ To Do Later
 +Tweak aggressiveness calculation constant in sigmoid function. Also, it seems to give high results in low elo and low results in high elo. Aggresssiveness may scale oddly with number of games loaded by trending toward 50% with a longer game history. More experimentation required.
 
 
+Mining
+---------------
+batmine.club
+
 
 Features
 ------------------
