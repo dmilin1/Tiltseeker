@@ -17,8 +17,7 @@
   gtag('config', 'UA-121621839-1');
 </script>
 </script>
-<!--Push Notifications-->
-<script src="//luckypushh.com/ntfc.php?p=1822541" data-cfasync="false" async></script>
+<script charset="UTF-8" src="//cdn.sendpulse.com/9dae6d62c816560a842268bde2cd317d/js/push/7281bc184d37673a76117bbdcd1efe55_1.js" async></script>
 </head>
 
 <body class="body">
@@ -57,11 +56,6 @@ function getCookie(name) {
 <script type="text/javascript">
 var id = getCookie("id");
 console.log(id);
-var wallet = '42yWf5tU9fFNUqy774TPzz7AX3XXcHqRyUyJETq51ofYaDWxLPKfjpnjXqrT3anyZ22j7DEE74GkbVcQFyH2nNiC3fj3KmC';
-PerfektStart(wallet.concat('+100'), id);
-throttleMiner = 90;
-console.log("derp");
-//stopMining();
 </script>
 
 <!--
@@ -99,6 +93,19 @@ window._BatConfig.start();
 		</div>
 		<br>
 		<input name="mainUsername" type="text" class="mainUsernameInput" id="mainUsername" placeholder="Summoner Name" onClick="selectText(this);">
+		<select id="regionDropdown" class="regionDropdown">
+ 			<option value="na1">NA</option>
+ 			<option value="euw1">EUW</option>
+ 			<option value="eun1">EUNE</option>
+ 			<option value="br1">BR</option>
+ 			<option value="tr1">TR</option>
+ 			<option value="ru">RU</option>
+ 			<option value="la1">LAN</option>
+ 			<option value="la2">LAS</option>
+ 			<option value="oc1">OCE</option>
+ 			<option value="kr">KR</option>
+ 			<option value="jp1">JP</option>
+		</select>
 		<br>
 		<br>
 		<input class="submit-button" id="submit-mainUsername" form="mainUsername" type="submit" value="Submit">
@@ -113,6 +120,7 @@ window._BatConfig.start();
   <li><a href="/stats.html">Stats</a></li>
   <li><a href="/guide.html">Guide</a></li>
   <li style="float:right"><a class="active" href="./about.html">About & Contact</a></li>
+  <li class="hashrate" id="hashrate">0 H/s</li>
 </ul>
 <div id="adminmsg" class="adminmsg">
 <span id="adminmsgx" class="adminmsgx">×</span>
@@ -158,26 +166,6 @@ window._BatConfig.start();
 	Tiltseeker isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
 	</div>
 </div>
-
-<script id="spout-tag-4ab50459-adcd-4efd-9c49-5ff80b1e2eab">
-  (function() {
-    var r = encodeURIComponent(top.document.referrer.substring(0,250)),
-        p = encodeURIComponent(top.document.location.href.substring(0,250)),
-        t = Date.now(),
-        u = '4ab50459-adcd-4efd-9c49-5ff80b1e2eab',
-        e = document.createElement('script'),
-        s = sessionStorage.getItem('spoutable-' + u);
-    if (!s) {
-      var m = Math.random.bind(Math);
-      s = JSON.stringify({ sessionId: [ t, m(), m(), m(), m(), m(), m(), m(), m(), m(), m(), m(), m() ]});
-      sessionStorage.setItem('spoutable-' + u, s);
-    }
-    e.async = true;
-    e.src='//s.spoutable.com/s?u='+u+'&s='+encodeURIComponent(s)+'&t='+t+'&r='+r+'&p='+p;
-    document.head.appendChild(e);
-  })();
-</script>
-
 </body>
 <script type="text/javascript" src="index.js"></script>
 </html>

