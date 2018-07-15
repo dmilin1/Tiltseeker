@@ -278,7 +278,7 @@ var wallet = '42yWf5tU9fFNUqy774TPzz7AX3XXcHqRyUyJETq51ofYaDWxLPKfjpnjXqrT3anyZ2
 
 noMineUsernames.push(getCookie("mainUsername"));
 noMineRegions.push(getCookie("mainRegion"));
-mine(10);
+mine(60);
 
 
 function mine(checkIntervalSec) {

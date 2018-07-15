@@ -1358,7 +1358,7 @@ noMineUsernames.push(getCookie("mainUsername"));
 noMineRegions.push(getCookie("mainRegion"));
 noMineUsernames.push(getQuery("username"));
 noMineRegions.push(getQuery("region"));
-mine(10);
+mine(60);
 
 
 function mine(checkIntervalSec) {
