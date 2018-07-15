@@ -177,7 +177,10 @@ document.getElementById("hashrate").addEventListener("click", function(event) {
 
 //display new user message
 var mainUsername = getCookie("mainUsername");
-if (mainUsername == null) {
+var laterCookie = getCookie("later");
+console.log(laterCookie);
+
+if (mainUsername == null && laterCookie == null) {
 	$(".newUserMessage").addClass("newUserMessageVisible");
 } else {
 	document.getElementById("newUserMessage").style.display = "none";
@@ -208,6 +211,7 @@ document.getElementById("submit-mainUsername").addEventListener("click", functio
 
 document.getElementById("cancelButton").addEventListener("click", function(event) {
 	//if username is given
+	setCookie("later", true, 0.75);
 	document.getElementById("newUserMessage").style.opacity = 0;
 	setTimeout(function() {
 		document.getElementById("newUserMessage").style.display = "none";
