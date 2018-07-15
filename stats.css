@@ -1,0 +1,107 @@
+@charset "utf-8";
+/* CSS Document */
+@import url(https://fonts.googleapis.com/css?family=Roboto:100,100italic,300,300italic,400,400italic,500,500italic,700,700italic,900,900italic&subset=latin,latin-ext,cyrillic,cyrillic-ext,greek-ext,greek,vietnamese);
+@import url('https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:100,300,400,500,700,800,900|Nunito:100,200,300,400,500,600,700,800,900|Montserrat:100,200,300,400,500,600,700,800,900|Lato:100,200,300,400,500,600,700,800,900');
+
+
+
+.wrapper {
+	min-height: calc(100vh - 62px);
+}
+
+
+.my-footer {
+	text-align: center;
+	width: 100%;
+}
+
+.disclaimer {
+	color: #828282;
+	margin: auto;
+	width: 70%;
+}
+
+.navbar {
+	list-style-type: none;
+    margin: -10px 10px;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+	position: sticky;
+	position: -webkit-sticky; /* Safari */
+	top: 0;
+	font-family: Roboto, Tahoma;
+	border-radius: 0px 0px 10px 10px;
+	z-index: 1;
+}
+
+.navbar li a{
+	font-size: 20px;
+	display: block;
+	color: #F3F3F3;
+	padding: 12px 16px;
+	text-align: center;
+	text-decoration: none;
+	float:left;
+	transition: background-color 100ms linear;
+}
+
+.navbar li a:hover {
+    background-color: #111;
+}
+
+.adminmsg {
+	position: sticky;
+	opacity: 0;
+	color: white;
+	background: #333333;
+	margin: 12px 30px;
+	border: #707070;
+	border-style: dashed;
+	border-radius: 0px 0px 10px 10px;
+	border-width: 0px;
+	border-top-width: 1.5px;
+	padding: 3px 8px;
+	transition: opacity 0.3s;
+	z-index: 1;
+}
+
+.adminmsgx {
+	float: right;
+	width: 20px;
+	text-align: center;
+	border-radius: 5px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgba(0,0,0,0.00);
+	margin: -1px 0px;
+	cursor: pointer;
+}
+
+.adminmsgx:hover {
+	border-color: gray;
+}
+
+.adminmsgtext {
+	margin: 5px;
+    display: block;
+    font-family: Roboto;
+    font-weight: 500;
+    font-size: 13px;
+}
+
+.body {
+    background: #303030;	
+    background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/carbon_fibre.png");
+    background-blend-mode: overlay;
+	transform:translate3d(0,0,0);
+}
+
+.center {
+	text-align: center;
+	top: 30%;
+	right: 50%;
+	margin: auto;
+	width: 713.55px;
+	margin-top: 19vh;
+}

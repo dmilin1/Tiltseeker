@@ -12,10 +12,9 @@
 
 ~~~7. Optimize loadMatchLists, loadMastery, loadLeague. Make synchronous like loadMatches.
 
-8. Calculate maximum memory use. Adjust match analysis limit.
+~~~8. Calculate maximum memory use. Adjust match analysis limit.
 
-
-Stats file Semaphor to prevent errors
+~~~9. Stats file Semaphor to prevent errors
 
 
 Slogan
