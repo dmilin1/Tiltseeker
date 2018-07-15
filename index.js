@@ -1,4 +1,7 @@
-// JavaScript Document
+<div id="adminmsg" class="adminmsg">
+<span id="adminmsgx" class="adminmsgx">×</span>
+<span id="adminmsgtext" class="adminmsgtext">Derpity</span>
+</div>// JavaScript Document
 
 var region = "NA";
 if (getCookie('region')) {
