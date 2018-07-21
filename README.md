@@ -9,6 +9,6 @@ Start it with:
 The site will be live at http://127.0.0.1:8888/
 
 
-###License
+### License
 
 Licensed under the DBAD (Don't Be A Dick) standard. Feel free to use my code in your projects. Just give me credit and send me a link to what you made so I can check it out.
