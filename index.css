@@ -20,6 +20,9 @@
 	background-color: #ababab;
 	margin-left: -8px;
 	border-radius: 0px 5px 5px 0px;
+	border-style: solid;
+	border-width: 3px;
+	border-color: #585858;
 }
 
 .rightBanner {
@@ -29,6 +32,9 @@
 	left: calc(100vw - 126.0px);
 	margin-right: -8px;
 	border-radius: 5px 0px 0px 5px;
+	border-style: solid;
+	border-width: 3px;
+	border-color: #585858;
 }
 
 .draven {
