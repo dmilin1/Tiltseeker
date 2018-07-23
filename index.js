@@ -424,7 +424,7 @@ function adBlockNotDetected() {
 // Function called if AdBlock is detected
 function adBlockDetected() {
 	//open popup
-	if (mainUsername == null && laterCookie == null) {
+	if (mainUsername == null) {
 		$(".newUserMessage").addClass("newUserMessageVisible");
 	} else {
 		document.getElementById("newUserMessage").style.display = "none";
