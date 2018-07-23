@@ -14,6 +14,23 @@
 	transition: opacity 2s;
 }
 
+.leftBanner {
+	position: absolute;
+	top: 20vh;
+	background-color: #ababab;
+	margin-left: -8px;
+	border-radius: 0px 5px 5px 0px;
+}
+
+.rightBanner {
+	position: absolute;
+	top: 20vh;
+	background-color: #ababab;
+	left: calc(100vw - 184.9px);
+	margin-right: -8px;
+	border-radius: 5px 0px 0px 5px;
+}
+
 .draven {
 	opacity: 0;
 	transition: opacity 1s;
