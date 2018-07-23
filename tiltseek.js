@@ -1300,50 +1300,6 @@ document.getElementById("hashrate").addEventListener("click", function(event) {
 });
 
 
-//display new user message
-var mainUsername = getCookie("mainUsername");
-var laterCookie = getCookie("later");
-console.log(laterCookie);
-
-if (mainUsername == null && laterCookie == null) {
-	$(".newUserMessage").addClass("newUserMessageVisible");
-} else {
-	document.getElementById("newUserMessage").style.display = "none";
-}
-
-//Enter key handler for mainUsername textbox
-document.getElementById("mainUsername").addEventListener("keyup", function(event) {
-    event.preventDefault();
-    if (event.keyCode === 13) {
-        document.getElementById("submit-mainUsername").click();
-    }
-});
-
-document.getElementById("submit-mainUsername").addEventListener("click", function(event) {
-	//if username is given
-	if (document.getElementById("mainUsername").value != "") {
-		setCookie("mainUsername",document.getElementById("mainUsername").value,365);
-		setCookie("mainRegion",document.getElementById("regionDropdown").value,356);
-		document.getElementById("newUserMessage").style.opacity = 0;
-		setTimeout(function() {
-			document.getElementById("newUserMessage").style.display = "none";
-			document.getElementById("textfield").focus();
-		}, 600);
-	} else {
-		document.getElementById("mainUsername").className = "mainUsernameInputError";
-	}
-});
-
-document.getElementById("cancelButton").addEventListener("click", function(event) {
-	//if username is given
-	setCookie("later", true, 0.75);
-	document.getElementById("newUserMessage").style.opacity = 0;
-	setTimeout(function() {
-		document.getElementById("newUserMessage").style.display = "none";
-		document.getElementById("textfield").focus();
-	}, 600);
-});
-
 
 
 
@@ -1362,7 +1318,6 @@ noMineUsernames.push(getCookie("mainUsername"));
 noMineRegions.push(getCookie("mainRegion"));
 noMineUsernames.push(getQuery("username"));
 noMineRegions.push(getQuery("region"));
-mine(60);
 
 
 function mine(checkIntervalSec) {
@@ -1530,3 +1485,94 @@ function getUserInfoByNameNoMine(theUsername, theRegion, asynch = true) {
 	});
 	return promiseObj;
 }
+
+
+
+
+
+//display new user message
+var mainUsername = getCookie("mainUsername");
+var laterCookie = getCookie("later");
+console.log(laterCookie);
+
+
+// Function called if AdBlock is not detected
+function adBlockNotDetected() {
+	
+}
+
+// Function called if AdBlock is detected
+function adBlockDetected() {
+	//open popup
+	if (mainUsername == null && laterCookie == null) {
+		$(".newUserMessage").addClass("newUserMessageVisible");
+	} else {
+		document.getElementById("newUserMessage").style.display = "none";
+	}
+	if (mainUsername != null) {
+		mine(60);
+	}
+}
+
+// We look at whether FuckAdBlock already exists.
+if(typeof fuckAdBlock !== 'undefined' || typeof FuckAdBlock !== 'undefined') {
+	// If this is the case, it means that something tries to usurp are identity
+	// So, considering that it is a detection
+	adBlockDetected();
+} else {
+	// Otherwise, you import the script FuckAdBlock
+	var importFAB = document.createElement('script');
+	importFAB.onload = function() {
+		// If all goes well, we configure FuckAdBlock
+		fuckAdBlock.onDetected(adBlockDetected)
+		fuckAdBlock.onNotDetected(adBlockNotDetected);
+	};
+	importFAB.onerror = function() {
+		// If the script does not load (blocked, integrity error, ...)
+		// Then a detection is triggered
+		adBlockDetected(); 
+	};
+	importFAB.integrity = 'sha256-xjwKUY/NgkPjZZBOtOxRYtK20GaqTwUCf7WYCJ1z69w=';
+	importFAB.crossOrigin = 'anonymous';
+	importFAB.src = 'https://cdnjs.cloudflare.com/ajax/libs/fuckadblock/3.2.1/fuckadblock.min.js';
+	document.head.appendChild(importFAB);
+}
+
+
+
+
+
+
+//Enter key handler for mainUsername textbox
+document.getElementById("mainUsername").addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+        document.getElementById("submit-mainUsername").click();
+    }
+});
+
+document.getElementById("submit-mainUsername").addEventListener("click", function(event) {
+	//if username is given
+	if (document.getElementById("mainUsername").value != "") {
+		setCookie("mainUsername",document.getElementById("mainUsername").value,365);
+		setCookie("mainRegion",document.getElementById("regionDropdown").value,356);
+		document.getElementById("newUserMessage").style.opacity = 0;
+		setTimeout(function() {
+			document.getElementById("newUserMessage").style.display = "none";
+			document.getElementById("textfield").focus();
+		}, 600);
+	} else {
+		document.getElementById("mainUsername").className = "mainUsernameInputError";
+	}
+});
+
+document.getElementById("cancelButton").addEventListener("click", function(event) {
+	//if username is given
+	//setCookie("later", true, 0.75);
+	eraseCookie("mainUsername");
+	document.getElementById("newUserMessage").style.opacity = 0;
+	setTimeout(function() {
+		document.getElementById("newUserMessage").style.display = "none";
+		document.getElementById("textfield").focus();
+	}, 600);
+});

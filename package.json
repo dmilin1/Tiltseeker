@@ -13,6 +13,7 @@
     "aws-sdk": "^2.254.1",
     "express": "^4.16.3",
     "fs": "0.0.1-security",
+    "fuckadblock": "^3.2.1",
     "heroku-self-ping": "^1.1.5",
     "node-cron": "^1.2.1",
     "npm": "^6.1.0",

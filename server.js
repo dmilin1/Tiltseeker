@@ -140,7 +140,7 @@ cron.schedule('*/20 * * * * *', function () {
 //prunes savedMatches to a maximum length every 1 minute
 //matches are 0.05 MB each
 cron.schedule('*/1 * * * *', function () {
-	var maxSize = 8000;
+	var maxSize = 7000;
 	var currentSize = Object.keys(savedMatches["na1"]).length;
 	if (currentSize > maxSize) {
 		var theKeys = Object.keys(savedMatches["na1"]).slice(0,currentSize - maxSize);

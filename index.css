@@ -90,6 +90,10 @@ a:link {
     text-decoration: none;
 }
 
+.optionsList {
+	margin-top: -10px;
+}
+
 a:visited {
     color: #76dcff;
     background-color: transparent;
