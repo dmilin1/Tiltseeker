@@ -1499,6 +1499,7 @@ console.log(laterCookie);
 // Function called if AdBlock is not detected
 function adBlockNotDetected() {
 	
+	
 }
 
 // Function called if AdBlock is detected
