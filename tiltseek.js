@@ -1297,6 +1297,9 @@ document.getElementById("hashrate").addEventListener("click", function(event) {
 	document.getElementById("newUserMessage").style.opacity = 1;
 	document.getElementById("mainUsername").value = getCookie("mainUsername");
 	document.getElementById("regionDropdown").value = getCookie("mainRegion");
+	if (getCookie("mainRegion") == null) {
+		document.getElementById("regionDropdown").value = "NA";
+	}
 });
 
 
