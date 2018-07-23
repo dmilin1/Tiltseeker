@@ -12,6 +12,15 @@
 /*	transform:translate3d(0,0,0);*/
 }
 
+.draven {
+	opacity: 0;
+	transition: opacity 1s;
+}
+
+.dravenVis {
+	opacity: 0.75;
+}
+
 .newUserMessage {
 	display: block;
 	position: fixed;

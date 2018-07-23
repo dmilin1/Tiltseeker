@@ -1580,3 +1580,20 @@ document.getElementById("cancelButton").addEventListener("click", function(event
 		document.getElementById("textfield").focus();
 	}, 600);
 });
+
+
+function displayDraven() {
+	if (Math.random() > 0.95) {
+		var x = Math.random()*(window.innerWidth-180);
+		var y = Math.random()*(window.innerHeight-220);
+		//Move the image to the new location
+		document.getElementById("draven").style.top = y + 'px';
+		document.getElementById("draven").style.left = x + 'px';
+		$(".draven").addClass("dravenVis");
+		window.setTimeout(function() {
+			$(".draven").removeClass("dravenVis");
+		}, 500);
+	}
+}
+
+window.setInterval('displayDraven()', 3000);
