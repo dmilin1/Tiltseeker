@@ -7,14 +7,16 @@
 }
 
 .wrapper {
-	min-height: calc(100vh - 203.1px);
+	min-height: calc(100vh - 180.1px);
 	display: inline-block;
     width: 100%;
     margin-bottom: -56px;
+	margin-top: 32.7px;
 }
 
 .my-footer {
 	margin-top: 100px;
+	margin-bottom: -100px;
 	height: 56px;
 	bottom: 10px;
 	text-align: center;

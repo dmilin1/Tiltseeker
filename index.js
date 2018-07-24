@@ -134,6 +134,7 @@ document.getElementById("submit-button").addEventListener("click", function(even
 		window.location.href = "tiltseek.html?username=" + document.getElementById("textfield").value + "&region=" + getRegionID(region);
 	} else {
 		document.getElementById("textfield").className = "textInputError";
+		document.getElementById("submit-button").blur();
 	}
 });
 

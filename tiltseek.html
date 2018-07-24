@@ -84,7 +84,7 @@
 		<input class="cancel-button" id="cancelButton" form="mainUsername" type="submit" value="Later">
 	</div>
 </div>
- <div id="draven" class="draven" style="position:absolute;">
+ <div id="draven" class="draven" style="position:absolute; pointer-events: none;">
 <img src="dravenHead.png" alt="need image here" />
 </div>
  <ul class="navbar">
@@ -218,7 +218,11 @@
   	</ul>
   	<br>
   	<input class="submit-button" id="submit-button" form="textfield" type="submit" value="Find Camping Spot">
-  </div>
+	<span class="tooltipQuestion" style="width: initial;">
+  	<a href="/examplePage.html"><input class="question-button" id="question-button" form="textfield" type="submit" value="?"></a>
+  	<span class="tooltiptextaboveQuestion"><span style="margin: 0 10px; text-align: left; display: block;">Show Example Match</span></span>
+  	</span>
+    </div>
   
   <div id="teamName1" class="teamName" style="color: #35daff;">blue side</div>
   <div id="damageBar1"></div>
