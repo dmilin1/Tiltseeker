@@ -12,6 +12,29 @@
 /*	transform:translate3d(0,0,0);*/
 }
 
+.leftBanner {
+	position: absolute;
+	top: 20vh;
+	background-color: #ababab;
+	margin-left: -8px;
+	border-radius: 0px 5px 5px 0px;
+	border-style: solid;
+	border-width: 3px 3px 3px 0px;
+	border-color: #585858;
+}
+
+.rightBanner {
+	position: absolute;
+	top: 20vh;
+	background-color: #ababab;
+	right: 8px;
+	margin-right: -8px;
+	border-radius: 5px 0px 0px 5px;
+	border-style: solid;
+	border-width: 3px 0px 3px 3px;
+	border-color: #585858;
+}
+
 .draven {
 	opacity: 0;
 	transition: opacity 1s;
@@ -25,7 +48,7 @@
 	display: block;
 	position: fixed;
 	width: 70%;
-	min-height: 60%;
+	min-height: 40%;
 	left: 15%;
 	top: -770px;
 	z-index: 100;
@@ -332,8 +355,7 @@ a:active {
 }
 
 .ad {
-	width: 40%;
-	max-width: 350px;
+	width: 728px;
 	overflow: auto;
 	margin: auto;
 	background-color: #ababab;

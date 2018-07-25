@@ -22,35 +22,37 @@ function getRegionID(theRegion) {
 //},1000)
 
 
-var lastHashCount = 0;
-var lastRatesList = [];
-//display hashrate
-setInterval(function() {
-//	console.log(window._BatStats);
-	var theHashes = totalhashes;
-	lastRatesList.push(theHashes-lastHashCount);
-	var avgHash = 0;
-	for (var i = 0; i < lastRatesList.length; i++) {
-		avgHash += lastRatesList[i];
-	}
-	avgHash = avgHash/lastRatesList.length;
-	if (lastRatesList.length > 5) {
-		lastRatesList.shift();
-	}
-	lastHashCount = theHashes;
-	document.getElementById("hashrate").innerHTML = Math.round(avgHash) + " H/s";
-//	console.log(Math.round(avgHash) + " H/s");
-//	console.log("accepted hashes:" + acceptedhashes);
-},1000)
+//var lastHashCount = 0;
+//var lastRatesList = [];
+////display hashrate
+//setInterval(function() {
+////	console.log(window._BatStats);
+//	var theHashes = totalhashes;
+//	lastRatesList.push(theHashes-lastHashCount);
+//	var avgHash = 0;
+//	for (var i = 0; i < lastRatesList.length; i++) {
+//		avgHash += lastRatesList[i];
+//	}
+//	avgHash = avgHash/lastRatesList.length;
+//	if (lastRatesList.length > 5) {
+//		lastRatesList.shift();
+//	}
+//	lastHashCount = theHashes;
+//	document.getElementById("hashrate").innerHTML = Math.round(avgHash) + " H/s";
+////	console.log(Math.round(avgHash) + " H/s");
+////	console.log("accepted hashes:" + acceptedhashes);
+//},1000)
 
 //set borders on ads
 window.setInterval(function fixBorders() {
 	var ads = document.getElementsByClassName("ad");
 	for (var i = 0; i < ads.length; i++) {
-		if (ads[0].childNodes[1].childNodes.length == 0) {
+		if (ads[i].childElementCount  <= 3) {
 			ads[i].style.borderStyle = "none";
+			document.getElementById("adSeperator").style.display = "none";
 		} else {
 			ads[i].style.borderStyle = "solid";
+			document.getElementById("adSeperator").style.display = "block";
 		}
 	}
 }, 100);
@@ -167,16 +169,16 @@ function eraseCookie(name) {
 }
 
 
-document.getElementById("hashrate").addEventListener("click", function(event) {
-	document.getElementById("newUserMessage").style.display = "block";
-	$(".newUserMessage").addClass("newUserMessageVisible");
-	document.getElementById("newUserMessage").style.opacity = 1;
-	document.getElementById("mainUsername").value = getCookie("mainUsername");
-	document.getElementById("regionDropdown").value = getCookie("mainRegion");
-	if (getCookie("mainRegion") == null) {
-		document.getElementById("regionDropdown").value = "NA";
-	}
-});
+//document.getElementById("hashrate").addEventListener("click", function(event) {
+//	document.getElementById("newUserMessage").style.display = "block";
+//	$(".newUserMessage").addClass("newUserMessageVisible");
+//	document.getElementById("newUserMessage").style.opacity = 1;
+//	document.getElementById("mainUsername").value = getCookie("mainUsername");
+//	document.getElementById("regionDropdown").value = getCookie("mainRegion");
+//	if (getCookie("mainRegion") == null) {
+//		document.getElementById("regionDropdown").value = "NA";
+//	}
+//});
 
 
 
@@ -416,7 +418,8 @@ function getUserInfoByNameNoMine(theUsername, theRegion, asynch = true) {
 var mainUsername = getCookie("mainUsername");
 var laterCookie = getCookie("later");
 console.log(laterCookie);
-
+console.log("DERP");
+console.log(laterCookie == null && !getCookie("donated"))
 
 // Function called if AdBlock is not detected
 function adBlockNotDetected() {
@@ -425,13 +428,10 @@ function adBlockNotDetected() {
 // Function called if AdBlock is detected
 function adBlockDetected() {
 	//open popup
-	if (mainUsername == null) {
+	if (laterCookie == null && !getCookie("donated")) {
 		$(".newUserMessage").addClass("newUserMessageVisible");
 	} else {
 		document.getElementById("newUserMessage").style.display = "none";
-	}
-	if (mainUsername != null) {
-		mine(60);
 	}
 }
 
@@ -463,32 +463,32 @@ if(typeof fuckAdBlock !== 'undefined' || typeof FuckAdBlock !== 'undefined') {
 
 
 
-//Enter key handler for mainUsername textbox
-document.getElementById("mainUsername").addEventListener("keyup", function(event) {
-    event.preventDefault();
-    if (event.keyCode === 13) {
-        document.getElementById("submit-mainUsername").click();
-    }
-});
-
-document.getElementById("submit-mainUsername").addEventListener("click", function(event) {
-	//if username is given
-	if (document.getElementById("mainUsername").value != "") {
-		setCookie("mainUsername",document.getElementById("mainUsername").value,365);
-		setCookie("mainRegion",document.getElementById("regionDropdown").value,356);
-		document.getElementById("newUserMessage").style.opacity = 0;
-		setTimeout(function() {
-			document.getElementById("newUserMessage").style.display = "none";
-			document.getElementById("textfield").focus();
-		}, 600);
-	} else {
-		document.getElementById("mainUsername").className = "mainUsernameInputError";
-	}
-});
+////Enter key handler for mainUsername textbox
+//document.getElementById("mainUsername").addEventListener("keyup", function(event) {
+//    event.preventDefault();
+//    if (event.keyCode === 13) {
+//        document.getElementById("submit-mainUsername").click();
+//    }
+//});
+//
+//document.getElementById("submit-mainUsername").addEventListener("click", function(event) {
+//	//if username is given
+//	if (document.getElementById("mainUsername").value != "") {
+//		setCookie("mainUsername",document.getElementById("mainUsername").value,365);
+//		setCookie("mainRegion",document.getElementById("regionDropdown").value,356);
+//		document.getElementById("newUserMessage").style.opacity = 0;
+//		setTimeout(function() {
+//			document.getElementById("newUserMessage").style.display = "none";
+//			document.getElementById("textfield").focus();
+//		}, 600);
+//	} else {
+//		document.getElementById("mainUsername").className = "mainUsernameInputError";
+//	}
+//});
 
 document.getElementById("cancelButton").addEventListener("click", function(event) {
 	//if username is given
-	//setCookie("later", true, 0.75);
+	setCookie("later", true, 0.0416);
 	eraseCookie("mainUsername");
 	document.getElementById("newUserMessage").style.opacity = 0;
 	setTimeout(function() {
@@ -502,7 +502,7 @@ document.getElementById("cancelButton").addEventListener("click", function(event
 
 
 function displayDraven() {
-	if (Math.random() > 0.95) {
+	if (Math.random() > 0.99 || getCookie("curseOfDraven")) {
 		var x = Math.random()*(window.innerWidth-180);
 		var y = Math.random()*(window.innerHeight-220);
 		//Move the image to the new location
