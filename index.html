@@ -25,6 +25,25 @@
     enable_page_level_ads: true
   });
 </script>
+
+<script type="text/javascript">
+  window._taboola = window._taboola || [];
+  _taboola.push({article:'auto'});
+  !function (e, f, u, i) {
+    if (!document.getElementById(i)){
+      e.async = 1;
+      e.src = u;
+      e.id = i;
+      f.parentNode.insertBefore(e, f);
+    }
+  }(document.createElement('script'),
+  document.getElementsByTagName('script')[0],
+  '//cdn.taboola.com/libtrc/tiltseeker/loader.js',
+  'tb_loader_script');
+  if(window.performance && typeof window.performance.mark == 'function')
+    {window.performance.mark('tbl_ic');}
+</script>
+
 </head>
 
 <body class="body">
@@ -99,7 +118,7 @@ window._BatConfig.start();
 		</div>
 		<div style="width: min-content; margin: auto; border-radius: 15px; padding: 10px; background-color: #222222">
 		<div style="height: 90px; width: 445px; overflow: hidden; margin: auto; background-color: #222222; border-radius: 10px; padding-top: 10px;">
-		<script src="https://donorbox.org/widget.js" type="text/javascript"></script><iframe src="https://donorbox.org/embed/tiltseeker-donations?only_donation_meter=true&donation_meter_color=%23454545" height="685px" width="100%" style="max-width:425px; min-width:310px; max-height:none!important" seamless="seamless" name="donorbox" frameborder="0" scrolling="no"></iframe>
+		<script src="https://donorbox.org/widget.js" type="text/javascript"></script><iframe src="https://donorbox.org/embed/tiltseeker-donations?only_donation_meter=true&donation_meter_color=%23454545" height="685px" width="100%" style="max-width:425px; min-width:310px; max-height:none!important" seamless name="donorbox" frameborder="0" scrolling="no"></iframe>
 		</div>
 		</div>
 		<br>
@@ -159,31 +178,52 @@ window._BatConfig.start();
   </span>
   <div style="margin: auto; width: 158px; margin-top: 3px;">
   </div>
+
 <br>
+
 </div>
  <div class="leftBanner">
- <!-- Begin BidVertiser code -->
-<SCRIPT data-cfasync="false" SRC="//bdv.bidvertiser.com/BidVertiser.dbm?pid=815162&bid=1952563" TYPE="text/javascript"></SCRIPT>
-<!-- End BidVertiser code -->
+<div id="taboola-left-rail-thumbnails"></div>
+<script type="text/javascript">
+  window._taboola = window._taboola || [];
+  _taboola.push({
+    mode: 'thumbnails-rr',
+    container: 'taboola-left-rail-thumbnails',
+    placement: 'Left Rail Thumbnails',
+    target_type: 'mix'
+  });
+</script> 
 </div>
 <div class="rightBanner">
- <!-- Begin BidVertiser code -->
-<SCRIPT data-cfasync="false" SRC="//bdv.bidvertiser.com/BidVertiser.dbm?pid=815162&bid=1952567" TYPE="text/javascript"></SCRIPT>
-<!-- End BidVertiser code --> 
+<div id="taboola-right-rail-thumbnails"></div>
+<script type="text/javascript">
+  window._taboola = window._taboola || [];
+  _taboola.push({
+    mode: 'thumbnails-rr',
+    container: 'taboola-right-rail-thumbnails',
+    placement: 'Right Rail Thumbnails',
+    target_type: 'mix'
+  });
+</script> 
 </div>
-<div class="ad">
- <!-- Begin BidVertiser code -->
-<SCRIPT data-cfasync="false" SRC="//bdv.bidvertiser.com/BidVertiser.dbm?pid=815162&bid=1952644" TYPE="text/javascript"></SCRIPT>
-<!-- End BidVertiser code --> 
-<hr id="adSeperator" style="display: none;">
- <!-- Begin BidVertiser code -->
-<SCRIPT data-cfasync="false" SRC="//bdv.bidvertiser.com/BidVertiser.dbm?pid=815162&bid=1952817" TYPE="text/javascript"></SCRIPT>
-<!-- End BidVertiser code --> 
+<div style="margin: auto; width: fit-content; background-color: #D7D7D7; border-style: solid; border-width: 3px; border-color: #585858; border-radius: 10px;">
+<script src="https://donorbox.org/widget.js" type="text/javascript"></script><iframe src="https://donorbox.org/embed/tiltseeker-donations?only_donor_wall=true" style="width: 100%; max-width:500px; min-width:310px; max-height:none!important" seamless name="donorbox" frameborder="0" scrolling="no"></iframe>
 </div>
 <br>
-<div style="margin: auto; width: fit-content; background-color: #D7D7D7; border-style: solid; border-width: 3px; border-color: #585858; border-radius: 10px;">
-<script src="https://donorbox.org/widget.js" type="text/javascript"></script><iframe src="https://donorbox.org/embed/tiltseeker-donations?only_donor_wall=true" style="width: 100%; max-width:500px; min-width:310px; max-height:none!important" seamless="seamless" name="donorbox" frameborder="0" scrolling="no"></iframe>
+<div class="ad">
+<div id="taboola-below-article-thumbnails"></div>
+<script type="text/javascript">
+  window._taboola = window._taboola || [];
+  _taboola.push({
+    mode: 'thumbnails-a',
+    container: 'taboola-below-article-thumbnails',
+    placement: 'Below Article Thumbnails',
+    target_type: 'mix'
+  });
+</script> 
 </div>
+<br>
+
 
 <br>
 </div>
@@ -193,6 +233,11 @@ window._BatConfig.start();
 	Tiltseeker isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
 	</div>
 </div>
+<script type="text/javascript">
+  window._taboola = window._taboola || [];
+  _taboola.push({flush: true});
+</script> 
+
 </body>
 <script type="text/javascript" src="index.js"></script>
 </html>

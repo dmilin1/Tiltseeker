@@ -47,15 +47,20 @@ function getRegionID(theRegion) {
 window.setInterval(function fixBorders() {
 	var ads = document.getElementsByClassName("ad");
 	for (var i = 0; i < ads.length; i++) {
-		if (ads[i].childElementCount  <= 3) {
+		console.log(ads[i].children[0].children.length);
+		if (ads[i].children[0].children.length  <= 0) {
 			ads[i].style.borderStyle = "none";
-			document.getElementById("adSeperator").style.display = "none";
+			ads[i].style.padding = "0px";
+			document.getElementsByClassName("leftBanner")[0].style.borderStyle = "none";
+			document.getElementsByClassName("rightBanner")[0].style.borderStyle = "none";
 		} else {
 			ads[i].style.borderStyle = "solid";
-			document.getElementById("adSeperator").style.display = "block";
+			ads[i].style.padding = "10px";
+			document.getElementsByClassName("leftBanner")[0].style.borderStyle = "solid";
+			document.getElementsByClassName("rightBanner")[0].style.borderStyle = "solid";
 		}
 	}
-}, 100);
+}, 200);
 
 
 //display random quotes

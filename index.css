@@ -58,9 +58,10 @@
 	background-color: #ababab;
 	margin-left: -8px;
 	border-radius: 0px 5px 5px 0px;
-	border-style: solid;
+	border-style: none;
 	border-width: 3px 3px 3px 0px;
 	border-color: #585858;
+	width: 130px;
 }
 
 .rightBanner {
@@ -70,9 +71,10 @@
 	right: 0px;
 	margin-right: -8px;
 	border-radius: 5px 0px 0px 5px;
-	border-style: solid;
+	border-style: none;
 	border-width: 3px 0px 3px 3px;
 	border-color: #585858;
+	width: 130px;
 }
 
 .draven {
@@ -206,9 +208,10 @@ a:active {
 }
 
 .ad {
-	width: 468px;
-	max-height: 25vh;
-	overflow: auto;
+	padding: 0px;
+	width: 400px;
+	max-height: 217px;
+	overflow: hidden;
 	margin: auto;
 	background-color: #ababab;
 	border-radius: 10px;
@@ -417,7 +420,7 @@ a:active {
 	right: 50%;
 	margin: auto;
 	width: 713.55px;
-	margin-top: 19vh;
+	margin-top: 12vh;
 }
 
 .textInput {
