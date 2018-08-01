@@ -518,6 +518,12 @@ function getMemory() {return Math.round(process.memoryUsage().rss/(1024*1024)*10
 
 //call to get a summoner's info by summoner name
 app.get('/summonerByName', function (req, res) {
+	if (regions.indexOf(req.query.region) == -1) {
+		res.send({
+			"error": 778
+		});
+		return;
+	}
 	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/summoner/v3/summoners/by-name/" + querystring.escape(req.query.username) + "?api_key=" + apikey;
 	async.waterfall([
 			function myFunction(callback, attempt = 0) {
@@ -556,6 +562,12 @@ app.get('/summonerByName', function (req, res) {
 
 //call to get the current game of a summoner by summonerId
 app.get('/currentGame', function (req, res) {
+	if (regions.indexOf(req.query.region) == -1) {
+		res.send({
+			"error": 778
+		});
+		return;
+	}
 	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/spectator/v3/active-games/by-summoner/" + req.query.summonerId + "?api_key=" + apikey;
 	async.waterfall([
 			function myFunction(callback, attempt = 0) {
@@ -626,6 +638,12 @@ app.get('/getStats', function (req, res) {
 
 //call to get a match list history for a summoner
 app.get('/matchList', function (req, res) {
+	if (regions.indexOf(req.query.region) == -1) {
+		res.send({
+			"error": 778
+		});
+		return;
+	}
 	//summoners rift only
 	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/match/v3/matchlists/by-account/" + req.query.accountId + "?queue=400&queue=420&queue=430&queue=440&api_key=" + apikey;
 	async.waterfall([
@@ -664,7 +682,12 @@ app.get('/matchList', function (req, res) {
 
 //call to get match info
 app.get('/getMatch', function (req, res) {
-	
+	if (regions.indexOf(req.query.region) == -1) {
+		res.send({
+			"error": 778
+		});
+		return;
+	}
 	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/match/v3/matches/" + req.query.matchId + "?api_key=" + apikey;
 	async.waterfall([
 			function myFunction(callback, attempt = 0) {
@@ -704,6 +727,12 @@ app.get('/getMatch', function (req, res) {
 
 //call to get a summoner's mastery on a champion
 app.get('/getMastery', function (req, res) {
+	if (regions.indexOf(req.query.region) == -1) {
+		res.send({
+			"error": 778
+		});
+		return;
+	}
 	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/champion-mastery/v3/champion-masteries/by-summoner/" + req.query.summonerId + "/by-champion/" + req.query.championId + "?api_key=" + apikey;
 	async.waterfall([
 			function myFunction(callback, attempt = 0) {
@@ -742,6 +771,12 @@ app.get('/getMastery', function (req, res) {
 
 //call to get a summoner's ranked league stats
 app.get('/getLeague', function (req, res) {
+	if (regions.indexOf(req.query.region) == -1) {
+		res.send({
+			"error": 778
+		});
+		return;
+	}
 	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/league/v3/positions/by-summoner/" + req.query.summonerId + "?api_key=" + apikey;
 	async.waterfall([
 			function myFunction(callback, attempt = 0) {

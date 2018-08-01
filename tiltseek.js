@@ -243,6 +243,9 @@ function handleError(errorNum, message404) {
 	} else if (errorNum == 404) {
 		console.log("404");
 		displayError(message404);
+	} else if (errorNum == 778) {
+		console.log("Invalid Region")
+		displayError("A HUGE thank you to user Derpthemeus for helping me discover and patch this security flaw. Email bugs to contact@tiltseeker.com");
 	} else {
 		displayError("Oops... something happened. Error: " + errorNum);
 	}
