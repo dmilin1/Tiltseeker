@@ -448,7 +448,7 @@
       "id": 84,
       "key": "Akali",
       "name": "Akali",
-      "title": "the Fist of Shadow"
+      "title": "the Rogue Assassin"
     },
     "85": {
       "id": 85,
@@ -848,5 +848,5 @@
     }
   },
   "type": "champion",
-  "version": "8.14.1"
+  "version": "8.15.1"
 }

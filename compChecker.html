@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<meta charset="utf-8">
+<title>Tiltseeker</title>
+<link rel="icon" href="/favicon.png">
+<link href="compChecker.css" rel="stylesheet" type="text/css" media="screen">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-121621839-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-121621839-1');
+</script>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-8909561335027437",
+    enable_page_level_ads: true
+  });
+</script>
+</head>
+
+<body class="body">
+<ul class="navbar">
+  <li><a href="/">Home</a></li>
+  <li><a href="/stats.html">Stats</a></li>
+  <li><a href="/guide.html">Guide</a></li>
+  <li><a href="/app.html">Tiltseeker App</a></li>
+  <li style="float:right"><a class="active" href="./about.html">About & Contact</a></li>
+  <li style="float:right"><a class="active" href="./donate.html">Donate</a></li>
+</ul>
+<div id="adminmsg" class="adminmsg"> <span id="adminmsgx" class="adminmsgx">×</span> <span id="adminmsgtext" class="adminmsgtext">Derpity</span> </div>
+<div class="wrapper">
+  <div class="center text"> </div>
+  <div id="root"></div>
+</div>
+<div class="my-footer">
+  <div class="disclaimer"> Tiltseeker isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc. </div>
+</div>
+<!-- ... other HTML ... --> 
+
+<!-- Adding JSX --> 
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<!-- Load React. --> 
+<!-- Note: when deploying, replace "development.js" with "production.min.js". --> 
+<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script> 
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+<!-- Load our React component. -->
+<script src="compCheckerReact.js" type="text/babel"></script>
+
+</body>
+<script type="text/javascript" src="trainedBrain.js"></script>
+<script type="text/javascript" src="compChecker.js"></script>
+</html>
