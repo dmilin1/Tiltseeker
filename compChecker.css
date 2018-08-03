@@ -117,7 +117,7 @@
 	background-color: pink;
 	height: 35px;
 	padding: 2px;
-	font-size: 22px;
+	font-size: 24px;
 	z-index: 1;
 	position: relative;
 	text-align: left;
@@ -227,6 +227,14 @@
 	border-width: 3px;
     border-style: solid;
 	border-color: #585858;
+}
+
+.explanation {
+	color: #dddddd;
+	width: 50%;
+	margin: auto;
+	font-family: Montserrat;
+    font-weight: 500;
 }
 
 .leftBanner {
