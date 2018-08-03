@@ -7,6 +7,7 @@ restartServer();
 function restartServer() {
 
 //requires
+require("babel-core").transform("code");
 var express = require('express'); // Express web server framework
 var request = require('request'); // "Request" library
 var path = require('path');
@@ -139,8 +140,8 @@ cron.schedule('*/20 * * * * *', function () {
 
 //prunes savedMatches to a maximum length every 1 minute
 //matches are 0.05 MB each
-cron.schedule('*/1 * * * *', function () {
-	var maxSize = 7000;
+cron.schedule('*/20 * * * * *', function () {
+	var maxSize = 1000;
 	var currentSize = Object.keys(savedMatches["na1"]).length;
 	if (currentSize > maxSize) {
 		var theKeys = Object.keys(savedMatches["na1"]).slice(0,currentSize - maxSize);

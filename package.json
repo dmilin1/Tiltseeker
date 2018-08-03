@@ -4,13 +4,16 @@
   "description": "finds enemies in League of Legends who are on losing streaks",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "async": "^2.6.0",
     "aws-sdk": "^2.254.1",
+    "babel-cli": "^6.26.0",
+    "babel-preset-react-app": "^3.1.2",
     "express": "^4.16.3",
     "fs": "0.0.1-security",
     "fuckadblock": "^3.2.1",
@@ -21,5 +24,16 @@
     "querystring": "^0.2.0",
     "request": "^2.86.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "babel-core": "^6.26.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://dmilin1:1infiniteloop@github.com/dmilin1/Tiltseeker.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/dmilin1/Tiltseeker/issues"
+  },
+  "homepage": "https://github.com/dmilin1/Tiltseeker#readme"
 }

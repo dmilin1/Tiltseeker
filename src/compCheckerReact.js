@@ -1,15 +1,5 @@
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 var champData = {
-  "data": _defineProperty({
+  "data": {
     "1": {
       "id": 1,
       "key": "Annie",
@@ -996,444 +986,335 @@ var champData = {
       "name": "Pyke",
       "title": "the Bloodharbor Ripper",
       "count": 140
+    },
+	"555": {
+      "title": "the Bloodharbor Ripper",
+      "id": 555,
+      "key": "Pyke",
+      "name": "Pyke",
+	  "count": 141
     }
-  }, "555", {
-    "title": "the Bloodharbor Ripper",
-    "id": 555,
-    "key": "Pyke",
-    "name": "Pyke",
-    "count": 141
-  }),
+  },
   "type": "champion",
   "version": "8.13.1"
-};
+}
 
-var Champions = function (_React$Component) {
-  _inherits(Champions, _React$Component);
-
-  function Champions(props) {
-    _classCallCheck(this, Champions);
-
-    return _possibleConstructorReturn(this, (Champions.__proto__ || Object.getPrototypeOf(Champions)).call(this, props));
-  }
-
-  _createClass(Champions, [{
-    key: "render",
-    value: function render() {
-      var _this2 = this;
-
-      var champs = [];
-      for (var key in champData.data) {
-        if (champData.data[key].name.toUpperCase().includes(this.props.searchText.toUpperCase())) {
-          champs.push(champData.data[key]);
-        }
-      }
-
-      champs.sort(function (a, b) {
-        if (a.name < b.name) return -1;
-        if (a.name > b.name) return 1;
-        return 0;
-      });
-
-      var listItems = champs.map(function (champ, i) {
-        return React.createElement(
-          "div",
-          { className: "champItem", style: _this2.getStyle(i), onMouseDown: _this2.clicked.bind(_this2, champ), key: champ.name + "Div" },
-          React.createElement("img", { className: "champIcon", src: "https://ddragon.leagueoflegends.com/cdn/8.15.1/img/champion/" + champ.key + ".png", key: champ.name + "Img" }),
-          React.createElement(
-            "span",
-            { className: "verticalTextContainer" },
-            React.createElement(
-              "span",
-              { className: "verticalText", key: champ.name },
-              champ.name
-            )
-          )
-        );
-      }
-      //"https://ddragon.leagueoflegends.com/cdn/8.15.1/img/champion/" + champList.data[summonersChampIds[playerNum]].key + ".png";
-      );
-      return listItems;
+class Champions extends React.Component {
+	constructor(props) {
+		super(props);
+	}
+	
+	render() {
+		var champs = [];
+		for (var key in champData.data) {
+			if (champData.data[key].name.toUpperCase().includes(this.props.searchText.toUpperCase())) {
+				champs.push(champData.data[key]);
+			}
+		}
+		
+		champs.sort(function(a,b) {
+			if(a.name < b.name) return -1;
+    		if(a.name > b.name) return 1;
+			return 0;
+		});
+		
+		const listItems = champs.map((champ, i) =>
+			<div className="champItem" style={this.getStyle(i)} onMouseDown={this.clicked.bind(this,champ)} key={champ.name + "Div"}>
+			<img className="champIcon" src={"https://ddragon.leagueoflegends.com/cdn/8.15.1/img/champion/" + champ.key + ".png"} key={champ.name + "Img"}/>
+			<span className="verticalTextContainer">
+				<span className="verticalText" key={champ.name}>{champ.name}</span>
+			</span>
+			</div>
+		//"https://ddragon.leagueoflegends.com/cdn/8.15.1/img/champion/" + champList.data[summonersChampIds[playerNum]].key + ".png";
+  		);
+		return listItems;
+	}
+	
+	clicked(champ) {
+		this.props.clicked(champ.name);
     }
-  }, {
-    key: "clicked",
-    value: function clicked(champ) {
-      this.props.clicked(champ.name);
+	
+	getStyle(index) {
+		var display = this.props.focused ? "block" : "none";
+		var highlighted = { "backgroundColor": "#878787", "display" : display}
+		var notHighlighted = { "backgroundColor": "#585858", "display" : display}
+		if (index == this.props.selected) {
+			return highlighted;
+		} else {
+			return notHighlighted;
+		}
+	}
+}
+
+
+class TextField extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			data: '',
+			selected: 0,
+			enterSelect: false
+		};
+	}
+	
+	getKey() {
+		for (var key in champData.data) {
+			if (this.props.value.toUpperCase() == champData.data[key].name.toUpperCase()) {
+				return champData.data[key].key;
+			}
+		}
+		return null;
+	}
+	
+	render() {
+		var theKey = this.getKey();
+		if (this.props.enterSelect) {
+			return (
+        		<div>
+					<input value={this.props.value} className="textBox" onKeyUp={this.update.bind(this)} ref="myInput" type="text" name="champlist"></input>
+				</div>
+			);
+		} else {
+			return (
+        		<div>
+					<input className="textBox" onKeyUp={this.update.bind(this)} ref="myInput" type="text" name="champlist"></input>
+					<img style={{"float": (this.props.teamNum == 2) ? "left" : "right"}} className="selectedIcon" src={ (theKey) ? "https://ddragon.leagueoflegends.com/cdn/8.15.1/img/champion/" + this.getKey() +".png" : "noBan.png" } width="38px" key={"Img"}/>
+				</div>
+			);
+		}
     }
-  }, {
-    key: "getStyle",
-    value: function getStyle(index) {
-      var display = this.props.focused ? "block" : "none";
-      var highlighted = { "backgroundColor": "#878787", "display": display };
-      var notHighlighted = { "backgroundColor": "#585858", "display": display };
-      if (index == this.props.selected) {
-        return highlighted;
-      } else {
-        return notHighlighted;
-      }
+	
+    update(e) {
+		if (e.keyCode == 40 || e.keyCode == 38) {
+			this.props.commandKey(e.keyCode);
+		} else if (e.keyCode == 13) {
+			this.props.commandKey(e.keyCode);
+		} else {
+			this.props.onUpdate(this.refs.myInput.value);
+		}
     }
-  }]);
+}
 
-  return Champions;
-}(React.Component);
 
-var TextField = function (_React$Component2) {
-  _inherits(TextField, _React$Component2);
+class ChampSelectForm extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			data: '',
+			selected: 0,
+			enterSelect: false,
+			focused: false
+		};
+	}
+	
+	componentDidUpdate() {
+		if (this.state.enterSelect == true) {
+			this.setState({ enterSelect: false});
+		}
+	}
+	
+	render() {
+  		return (
+			<div onBlur={this.setFocus.bind(this,false)} onFocus={this.setFocus.bind(this,true)} className="selectForm">
+    		<TextField enterSelect={this.state.enterSelect} value={this.state.data} onUpdate={this.onUpdate.bind(this)} commandKey={this.commandKey.bind(this)} teamNum={this.props.teamNum} />
+			<Champions clicked={this.clicked.bind(this)} focused={this.state.focused} searchText={this.state.data} selected={this.state.selected} />
+			</div>
+  		);
+	}
+	
+	setFocus(data) {
+		this.setState({focused: data});
+	}
+	
+	clicked(data) {
+		this.setState({ data: data, selected: 0, enterSelect: true, focused: true });
+		this.props.setChamp(data, this.props.playerNum);
+	}
+	
+	onUpdate (data) {
+		this.setState({ data: data, selected: 0, enterSelect: false, focused: true });
+		this.props.setChamp(data, this.props.playerNum);
+	}
 
-  function TextField(props) {
-    _classCallCheck(this, TextField);
+	commandKey(data) {
+		if (data == 40) {
+			this.setState({ data: this.state.data, selected: this.state.selected+1 });
+		} else if (data == 38) {
+			this.setState({ data: this.state.data, selected: Math.max(this.state.selected-1,0) });
+		} else if (data == 13) {
+			var champs = [];
+			for (var key in champData.data) {
+				if (champData.data[key].name.toUpperCase().includes(this.state.data.toUpperCase())) {
+					champs.push(champData.data[key]);
+				}
+			}
+			champs.sort(function (a, b) {
+				if (a.name < b.name) return -1;
+				if (a.name > b.name) return 1;
+				return 0;
+			});
+			this.setState({ data: champs[this.state.selected].name, selected: 0, enterSelect: true, focused: false});
+			this.props.setChamp(champs[this.state.selected].name, this.props.playerNum);
+		}
+	}
+}
 
-    var _this3 = _possibleConstructorReturn(this, (TextField.__proto__ || Object.getPrototypeOf(TextField)).call(this, props));
+class WinPercent extends React.Component {
+	constructor(props) {
+		super(props);
+	}
+	
+	render() {
+		return (this.props.isFull) ? (
+			<div className="percent">
+			{this.props.winChance + "%"}
+			</div>
+		) : (
+			<div className="percent">
+			{"_" + "%"}
+			</div>);
+	}
+}
 
-    _this3.state = {
-      data: '',
-      selected: 0,
-      enterSelect: false
-    };
-    return _this3;
-  }
+class TeamSelect extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			champions: []
+		};
+	}
+	
+	setChamp(champName, index) {
+		var newChampions = this.state.champions;
+		newChampions[index - 1] = champName;
+		this.setState({ champions: newChampions });
+		this.props.setTeam(this.props.teamNum, newChampions);
+	}
+	
+	render() {
+		return (
+			<div className="teamSelect">
+			<div className="teamSelectContainer">
+			<div className="teamText">Team {this.props.teamNum}</div>
+			<br/>
+			<ChampSelectForm setChamp={this.setChamp.bind(this)} teamNum={this.props.teamNum} playerNum={1} />
+			<br/>
+			<br/>
+			<br/>
+			<ChampSelectForm setChamp={this.setChamp.bind(this)} teamNum={this.props.teamNum} playerNum={2} />
+			<br/>
+			<br/>
+			<br/>
+			<ChampSelectForm setChamp={this.setChamp.bind(this)} teamNum={this.props.teamNum} playerNum={3} />
+			<br/>
+			<br/>
+			<br/>
+			<ChampSelectForm setChamp={this.setChamp.bind(this)} teamNum={this.props.teamNum} playerNum={4} />
+			<br/>
+			<br/>
+			<br/>
+			<ChampSelectForm setChamp={this.setChamp.bind(this)} teamNum={this.props.teamNum} playerNum={5} />
+			<br/>
+			<br/>
+			<br/>
+			<WinPercent isFull={this.props.isFull} winChance={Math.round(this.props.percent*100)/100} />
+			</div>
+			</div>
+		);
+	}
+}
 
-  _createClass(TextField, [{
-    key: "getKey",
-    value: function getKey() {
-      for (var key in champData.data) {
-        if (this.props.value.toUpperCase() == champData.data[key].name.toUpperCase()) {
-          return champData.data[key].key;
-        }
-      }
-      return null;
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var theKey = this.getKey();
-      if (this.props.enterSelect) {
-        return React.createElement(
-          "div",
-          null,
-          React.createElement("input", { value: this.props.value, className: "textBox", onKeyUp: this.update.bind(this), ref: "myInput", type: "text", name: "champlist" })
-        );
-      } else {
-        return React.createElement(
-          "div",
-          null,
-          React.createElement("input", { className: "textBox", onKeyUp: this.update.bind(this), ref: "myInput", type: "text", name: "champlist" }),
-          React.createElement("img", { style: { "float": this.props.teamNum == 2 ? "left" : "right" }, className: "selectedIcon", src: theKey ? "https://ddragon.leagueoflegends.com/cdn/8.15.1/img/champion/" + this.getKey() + ".png" : "noBan.png", width: "38px", key: "Img" })
-        );
-      }
-    }
-  }, {
-    key: "update",
-    value: function update(e) {
-      if (e.keyCode == 40 || e.keyCode == 38) {
-        this.props.commandKey(e.keyCode);
-      } else if (e.keyCode == 13) {
-        this.props.commandKey(e.keyCode);
-      } else {
-        this.props.onUpdate(this.refs.myInput.value);
-      }
-    }
-  }]);
+class App extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			team1: [],
+			team2: []
+		};
+	}
+	
+	setTeam(teamNum, champs) {
+		if (teamNum == 1) {
+			this.setState({ team1: champs });
+		}
+		if (teamNum == 2) {
+			this.setState({ team2: champs });
+		}
+	}
+	
+	nameToCount(theName) {
+		for (var i in champData.data) {
+			if (champData.data[i].name == theName) {
+				return champData.data[i].count;
+			}
+		}
+		return null;
+	}
+	
+	flipMatch(match) {
+		var inputArray = match.slice(match.length / 2, match.length).concat(match.slice(0, match.length / 2));
+		return inputArray;
+	}
+	
+	formatMatch() {
+		var numberOfChamps = Object.keys(champData.data).length + 1;
+		var inputArray = [];
+		for (var i = 0; i < numberOfChamps * 2; i++) {
+			inputArray[i] = 0;
+		}
+		for (var i = 0; i < 5; i++) {
+			inputArray[this.nameToCount(this.state.team1[i])] = 1;
+		}
+		for (var i = 0; i < 5; i++) {
+			inputArray[this.nameToCount(this.state.team2[i]) + numberOfChamps] = 1;
+		}
+		
+		return inputArray;
+	}
+	
+	guessToPercent(guess) {
+		return 92.72*guess+50;
+	}
+	
+	calcWinChance() {
+		var guess = 0//(testComp(this.formatMatch())[0] + (-(testComp(this.flipMatch(this.formatMatch()))[0]-0.5)+0.5))/2;
+		var percent = this.guessToPercent(guess-0.5);
+		return percent;
+	}
+	
+	isFull() {
+		var isFull = true;
+		var empty = true;
+		for (var i = 0; i < 5; i++) {
+			empty = false;
+			if (this.nameToCount(this.state.team1[i]) == null) { isFull = false; }
+		}
+		for (var i = 0; i < 5; i++) {
+			empty = false;
+			if (this.nameToCount(this.state.team2[i]) == null) { isFull = false; }
+		}
+		if (empty) {isFull = false}
+		return isFull;
+	}
+	
+	render() {
+		var percent = this.calcWinChance();
+		return (
+			<div className="app">
+			<div className="logo"><img src={"TiltSeeker.png"} alt="" width="713.55" height="104"/></div>
+			<div className="title">Team Composition Analysis Tool</div>
+			<br/>
+			<br/>
+			<TeamSelect isFull={this.isFull()} percent={percent} setTeam={this.setTeam.bind(this)} teamNum={1} />
+			<span className="vsText">vs</span>
+			<TeamSelect isFull={this.isFull()} percent={100-percent} setTeam={this.setTeam.bind(this)} teamNum={2} />
+			</div>
+		);
+	}
+}
 
-  return TextField;
-}(React.Component);
 
-var ChampSelectForm = function (_React$Component3) {
-  _inherits(ChampSelectForm, _React$Component3);
-
-  function ChampSelectForm(props) {
-    _classCallCheck(this, ChampSelectForm);
-
-    var _this4 = _possibleConstructorReturn(this, (ChampSelectForm.__proto__ || Object.getPrototypeOf(ChampSelectForm)).call(this, props));
-
-    _this4.state = {
-      data: '',
-      selected: 0,
-      enterSelect: false,
-      focused: false
-    };
-    return _this4;
-  }
-
-  _createClass(ChampSelectForm, [{
-    key: "componentDidUpdate",
-    value: function componentDidUpdate() {
-      if (this.state.enterSelect == true) {
-        this.setState({ enterSelect: false });
-      }
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return React.createElement(
-        "div",
-        { onBlur: this.setFocus.bind(this, false), onFocus: this.setFocus.bind(this, true), className: "selectForm" },
-        React.createElement(TextField, { enterSelect: this.state.enterSelect, value: this.state.data, onUpdate: this.onUpdate.bind(this), commandKey: this.commandKey.bind(this), teamNum: this.props.teamNum }),
-        React.createElement(Champions, { clicked: this.clicked.bind(this), focused: this.state.focused, searchText: this.state.data, selected: this.state.selected })
-      );
-    }
-  }, {
-    key: "setFocus",
-    value: function setFocus(data) {
-      this.setState({ focused: data });
-    }
-  }, {
-    key: "clicked",
-    value: function clicked(data) {
-      this.setState({ data: data, selected: 0, enterSelect: true, focused: true });
-      this.props.setChamp(data, this.props.playerNum);
-    }
-  }, {
-    key: "onUpdate",
-    value: function onUpdate(data) {
-      this.setState({ data: data, selected: 0, enterSelect: false, focused: true });
-      this.props.setChamp(data, this.props.playerNum);
-    }
-  }, {
-    key: "commandKey",
-    value: function commandKey(data) {
-      if (data == 40) {
-        this.setState({ data: this.state.data, selected: this.state.selected + 1 });
-      } else if (data == 38) {
-        this.setState({ data: this.state.data, selected: Math.max(this.state.selected - 1, 0) });
-      } else if (data == 13) {
-        var champs = [];
-        for (var key in champData.data) {
-          if (champData.data[key].name.toUpperCase().includes(this.state.data.toUpperCase())) {
-            champs.push(champData.data[key]);
-          }
-        }
-        champs.sort(function (a, b) {
-          if (a.name < b.name) return -1;
-          if (a.name > b.name) return 1;
-          return 0;
-        });
-        this.setState({ data: champs[this.state.selected].name, selected: 0, enterSelect: true, focused: false });
-        this.props.setChamp(champs[this.state.selected].name, this.props.playerNum);
-      }
-    }
-  }]);
-
-  return ChampSelectForm;
-}(React.Component);
-
-var WinPercent = function (_React$Component4) {
-  _inherits(WinPercent, _React$Component4);
-
-  function WinPercent(props) {
-    _classCallCheck(this, WinPercent);
-
-    return _possibleConstructorReturn(this, (WinPercent.__proto__ || Object.getPrototypeOf(WinPercent)).call(this, props));
-  }
-
-  _createClass(WinPercent, [{
-    key: "render",
-    value: function render() {
-      return this.props.isFull ? React.createElement(
-        "div",
-        { className: "percent" },
-        this.props.winChance + "%"
-      ) : React.createElement(
-        "div",
-        { className: "percent" },
-        "_" + "%"
-      );
-    }
-  }]);
-
-  return WinPercent;
-}(React.Component);
-
-var TeamSelect = function (_React$Component5) {
-  _inherits(TeamSelect, _React$Component5);
-
-  function TeamSelect(props) {
-    _classCallCheck(this, TeamSelect);
-
-    var _this6 = _possibleConstructorReturn(this, (TeamSelect.__proto__ || Object.getPrototypeOf(TeamSelect)).call(this, props));
-
-    _this6.state = {
-      champions: []
-    };
-    return _this6;
-  }
-
-  _createClass(TeamSelect, [{
-    key: "setChamp",
-    value: function setChamp(champName, index) {
-      var newChampions = this.state.champions;
-      newChampions[index - 1] = champName;
-      this.setState({ champions: newChampions });
-      this.props.setTeam(this.props.teamNum, newChampions);
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return React.createElement(
-        "div",
-        { className: "teamSelect" },
-        React.createElement(
-          "div",
-          { className: "teamSelectContainer" },
-          React.createElement(
-            "div",
-            { className: "teamText" },
-            "Team ",
-            this.props.teamNum
-          ),
-          React.createElement("br", null),
-          React.createElement(ChampSelectForm, { setChamp: this.setChamp.bind(this), teamNum: this.props.teamNum, playerNum: 1 }),
-          React.createElement("br", null),
-          React.createElement("br", null),
-          React.createElement("br", null),
-          React.createElement(ChampSelectForm, { setChamp: this.setChamp.bind(this), teamNum: this.props.teamNum, playerNum: 2 }),
-          React.createElement("br", null),
-          React.createElement("br", null),
-          React.createElement("br", null),
-          React.createElement(ChampSelectForm, { setChamp: this.setChamp.bind(this), teamNum: this.props.teamNum, playerNum: 3 }),
-          React.createElement("br", null),
-          React.createElement("br", null),
-          React.createElement("br", null),
-          React.createElement(ChampSelectForm, { setChamp: this.setChamp.bind(this), teamNum: this.props.teamNum, playerNum: 4 }),
-          React.createElement("br", null),
-          React.createElement("br", null),
-          React.createElement("br", null),
-          React.createElement(ChampSelectForm, { setChamp: this.setChamp.bind(this), teamNum: this.props.teamNum, playerNum: 5 }),
-          React.createElement("br", null),
-          React.createElement("br", null),
-          React.createElement("br", null),
-          React.createElement(WinPercent, { isFull: this.props.isFull, winChance: Math.round(this.props.percent * 100) / 100 })
-        )
-      );
-    }
-  }]);
-
-  return TeamSelect;
-}(React.Component);
-
-var App = function (_React$Component6) {
-  _inherits(App, _React$Component6);
-
-  function App(props) {
-    _classCallCheck(this, App);
-
-    var _this7 = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
-
-    _this7.state = {
-      team1: [],
-      team2: []
-    };
-    return _this7;
-  }
-
-  _createClass(App, [{
-    key: "setTeam",
-    value: function setTeam(teamNum, champs) {
-      if (teamNum == 1) {
-        this.setState({ team1: champs });
-      }
-      if (teamNum == 2) {
-        this.setState({ team2: champs });
-      }
-    }
-  }, {
-    key: "nameToCount",
-    value: function nameToCount(theName) {
-      for (var i in champData.data) {
-        if (champData.data[i].name == theName) {
-          return champData.data[i].count;
-        }
-      }
-      return null;
-    }
-  }, {
-    key: "flipMatch",
-    value: function flipMatch(match) {
-      var inputArray = match.slice(match.length / 2, match.length).concat(match.slice(0, match.length / 2));
-      return inputArray;
-    }
-  }, {
-    key: "formatMatch",
-    value: function formatMatch() {
-      var numberOfChamps = Object.keys(champData.data).length + 1;
-      var inputArray = [];
-      for (var i = 0; i < numberOfChamps * 2; i++) {
-        inputArray[i] = 0;
-      }
-      for (var i = 0; i < 5; i++) {
-        inputArray[this.nameToCount(this.state.team1[i])] = 1;
-      }
-      for (var i = 0; i < 5; i++) {
-        inputArray[this.nameToCount(this.state.team2[i]) + numberOfChamps] = 1;
-      }
-
-      return inputArray;
-    }
-  }, {
-    key: "guessToPercent",
-    value: function guessToPercent(guess) {
-      return 92.72 * guess + 50;
-    }
-  }, {
-    key: "calcWinChance",
-    value: function calcWinChance() {
-      var guess = (testComp(this.formatMatch())[0] + (-(testComp(this.flipMatch(this.formatMatch()))[0] - 0.5) + 0.5)) / 2;
-      var percent = this.guessToPercent(guess - 0.5);
-      return percent;
-    }
-  }, {
-    key: "isFull",
-    value: function isFull() {
-      var isFull = true;
-      var empty = true;
-      for (var i = 0; i < 5; i++) {
-        empty = false;
-        if (this.nameToCount(this.state.team1[i]) == null) {
-          isFull = false;
-        }
-      }
-      for (var i = 0; i < 5; i++) {
-        empty = false;
-        if (this.nameToCount(this.state.team2[i]) == null) {
-          isFull = false;
-        }
-      }
-      if (empty) {
-        isFull = false;
-      }
-      return isFull;
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var percent = this.calcWinChance();
-      return React.createElement(
-        "div",
-        { className: "app" },
-        React.createElement(
-          "div",
-          { className: "logo" },
-          React.createElement("img", { src: "TiltSeeker.png", alt: "", width: "713.55", height: "104" })
-        ),
-        React.createElement(
-          "div",
-          { className: "title" },
-          "Team Composition Analysis Tool"
-        ),
-        React.createElement("br", null),
-        React.createElement("br", null),
-        React.createElement(TeamSelect, { isFull: this.isFull(), percent: percent, setTeam: this.setTeam.bind(this), teamNum: 1 }),
-        React.createElement(
-          "span",
-          { className: "vsText" },
-          "vs"
-        ),
-        React.createElement(TeamSelect, { isFull: this.isFull(), percent: 100 - percent, setTeam: this.setTeam.bind(this), teamNum: 2 })
-      );
-    }
-  }]);
-
-  return App;
-}(React.Component);
-
-ReactDOM.render(React.createElement(App, null), document.getElementById('root'));
+ReactDOM.render(
+	<App />,
+	document.getElementById('root')
+);

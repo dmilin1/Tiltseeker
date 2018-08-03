@@ -121,28 +121,52 @@
 	z-index: 1;
 	position: relative;
 	text-align: left;
+	border-style: solid;
+	border-width: 1px;
+	border-color: black;
+	cursor: pointer;
 }
 
 .champItem:hover {
-	padding: 1px;
+	padding: 2px;
+	color: #9eb2bb;
 	border-width: 1px;
-	border-color: aqua;
+	border-color: #9eb2bb;
 	border-style: solid;
 }
 
 .selectForm {
-	width: 200px;
-	max-height: 200px;
+	width: 300px;
+	max-height: 350px;
 	overflow-y: scroll;
 	position: absolute;
+	font-family: Lato;
+	border-radius: 5px;
 }
 
 .textBox {
-	width: calc(100% - 4px);
+	width: calc(100% - 48px);
+	font-size: 26px;
+	text-align: center;
+	background: #585858;
+	font-family: Tahoma;
+	border-radius: 5px;
+	outline: none;
+	border: 2px solid #c2c2c2;
+	height: 38px;
+}
+
+.textBox:focus {
+	border-color: #DFDFDF;
+}
+
+.textBox::selection {
+	background: #9eb2bb;
 }
 
 .champIcon {
 	max-height: 100%;
+	border-radius: 5px;
 }
 
 .verticalTextContainer {
@@ -153,6 +177,7 @@
 	position: absolute;
 	top: -10px;
 	white-space: nowrap;
+	margin-left: 8px;
 }
 
 .teamSelect {
@@ -161,19 +186,47 @@
 }
 
 .teamSelectContainer {
-	width: 200px;
+	width: 300px;
 	margin: auto;
 }
 
 .percent {
 	color: white;
 	font-size: 20px;
+	font-family: Lato;
 }
 
 .app {
 	width: 80%;
 	margin: auto;
 	text-align: center;
+}
+
+.title {
+	color: white;
+	font-size: 22px;
+	font-family: Roboto;
+}
+
+.vsText {
+	color: white;
+	font-size: 20px;
+	font-family: Lato;
+	vertical-align: top;
+}
+
+.teamText {
+	color: white;
+	font-size: 22px;
+	font-family: Lato;
+}
+
+.selectedIcon {
+	border-radius: 5px;
+    vertical-align: bottom;
+	border-width: 3px;
+    border-style: solid;
+	border-color: #585858;
 }
 
 

@@ -48,12 +48,15 @@
 <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 <!-- Load React. --> 
 <!-- Note: when deploying, replace "development.js" with "production.min.js". --> 
-<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script> 
-<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin></script> 
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin></script>
+
+<!-- Neural Network -->
+<script type="text/javascript" src="trainedBrain.js"></script>
+
 <!-- Load our React component. -->
-<script src="compCheckerReact.js" type="text/babel"></script>
+<script src="compCheckerReact.js"></script>
 
 </body>
-<script type="text/javascript" src="trainedBrain.js"></script>
 <script type="text/javascript" src="compChecker.js"></script>
 </html>
