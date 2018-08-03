@@ -23,6 +23,23 @@
     enable_page_level_ads: true
   });
 </script>
+<script type="text/javascript">
+  window._taboola = window._taboola || [];
+  _taboola.push({article:'auto'});
+  !function (e, f, u, i) {
+    if (!document.getElementById(i)){
+      e.async = 1;
+      e.src = u;
+      e.id = i;
+      f.parentNode.insertBefore(e, f);
+    }
+  }(document.createElement('script'),
+  document.getElementsByTagName('script')[0],
+  '//cdn.taboola.com/libtrc/tiltseeker/loader.js',
+  'tb_loader_script');
+  if(window.performance && typeof window.performance.mark == 'function')
+    {window.performance.mark('tbl_ic');}
+</script>
 </head>
 
 <body class="body">
@@ -35,9 +52,49 @@
   <li style="float:right"><a class="active" href="./donate.html">Donate</a></li>
 </ul>
 <div id="adminmsg" class="adminmsg"> <span id="adminmsgx" class="adminmsgx">×</span> <span id="adminmsgtext" class="adminmsgtext">Derpity</span> </div>
-<div class="wrapper">
+
+ <div class="leftBanner">
+<div id="taboola-left-rail-thumbnails"></div>
+<script type="text/javascript">
+  window._taboola = window._taboola || [];
+  _taboola.push({
+    mode: 'thumbnails-rr',
+    container: 'taboola-left-rail-thumbnails',
+    placement: 'Left Rail Thumbnails',
+    target_type: 'mix'
+  });
+</script> 
+</div>
+ <div class="rightBanner">
+<div id="taboola-right-rail-thumbnails"></div>
+<script type="text/javascript">
+  window._taboola = window._taboola || [];
+  _taboola.push({
+    mode: 'thumbnails-rr',
+    container: 'taboola-right-rail-thumbnails',
+    placement: 'Right Rail Thumbnails',
+    target_type: 'mix'
+  });
+</script> 
+</div>
+
+ <div class="wrapper">
   <div class="center text"> </div>
   <div id="root"></div>
+  <br>
+  <br>
+  <div class="ad">
+<div id="taboola-below-article-thumbnails"></div>
+<script type="text/javascript">
+  window._taboola = window._taboola || [];
+  _taboola.push({
+    mode: 'thumbnails-a',
+    container: 'taboola-below-article-thumbnails',
+    placement: 'Below Article Thumbnails',
+    target_type: 'mix'
+  });
+</script> 
+</div>
 </div>
 <div class="my-footer">
   <div class="disclaimer"> Tiltseeker isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc. </div>
@@ -56,6 +113,13 @@
 
 <!-- Load our React component. -->
 <script src="compCheckerReact.js"></script>
+
+
+<script type="text/javascript">
+  window._taboola = window._taboola || [];
+  _taboola.push({flush: true});
+</script> 
+
 
 </body>
 <script type="text/javascript" src="compChecker.js"></script>

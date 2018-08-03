@@ -229,6 +229,44 @@
 	border-color: #585858;
 }
 
+.leftBanner {
+	position: absolute;
+	top: 20vh;
+	background-color: #ababab;
+	margin-left: -8px;
+	border-radius: 0px 5px 5px 0px;
+	border-style: none;
+	border-width: 3px 3px 3px 0px;
+	border-color: #585858;
+	width: 130px;
+}
+
+.rightBanner {
+	position: absolute;
+	top: 20vh;
+	background-color: #ababab;
+	right: 0px;
+	margin-right: -8px;
+	border-radius: 5px 0px 0px 5px;
+	border-style: none;
+	border-width: 3px 0px 3px 3px;
+	border-color: #585858;
+	width: 130px;
+}
+
+.ad {
+	padding: 0px;
+	width: 400px;
+	max-height: 217px;
+	overflow: hidden;
+	margin: auto;
+	background-color: #ababab;
+	border-radius: 10px;
+	border-style: none;
+	border-width: 3px;
+	border-color: #585858;
+}
+
 
 /* width */
 ::-webkit-scrollbar {
