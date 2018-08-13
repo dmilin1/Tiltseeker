@@ -812,13 +812,23 @@ function processData(runList, index) {
 	console.log(masteryPoints);
 	
 	for (var i = 0; i < summonersUsername.length; i++) {
-		console.log(summonersUsername[i] + ":\t" + champList.data[currentGame.participants[i].championId].name + ":\t" + campScore[i])
+		console.log(summonersUsername[i] + ":\t" + champList.data[champIdToKey(currentGame.participants[i].championId)].name + ":\t" + campScore[i])
 	}
 	
 	//run next async function
 	if (runList[index + 1]) {
 		runList[index + 1](runList, index + 1);
 	}
+}
+
+function champIdToKey(theId) {
+	var objKeys = Object.keys(champList.data);
+	for (var i = 0; i < objKeys.length; i++) {
+		if (champList.data[objKeys[i]].key == theId) {
+			return champList.data[objKeys[i]].id;
+		}
+	}
+	return null;
 }
 
 //Display everything
@@ -923,7 +933,7 @@ function loadDisplay(runList, index) {
 		var temp = document.getElementsByTagName("template")[0].content.querySelector("div");
 		var a = document.importNode(temp, true);
 		//picture
-		a.querySelectorAll("img")[0].src = "https://ddragon.leagueoflegends.com/cdn/8.15.1/img/champion/" + champList.data[summonersChampIds[playerNum]].key + ".png";
+		a.querySelectorAll("img")[0].src = "https://ddragon.leagueoflegends.com/cdn/8.15.1/img/champion/" + champIdToKey(summonersChampIds[playerNum]) + ".png";
 		//username
 		a.querySelectorAll("div")[0].textContent = summonersUsername[playerNum];
 		//make font smaller if username is long

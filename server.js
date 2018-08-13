@@ -60,7 +60,7 @@ var awsSaving = false;
 
 
 //sets up and loads the static champ data from file
-var staticChampData = [{}];
+var staticChampData = [];
 loadStaticChampData();
 
 
@@ -94,9 +94,7 @@ var server = app.listen(process.env.PORT || 8888);
 
 //refresh staticChamp data for all regions every 15 minutes
 cron.schedule('*/15 * * * *', function () {
-	for (var i = 0; i < regions.length; i++) {
-		refreshStaticChamp(regions[i]);
-	}
+	refreshStaticChamp();
 	console.log(getMemory() + 'staticChamp data refreshed');
 	loadStaticChampData();
 });
@@ -223,17 +221,16 @@ app.use('/getMatch', getMatchFilter, apiLimit1, apiLimit2);
 
 //loads file data into staticChampData variable
 function loadStaticChampData() {
-	for (var i = 0; i < regions.length; i++) {
-		var rawdata = fs.readFileSync('staticData/' + regions[i] + '/staticChamp.json');
-		var staticChamp = JSON.parse(rawdata);
-		staticChampData[regions[i]] = staticChamp;
-	}
+	var rawdata = fs.readFileSync('staticData/staticChamp.json');
+	var staticChamp = JSON.parse(rawdata);
+	staticChampData = staticChamp;
 }
 
+
 //updates a staticChamp json file
-function refreshStaticChamp(region) {
-	var URL = "https://" + region + ".api.riotgames.com/lol/static-data/v3/champions?dataById=true&api_key=" + apikey;
-	var filePath = 'staticData/' + region + '/staticChamp.json';
+function refreshStaticChamp() {
+	var URL = "http://ddragon.leagueoflegends.com/cdn/8.15.1/data/en_US/champion.json";
+	var filePath = 'staticData/staticChamp.json';
 	//ensures that a filepath exists
 	ensureDirectoryExistence(filePath);
 	
@@ -271,7 +268,7 @@ function refreshStaticChamp(region) {
 				return;
 			}
 			//update and write staticChamp to file
-			var theFile = 'staticData/' + region + '/staticChamp.json';
+			var theFile = 'staticData/staticChamp.json';
 			var data = JSON.stringify(data, null, 2);
 			fs.writeFileSync(theFile, data);
 			return data;
@@ -607,7 +604,7 @@ app.get('/currentGame', function (req, res) {
 //updates a staticChamp json file
 app.get('/getChampList', function (req, res) {
 	req.query.region;
-	res.send(staticChampData[req.query.region]);
+	res.send(staticChampData);
 });
 
 //returns the admin message
