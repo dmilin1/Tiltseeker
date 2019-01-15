@@ -10,19 +10,19 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "async": "^2.6.0",
-    "aws-sdk": "^2.254.1",
+    "async": "^2.6.1",
+    "aws-sdk": "^2.388.0",
     "babel-cli": "^6.26.0",
     "babel-preset-react-app": "^3.1.2",
-    "express": "^4.16.3",
+    "express": "^4.16.4",
     "fs": "0.0.1-security",
     "fuckadblock": "^3.2.1",
     "heroku-self-ping": "^1.1.5",
     "node-cron": "^1.2.1",
-    "npm": "^6.1.0",
+    "npm": "^6.5.0",
     "path": "^0.12.7",
     "querystring": "^0.2.0",
-    "request": "^2.86.0"
+    "request": "^2.88.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3"
