@@ -145,7 +145,7 @@
 }
 
 .textBox {
-	width: calc(100% - 48px);
+	width: calc(100% - 50px);
 	font-size: 26px;
 	text-align: center;
 	background: #585858;

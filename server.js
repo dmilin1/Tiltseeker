@@ -233,7 +233,7 @@ function refreshStaticChamp() {
 	var filePath = 'staticData/staticChamp.json';
 	//ensures that a filepath exists
 	ensureDirectoryExistence(filePath);
-	
+
 	function ensureDirectoryExistence(filePath) {
 		var dirname = path.dirname(filePath);
 		if (fs.existsSync(dirname)) {
@@ -319,14 +319,14 @@ function loadStats() {
 //saves stats to AWS
 function saveStats() {
 	if (awsLoaded && process.env.DEV_OR_PRODUCTION == "production") {
-		
+
 		var stream = fs.createReadStream(__dirname + "/stats/statsData.json");
 		var params = {
 			Bucket: "tiltseeker",
 			Key: "statsData.json",
 			Body: stream,
 		};
-		
+
 		s3.upload(params, function(err, data) {
 			if (err) {
 				console.log(getMemory() + "AWS error:" + err);
@@ -336,7 +336,7 @@ function saveStats() {
 				awsSaving = false;
 			}
 		});
-		
+
 	} else {
 		console.log("AWS not saved. Load status:" + awsLoaded);
 		awsSaving = false;
@@ -346,7 +346,7 @@ function saveStats() {
 	}
 }
 
-	
+
 //writes stats variable to file
 function writeStats() {
 	if (!awsSaving) {
@@ -415,58 +415,58 @@ function analyzeMatches(early = false) {
 		} else {
 			savedStats.win = matchStats.win ? 1 : 0;
 		}
-		
+
 		//combine first tower kill and first tower assist
 		if (savedStats.firstTowerParticipate != undefined) {
 			savedStats.firstTowerParticipate += (matchStats.firstTowerKill || matchStats.firstTowerAssist) ? 1 : 0;
 		} else {
 			savedStats.firstTowerParticipate = matchStats.win ? 1 : 0;
 		}
-		
+
 		//Champion damage stats
 		if (savedStats.magicDamage != undefined) {
 			savedStats.magicDamage += matchStats.magicDamageDealtToChampions;
 		} else {
 			savedStats.magicDamage = matchStats.magicDamageDealtToChampions;
 		}
-		
+
 		if (savedStats.physicalDamage != undefined) {
 			savedStats.physicalDamage += matchStats.physicalDamageDealtToChampions;
 		} else {
 			savedStats.physicalDamage = matchStats.physicalDamageDealtToChampions;
 		}
-		
+
 		if (savedStats.trueDamage != undefined) {
 			savedStats.trueDamage += matchStats.trueDamageDealtToChampions;
 		} else {
 			savedStats.trueDamage = matchStats.trueDamageDealtToChampions;
 		}
-		
-		
+
+
 		if (savedStats.kills != undefined) {
 			savedStats.kills += matchStats.kills;
 		} else {
 			savedStats.kills = matchStats.kills;
 		}
-		
+
 		if (savedStats.deaths != undefined) {
 			savedStats.deaths += matchStats.deaths;
 		} else {
 			savedStats.deaths = matchStats.deaths;
 		}
-		
+
 		if (savedStats.assists != undefined) {
 			savedStats.assists += matchStats.assists;
 		} else {
 			savedStats.assists = matchStats.assists;
 		}
-		
+
 		if (savedStats.wardsPlaced != undefined) {
 			savedStats.wardsPlaced += matchStats.wardsPlaced;
 		} else {
 			savedStats.wardsPlaced = matchStats.wardsPlaced;
 		}
-		
+
 	}
 	console.log(getMemory() + "Analyzed " + queuedMatches.length + " matches");
 	//clear matches queue
@@ -481,10 +481,10 @@ function analyzeMatches(early = false) {
 
 //averages stats over multiple timestamps
 function calcAvgStats() {
-	
+
 	// 3 WEEKS: 1000ms * 60sec * 60min * 24hrs * 21days
 	var historyLength = 1000 * 60 * 60 * 24 * 21
-	
+
 	var currentTime = (new Date()).getTime();
 	var theTimes = Object.keys(stats);
 	for (var i = theTimes.length - 1; i >= 0; i--) {
@@ -522,7 +522,7 @@ app.get('/summonerByName', function (req, res) {
 		});
 		return;
 	}
-	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/summoner/v3/summoners/by-name/" + querystring.escape(req.query.username) + "?api_key=" + apikey;
+	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/summoner/v4/summoners/by-name/" + querystring.escape(req.query.username) + "?api_key=" + apikey;
 	async.waterfall([
 			function myFunction(callback, attempt = 0) {
 				request({uri: URL,timeout: 1500}, function (err, response, body) {
@@ -566,7 +566,7 @@ app.get('/currentGame', function (req, res) {
 		});
 		return;
 	}
-	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/spectator/v3/active-games/by-summoner/" + req.query.summonerId + "?api_key=" + apikey;
+	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/spectator/v4/active-games/by-summoner/" + req.query.summonerId + "?api_key=" + apikey;
 	async.waterfall([
 			function myFunction(callback, attempt = 0) {
 				request({uri: URL,timeout: 1500}, function (err, response, body) {
@@ -611,7 +611,7 @@ app.get('/getChampList', function (req, res) {
 app.get('/adminMsg', function (req, res) {
 	res.send(adminMsg);
 });
-	
+
 //returns the admin message
 app.get('/setAdminMsg', function (req, res) {
 	if (req.query.pass == process.env.ADMIN_PASS) {
@@ -643,7 +643,7 @@ app.get('/matchList', function (req, res) {
 		return;
 	}
 	//summoners rift only
-	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/match/v3/matchlists/by-account/" + req.query.accountId + "?queue=400&queue=420&queue=430&queue=440&api_key=" + apikey;
+	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/match/v4/matchlists/by-account/" + req.query.accountId + "?queue=400&queue=420&queue=430&queue=440&api_key=" + apikey;
 	async.waterfall([
 			function myFunction(callback, attempt = 0) {
 				request({uri: URL,timeout: 1500}, function (err, response, body) {
@@ -686,7 +686,7 @@ app.get('/getMatch', function (req, res) {
 		});
 		return;
 	}
-	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/match/v3/matches/" + req.query.matchId + "?api_key=" + apikey;
+	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/match/v4/matches/" + req.query.matchId + "?api_key=" + apikey;
 	async.waterfall([
 			function myFunction(callback, attempt = 0) {
 				request({uri: URL,timeout: 1500}, function (err, response, body) {
@@ -731,7 +731,7 @@ app.get('/getMastery', function (req, res) {
 		});
 		return;
 	}
-	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/champion-mastery/v3/champion-masteries/by-summoner/" + req.query.summonerId + "/by-champion/" + req.query.championId + "?api_key=" + apikey;
+	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/" + req.query.summonerId + "/by-champion/" + req.query.championId + "?api_key=" + apikey;
 	async.waterfall([
 			function myFunction(callback, attempt = 0) {
 				request({uri: URL,timeout: 1500}, function (err, response, body) {
@@ -775,7 +775,7 @@ app.get('/getLeague', function (req, res) {
 		});
 		return;
 	}
-	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/league/v3/positions/by-summoner/" + req.query.summonerId + "?api_key=" + apikey;
+	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/league/v4/positions/by-summoner/" + req.query.summonerId + "?api_key=" + apikey;
 	async.waterfall([
 			function myFunction(callback, attempt = 0) {
 				request({uri: URL,timeout: 1500}, function (err, response, body) {
