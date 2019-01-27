@@ -38,8 +38,13 @@ var matchHistoryLength = 20;
 var matchesLoaded = 0;
 
 
+var apiVersion = "9.2.1";
+
+
 //async function list
 var runList = [
+	getAPIVersion,
+	timeComp,
 	loadUser,
 	timeComp,
 	loadCurrentGame,
@@ -251,6 +256,23 @@ function handleError(errorNum, message404) {
 	}
 }
 
+
+//Load the current user summoner name from the URL parameters
+function getAPIVersion(runList, index) {
+	let url = 'http://ddragon.leagueoflegends.com/api/versions.json';
+	fetch(url)
+	.then(res => res.json())
+	.then((versions) => {
+		apiVersion = versions[0]
+		//run next async function
+		if (runList[index + 1]) {
+			runList[index + 1](runList, index + 1);
+		}
+	})
+	.catch(err => {
+		console.log("fail: Riot's Data Dragon service is down. Cannot fetch current game version.");
+		handleError(404, "Riot's Data Dragon service is down. Cannot fetch current game version."); });
+}
 
 
 //Load the current user summoner name from the URL parameters
@@ -933,7 +955,7 @@ function loadDisplay(runList, index) {
 		var temp = document.getElementsByTagName("template")[0].content.querySelector("div");
 		var a = document.importNode(temp, true);
 		//picture
-		a.querySelectorAll("img")[0].src = "https://ddragon.leagueoflegends.com/cdn/9.2.1/img/champion/" + champIdToKey(summonersChampIds[playerNum]) + ".png";
+		a.querySelectorAll("img")[0].src = "https://ddragon.leagueoflegends.com/cdn/" + apiVersion + "/img/champion/" + champIdToKey(summonersChampIds[playerNum]) + ".png";
 		//username
 		a.querySelectorAll("div")[0].textContent = summonersUsername[playerNum];
 		//make font smaller if username is long

@@ -16,6 +16,7 @@ var async = require('async');
 var cron = require('node-cron');
 var fs = require('fs');
 var AWS = require('aws-sdk');
+var fetch = require('node-fetch');
 require('heroku-self-ping')("https://tiltseeker.com/",{verbose: true});
 
 //express module setup for calls
@@ -59,9 +60,36 @@ var adminMsg = "";
 var awsSaving = false;
 
 
-//sets up and loads the static champ data from file
+//sets up and loads the static champ data from Data Dragon and uses file as a backup
 var staticChampData = [];
-loadStaticChampData();
+var apiVersion = "9.2.1"
+getStaticChampData()
+function getStaticChampData() {
+	let url = 'http://ddragon.leagueoflegends.com/api/versions.json';
+	fetch(url)
+	.then(res => res.json())
+	.then((versions) => {
+		apiVersion = versions[0]
+
+		let url = 'https://ddragon.leagueoflegends.com/cdn/' + apiVersion + '/data/en_US/champion.json';
+		fetch(url)
+		.then(res => res.json())
+		.then((theJSON) => {
+			staticChampData = theJSON
+			console.log("YAYAYAYA")
+		})
+		.catch(err => {
+			console.log("fail: Riot's Data Dragon service is down. Cannot fetch 'champion.json'.");
+			loadStaticChampData();
+		});
+
+
+	})
+	.catch(err => {
+		console.log("fail: Riot's Data Dragon service is down. Cannot fetch current game version.");
+		loadStaticChampData();
+	});
+}
 
 
 //loads savedMatches from file
@@ -94,9 +122,8 @@ var server = app.listen(process.env.PORT || 8888);
 
 //refresh staticChamp data for all regions every 15 minutes
 cron.schedule('*/15 * * * *', function () {
-	refreshStaticChamp();
+	getStaticChampData();
 	console.log(getMemory() + 'staticChamp data refreshed');
-	loadStaticChampData();
 });
 
 //save recorded matches to disk every 15 minutes
