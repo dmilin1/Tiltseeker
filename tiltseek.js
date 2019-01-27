@@ -933,7 +933,7 @@ function loadDisplay(runList, index) {
 		var temp = document.getElementsByTagName("template")[0].content.querySelector("div");
 		var a = document.importNode(temp, true);
 		//picture
-		a.querySelectorAll("img")[0].src = "https://ddragon.leagueoflegends.com/cdn/9.1.1/img/champion/" + champIdToKey(summonersChampIds[playerNum]) + ".png";
+		a.querySelectorAll("img")[0].src = "https://ddragon.leagueoflegends.com/cdn/9.2.1/img/champion/" + champIdToKey(summonersChampIds[playerNum]) + ".png";
 		//username
 		a.querySelectorAll("div")[0].textContent = summonersUsername[playerNum];
 		//make font smaller if username is long

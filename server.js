@@ -229,7 +229,7 @@ function loadStaticChampData() {
 
 //updates a staticChamp json file
 function refreshStaticChamp() {
-	var URL = "http://ddragon.leagueoflegends.com/cdn/8.15.1/data/en_US/champion.json";
+	var URL = "http://ddragon.leagueoflegends.com/cdn/9.2.1/data/en_US/champion.json";
 	var filePath = 'staticData/staticChamp.json';
 	//ensures that a filepath exists
 	ensureDirectoryExistence(filePath);
