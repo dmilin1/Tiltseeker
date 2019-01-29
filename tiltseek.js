@@ -259,7 +259,7 @@ function handleError(errorNum, message404) {
 
 //Load the current user summoner name from the URL parameters
 function getAPIVersion(runList, index) {
-	let url = 'http://ddragon.leagueoflegends.com/api/versions.json';
+	let url = 'https://ddragon.leagueoflegends.com/api/versions.json';
 	fetch(url)
 	.then(res => res.json())
 	.then((versions) => {

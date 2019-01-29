@@ -65,7 +65,7 @@ var staticChampData = [];
 var apiVersion = "9.2.1"
 getStaticChampData()
 function getStaticChampData() {
-	let url = 'http://ddragon.leagueoflegends.com/api/versions.json';
+	let url = 'https://ddragon.leagueoflegends.com/api/versions.json';
 	fetch(url)
 	.then(res => res.json())
 	.then((versions) => {
@@ -256,7 +256,7 @@ function loadStaticChampData() {
 
 //updates a staticChamp json file
 function refreshStaticChamp() {
-	var URL = "http://ddragon.leagueoflegends.com/cdn/9.2.1/data/en_US/champion.json";
+	var URL = "https://ddragon.leagueoflegends.com/cdn/" + apiVersion + "/data/en_US/champion.json";
 	var filePath = 'staticData/staticChamp.json';
 	//ensures that a filepath exists
 	ensureDirectoryExistence(filePath);
