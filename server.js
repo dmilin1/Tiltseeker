@@ -519,6 +519,7 @@ function calcAvgStats() {
 		if (isNaN(theTimes[i])) {continue;}
 		if (avgStats.matchCount == null) {avgStats.matchCount = 0;}
 		avgStats.matchCount += stats[theTimes[i]].matchCount;
+		console.log(currentTime - theTimes[i])
 		if (currentTime - theTimes[i] > historyLength) {break;}
 		var listChamps = Object.keys(stats[theTimes[i]]);
 		for (var j = 0; j < listChamps.length; j++) {
@@ -802,7 +803,7 @@ app.get('/getLeague', function (req, res) {
 		});
 		return;
 	}
-	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/league/v4/positions/by-summoner/" + req.query.summonerId + "?api_key=" + apikey;
+	var URL = "https://" + req.query.region + ".api.riotgames.com/lol/league/v4/entries/by-summoner/" + req.query.summonerId + "?api_key=" + apikey;
 	async.waterfall([
 			function myFunction(callback, attempt = 0) {
 				request({uri: URL,timeout: 1500}, function (err, response, body) {

@@ -737,10 +737,16 @@ function processData(runList, index) {
 			interaction += matches[i][j].participants[participant].stats.kills;
 			interaction += matches[i][j].participants[participant].stats.deaths;
 			interaction += matches[i][j].participants[participant].stats.assists;
-			//champion average
-			avgInteraction += stats[matches[i][j].participants[participant].championId].kills/stats[matches[i][j].participants[participant].championId].total;
-			avgInteraction += stats[matches[i][j].participants[participant].championId].deaths/stats[matches[i][j].participants[participant].championId].total;;
-			avgInteraction += stats[matches[i][j].participants[participant].championId].assists/stats[matches[i][j].participants[participant].championId].total;;
+			console.log(stats)
+			console.log(matches[i][j].participants[participant].championId)
+			console.log('derp')
+			if (stats[matches[i][j].participants[participant].championId]) {
+				//champion average
+				avgInteraction += stats[matches[i][j].participants[participant].championId].kills/stats[matches[i][j].participants[participant].championId].total;
+				avgInteraction += stats[matches[i][j].participants[participant].championId].deaths/stats[matches[i][j].participants[participant].championId].total;;
+				avgInteraction += stats[matches[i][j].participants[participant].championId].assists/stats[matches[i][j].participants[participant].championId].total;;
+
+			}
 			//add to total
 			totalPlayerInteraction += interaction;
 			totalAvgInteraction += avgInteraction;
@@ -770,8 +776,10 @@ function processData(runList, index) {
 			} else {
 				continue;
 			}
-			//champion average
-			avgWards += stats[matches[i][j].participants[participant].championId].wardsPlaced/stats[matches[i][j].participants[participant].championId].total;
+			if (stats[matches[i][j].participants[participant].championId]) {
+				//champion average
+				avgWards += stats[matches[i][j].participants[participant].championId].wardsPlaced/stats[matches[i][j].participants[participant].championId].total;
+			}
 			//add to total
 			totalPlayerWards += wards;
 			totalAvgWards += avgWards;
@@ -938,9 +946,11 @@ function loadDisplay(runList, index) {
 	var physicalDmg = 0;
 	var trueDmg = 0;
 	for (var i = summonersChampIds.length/2; i < summonersChampIds.length; i++) {
-		magicDmg += stats[summonersChampIds[i]].magicDamage;
-		physicalDmg += stats[summonersChampIds[i]].physicalDamage;
-		trueDmg += stats[summonersChampIds[i]].trueDamage;
+		if (stats[summonersChampIds[i]]) {
+			magicDmg += stats[summonersChampIds[i]].magicDamage;
+			physicalDmg += stats[summonersChampIds[i]].physicalDamage;
+			trueDmg += stats[summonersChampIds[i]].trueDamage;
+		}
 	}
 	var totalDmg = magicDmg + physicalDmg + trueDmg;
 	var temp = document.getElementsByTagName("template")[1].content.querySelector("div");
