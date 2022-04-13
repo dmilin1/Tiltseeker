@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "async": "^2.6.1",
+    "async": "^3.2.2",
     "aws-sdk": "^2.388.0",
     "babel-cli": "^6.26.0",
     "babel-preset-react-app": "^3.1.2",
